@@ -6,7 +6,8 @@ source ~/.bashrc
 source /datascope/slurm/miniconda3/bin/activate viska-tf28
 export PYTHONPATH=.:../pysynphot:../SciScript-Python/py3
 
-# # Where's my PFS 
+# Where's my PFS 
+export MY_PFS_DIR=/datascope/subaru/user/swei20/data/pfsspec/
 # export ROOT=/home/swei20/PhysicsInformedML
 # export DATA=/home/swei20/PhysicsInformedML/data
 
