@@ -1,5 +1,4 @@
 import os
-from turtle import shape
 import h5py
 import zarr
 import logging

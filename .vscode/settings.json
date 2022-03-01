@@ -16,7 +16,7 @@
         "-s",
         "./test",
         "-p",
-        "test*.py"
+        "test_*.py"
     ],
         
         "python.jediEnabled": false,
