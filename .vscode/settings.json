@@ -5,7 +5,8 @@
           "nb/**": true,
         },
         "python.languageServer": "Default",
-        "python.pythonPath": "/datascope/slurm/miniconda3/envs/ae-tf/bin/python3.8",
+        // "python.venvPath": "/home/jfb/EVs",
+    //     "python.defaultInterpreterPath": "/datascope/slurm/miniconda3/envs/viska-tf28/bin/python",
         "python.envFile": "${workspaceFolder}/.env",
         "python.testing.pytestEnabled": false,
         "python.testing.nosetestsEnabled": false,
@@ -15,7 +16,7 @@
         "-s",
         "./test",
         "-p",
-        "test_*.py"
+        "test*.py"
     ],
         
         "python.jediEnabled": false,
