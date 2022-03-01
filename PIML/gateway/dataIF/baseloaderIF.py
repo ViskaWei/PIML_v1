@@ -9,7 +9,7 @@ class BaseLoaderIF(ABC):
         self.loader = None
         self.path = None
 
-    def set_data_path(self, DATA_PATH: str):
+    def set_param(self, DATA_PATH: str):
         self.path = DATA_PATH
 
     def set_loader(self, loader: BaseLoader):
@@ -21,5 +21,18 @@ class BaseLoaderIF(ABC):
     def load_DArgs(self):
         return self.loader.load_DArgs(self.path)
 
+    @abstractmethod
+    def load_data(self):
+        pass
 
+
+class FluxLoaderIF(BaseLoaderIF):
+    """ class for loading flux into box. """
+    def load_data(self):
+        return self.load_arg("flux")
+
+class WaveLoaderIF(BaseLoaderIF):
+    """ class for loading wave into box. """
+    def load_data(self):
+        return self.load_arg("wave")
 
