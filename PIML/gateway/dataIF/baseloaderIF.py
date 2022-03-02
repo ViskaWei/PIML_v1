@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-
-from PIML.surface.database.baseloader import BaseLoader
+from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
 
 class BaseLoaderIF(ABC):
     """ Base class for dataIF. """
@@ -8,12 +7,14 @@ class BaseLoaderIF(ABC):
         super().__init__()
         self.loader = None
         self.path = None
+        self.data = None
 
-    def set_param(self, DATA_PATH: str):
+    def set_data_path(self, DATA_PATH: str):
         self.path = DATA_PATH
-
-    def set_loader(self, loader: BaseLoader):
-        self.loader = loader    
+        if DATA_PATH.endswith(".h5"):
+            self.loader = H5pyLoader()
+        elif DATA_PATH.endswith(".zarr"):
+            self.loader = ZarrLoader()
 
     def load_arg(self, arg):
         return self.loader.load_arg(self.path, arg)
@@ -27,12 +28,33 @@ class BaseLoaderIF(ABC):
 
 
 class FluxLoaderIF(BaseLoaderIF):
-    """ class for loading flux into box. """
+    def __init__(self) -> None:
+        super().__init__()
+
+    """ class for loading flux. """
     def load_data(self):
-        return self.load_arg("flux")
+        self.data = self.load_arg("flux")
 
 class WaveLoaderIF(BaseLoaderIF):
-    """ class for loading wave into box. """
+    """ class for loading wave. """
+    def __init__(self) -> None:
+        super().__init__()
+    
     def load_data(self):
-        return self.load_arg("wave")
+        self.data = self.load_arg("wave")
 
+class ParaLoaderIF(BaseLoaderIF):
+    """ class for loading para. """
+    def __init__(self) -> None:
+        super().__init__()
+    
+    def load_data(self):
+        self.data = self.load_arg("para")
+
+class PdxLoaderIF(BaseLoaderIF):
+    """ class for loading pdx. """
+    def __init__(self) -> None:
+        super().__init__()
+
+    def load_data(self):
+        self.data = self.load_arg("pdx")
