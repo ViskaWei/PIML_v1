@@ -1,6 +1,5 @@
 
 from test.testbase import TestBase
-from PIML.gateway.dataIF.baseloaderIF import WaveLoaderIF, FluxLoaderIF
 
 
 class TestBaseDataIF(TestBase):
