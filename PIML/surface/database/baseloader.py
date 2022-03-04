@@ -37,6 +37,10 @@ class BaseLoader(ABC):
 
 
 class H5pyLoader(BaseLoader):
+    
+    def get_keys(self, PATH):
+        with h5py.File(PATH, 'r') as f:
+            return f.keys()
 
     def is_arg(self, PATH, arg):
         with h5py.File(PATH, 'r') as f:

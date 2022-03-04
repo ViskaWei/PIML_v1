@@ -1,15 +1,20 @@
 import numpy as np
 from unittest import TestCase
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF
 
 class TestBase(TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
 
         self.DATA_PATH = "test/testdata/bosz_5000_test.h5"
-        self.wave = np.load("test/testdata/wave.npy")
-        self.flux = np.load("test/testdata/flux.npy")
-        self.para = np.load("test/testdata/para.npy")
-        self.pdx  = np.load("test/testdata/pdx.npy")
+        
+        self.loaderIF = ObjectLoaderIF()
+        self.loaderIF.set_data_path(self.DATA_PATH)
+
+        self.wave = self.loaderIF.load_arg("wave")
+        self.flux = self.loaderIF.load_arg("flux")
+        self.para = self.loaderIF.load_arg("para")
+        self.pdx  = self.loaderIF.load_arg("pdx")
 
         self.params = {
             "DATA_PATH": self.DATA_PATH,

@@ -1,5 +1,5 @@
 import pandas as pd
-from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, WaveLoaderIF, FluxLoaderIF, SpecLoaderIF, BoxParamLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, WaveLoaderIF, FluxLoaderIF, SpecLoaderIF, BoxParamLoaderIF
 from test.testbase import TestBase
 
 class TestBaseLoader(TestBase):
@@ -48,7 +48,7 @@ class TestBaseLoader(TestBase):
 
 
     def test_BaseLoaderIF(self):
-        for LoaderIF in BaseLoaderIF.__subclasses__():
+        for LoaderIF in ObjectLoaderIF.__subclasses__():
             loaderIF = LoaderIF()
             loaderIF.set_data_path(self.DATA_PATH)
             data = loaderIF.load()

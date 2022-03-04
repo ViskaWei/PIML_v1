@@ -3,7 +3,13 @@ from PIML.crust.data.spec.baseboxparam import BoxParam
 from PIML.crust.data.spec.basespec import Spec
 from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
 
+
 class BaseLoaderIF(ABC):
+    @abstractmethod
+    def load(self):
+        pass
+
+class ObjectLoaderIF(BaseLoaderIF):
     """ Base class for dataIF. """
     # required_atributes = ["DATA_PATH", "loader"]
 
@@ -14,6 +20,8 @@ class BaseLoaderIF(ABC):
         elif DATA_PATH.endswith(".zarr"):
             self.loader = ZarrLoader()
 
+        self.keys = self.loader.get_keys(self.DATA_PATH)
+
     def load_arg(self, arg):
         return self.loader.load_arg(self.DATA_PATH, arg)
 
@@ -23,28 +31,27 @@ class BaseLoaderIF(ABC):
     def is_arg(self, arg):
         return self.loader.is_arg(self.DATA_PATH, arg)
 
-    @abstractmethod
     def load(self):
         pass
 
-class SpecLoaderIF(BaseLoaderIF):
+class SpecLoaderIF(ObjectLoaderIF):
     """ class for loading Spec. """
     def load(self):
         flux = self.load_arg("flux")
         wave = self.load_arg("wave")
         return Spec(wave, flux)
 
-class FluxLoaderIF(BaseLoaderIF):
+class FluxLoaderIF(ObjectLoaderIF):
     """ class for loading flux. """
     def load(self):
         return self.load_arg("flux")
 
-class WaveLoaderIF(BaseLoaderIF):
+class WaveLoaderIF(ObjectLoaderIF):
     """ class for loading wave. """
     def load(self):
         return self.load_arg("wave")
 
-class BoxParamLoaderIF(BaseLoaderIF):
+class BoxParamLoaderIF(ObjectLoaderIF):
     """ class for loading box para. """
     def load(self):
         para = self.load_arg("para")
