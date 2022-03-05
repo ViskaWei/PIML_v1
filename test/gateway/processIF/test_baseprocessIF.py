@@ -1,6 +1,7 @@
 import numpy as np
 from test.testbase import TestBase
-from PIML.gateway.processIF.baseprocessIF import BaseModelProcessIF, BaseParamProcessIF, TrimmableProcessIF
+
+from PIML.gateway.processIF.baseprocessIF import BaseModelProcessIF, BaseParamProcessIF, BoxableProcessIF, TrimmableProcessIF
 
 # from PIML.gateway.dataIF.baseloaderIF import WaveLoaderIF, FluxLoaderIF
 
@@ -17,23 +18,25 @@ class TestBaseProcessIF(TestBase):
         param = {"startIdx": startIdx, "endIdx": endIdx}
 
         trimmable = TrimmableProcessIF()
-        trimmable.set_param(param)
-        trimmable.set_data(self.data1D)
+        trimmable.set_process_param(param)
+        trimmable.set_process_data(self.data1D)
 
         # testing on 1D data
         dataProcessed = trimmable.process()
         np.testing.assert_array_equal(dataProcessed, self.data1D[startIdx:endIdx])        
 
         # testing on 2D data
-        trimmable.set_data(self.data2D)
+        trimmable.set_process_data(self.data2D)
         dataProcessed = trimmable.process()
         np.testing.assert_array_equal(dataProcessed, self.data2D[:, startIdx:endIdx])        
 
     def test_BoxableProcessIF(self):
         param = {"IdxInBox": [9,2,2,1,7,8]}
-
-
-
+        boxable = BoxableProcessIF()
+        boxable.set_process_param(param)
+        boxable.set_process_data(self.flux)
+        dataProcessed = boxable.process()
+        np.testing.assert_array_equal(dataProcessed, self.flux[param["IdxInBox"]])
 
 
     def test_BaseProcessIF(self):
@@ -44,19 +47,18 @@ class TestBaseProcessIF(TestBase):
             "step": 10,
         }
 
-        METHOD = {
-            "Resolution_model_type": "Alex"
+        MODEL_TYPES = {
+            "ResTunableProcess": "Alex"
         }
 
         for ProcessIF in BaseParamProcessIF.__subclasses__():
             processIF = ProcessIF()
 
             if ProcessIF in BaseModelProcessIF.__subclasses__():
-                pass
-                # processIF.set_model(METHOD)
+                processIF.set_process_model(MODEL_TYPES)
 
-            processIF.set_param(param)
-            processIF.set_data(self.flux)
+            processIF.set_process_param(param)
+            processIF.set_process_data(self.flux)
             dataProcessed = processIF.process()
             self.assertIsNotNone(dataProcessed)
 
