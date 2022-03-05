@@ -1,6 +1,6 @@
 import numpy as np
 from unittest import TestCase
-from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 class TestBase(TestCase):
     def __init__(self, methodName: str = ...) -> None:
@@ -15,6 +15,16 @@ class TestBase(TestCase):
         self.flux = self.loaderIF.load_arg("flux")
         self.para = self.loaderIF.load_arg("para")
         self.pdx  = self.loaderIF.load_arg("pdx")
+
+        SGL = SpecGridLoaderIF()
+        SGL.set_data_path(self.DATA_PATH)
+        self.specGrid = SGL.load()
+
+        SL = SpecLoaderIF()
+        SL.set_data_path(self.DATA_PATH)
+        self.spec = SL.load()
+
+    
 
         self.params = {
             "DATA_PATH": self.DATA_PATH,

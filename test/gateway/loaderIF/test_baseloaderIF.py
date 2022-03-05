@@ -1,36 +1,38 @@
 import pandas as pd
-from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, WaveLoaderIF, FluxLoaderIF, SpecLoaderIF, BoxParamLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF, BoxParamLoaderIF
 from test.testbase import TestBase
 
 class TestBaseLoader(TestBase):
 
-    def test_WaveLoaderIF(self):        
-        loaderIF = WaveLoaderIF()
+    def test_SpecGridLoaderIF(self):        
+        loaderIF = SpecGridLoaderIF()
         loaderIF.set_data_path(self.DATA_PATH)
-        wave = loaderIF.load()
+        specGrid = loaderIF.load()
 
-        self.assertIsNotNone(wave)
-        self.assertEqual(wave.shape, (1178,))
+        self.assertIsNotNone(specGrid.wave)
+        self.assertEqual(specGrid.wave.shape, (1178,))
+
+        self.assertIsNotNone(specGrid.flux)
+        self.assertEqual(specGrid.flux.shape, (120, 1178))
+
+        self.assertIsNotNone(specGrid.para)
+        self.assertEqual(specGrid.para.shape, (120,5))
+
+        self.assertIsNotNone(specGrid.pdx)
+        self.assertEqual(specGrid.pdx.shape, (120,5))
         
-    def test_FluxLoaderIF(self):
-        loaderIF = FluxLoaderIF()
-        loaderIF.set_data_path(self.DATA_PATH)
-        flux = loaderIF.load()
-
-        self.assertIsNotNone(flux)
-        self.assertEqual(flux.shape, (120, 1178))
-    
     def test_SpecLoaderIF(self):
         loaderIF = SpecLoaderIF()
         loaderIF.set_data_path(self.DATA_PATH)
         spec = loaderIF.load()
 
-        self.assertIsNotNone(spec.flux)
-        self.assertEqual(spec.flux.shape, (120, 1178))
-
         self.assertIsNotNone(spec.wave)
         self.assertEqual(spec.wave.shape, (1178,))
 
+        self.assertIsNotNone(spec.flux)
+        self.assertEqual(spec.flux.shape, (120, 1178))
+
+        
     def test_BoxParamLoaderIF(self):
         loaderIF = BoxParamLoaderIF()
         loaderIF.set_data_path(self.DATA_PATH)

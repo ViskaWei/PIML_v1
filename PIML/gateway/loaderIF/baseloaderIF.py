@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.baseboxparam import BoxParam
-from PIML.crust.data.spec.basespec import Spec
+from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.spec.basespecgrid import StellarSpecGrid
+
 from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
 
 
@@ -34,23 +36,22 @@ class ObjectLoaderIF(BaseLoaderIF):
     def load(self):
         pass
 
+class SpecGridLoaderIF(ObjectLoaderIF):
+    """ class for loading Spec Grid (wave, flux, Physical Param for each flux..). """
+    def load(self):
+        wave = self.load_arg("wave")
+        flux = self.load_arg("flux")
+        para = self.load_arg("para")
+        pdx  = self.load_arg("pdx") if self.is_arg("pdx") else None
+        return StellarSpecGrid(wave, flux, para, pdx)
+
 class SpecLoaderIF(ObjectLoaderIF):
     """ class for loading Spec. """
     def load(self):
         flux = self.load_arg("flux")
         wave = self.load_arg("wave")
-        return Spec(wave, flux)
-
-class FluxLoaderIF(ObjectLoaderIF):
-    """ class for loading flux. """
-    def load(self):
-        return self.load_arg("flux")
-
-class WaveLoaderIF(ObjectLoaderIF):
-    """ class for loading wave. """
-    def load(self):
-        return self.load_arg("wave")
-
+        return StellarSpec(wave, flux)
+        
 class BoxParamLoaderIF(ObjectLoaderIF):
     """ class for loading box para. """
     def load(self):

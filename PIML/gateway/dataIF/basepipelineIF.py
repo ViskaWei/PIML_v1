@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 
-from PIML.gateway.dataIF.baseprocessIF import ResTunableProcessIF, TrimmableProcessIF
+from PIML.gateway.processIF.baseprocessIF import ResTunableProcessIF, TrimmableProcessIF
 # from PIML.
 
 

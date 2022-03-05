@@ -1,6 +1,7 @@
 import numpy as np
 from test.testbase import TestBase
-from PIML.gateway.dataIF.baseprocessIF import BaseModelProcessIF, BaseParamProcessIF, TrimmableProcessIF
+from PIML.gateway.processIF.baseprocessIF import BaseModelProcessIF, BaseParamProcessIF, TrimmableProcessIF
+
 # from PIML.gateway.dataIF.baseloaderIF import WaveLoaderIF, FluxLoaderIF
 
 
@@ -30,6 +31,7 @@ class TestBaseProcessIF(TestBase):
 
     def test_BoxableProcessIF(self):
         param = {"IdxInBox": [9,2,2,1,7,8]}
+
 
 
 
