@@ -45,14 +45,15 @@ class TestBaseProcessIF(TestBase):
         }
 
         METHOD = {
-            "ResTunable_model_type": "Alex"
+            "Resolution_model_type": "Alex"
         }
 
         for ProcessIF in BaseParamProcessIF.__subclasses__():
             processIF = ProcessIF()
 
             if ProcessIF in BaseModelProcessIF.__subclasses__():
-                processIF.set_model_type(METHOD)
+                pass
+                # processIF.set_model(METHOD)
 
             processIF.set_param(param)
             processIF.set_data(self.flux)

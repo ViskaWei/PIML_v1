@@ -6,7 +6,7 @@ from PIML.gateway.modelIF.basemodelIF import ResolutionModelIF
 
 
 class BaseSpecModelIF(ABC):
-#  or StellarSpec.__subclasses__()
+    """ Base class for model interface for Spec. """
     def set_spec_model_data(self, spec: StellarSpec):
         self.wave = spec.wave
         self.flux = spec.flux
@@ -18,7 +18,7 @@ class BaseSpecModelIF(ABC):
     def set_spec_model_param(self, param):
         pass
     @abstractmethod
-    def apply_spec_model(self, Spec: StellarSpec):
+    def apply_model_on_spec(self, Spec: StellarSpec):
         pass
 
 
@@ -28,14 +28,14 @@ class ResolutionSpecModelIF(BaseSpecModelIF):
         self.model.set_model(model_type)
 
     def set_spec_model_param(self, param):
-        self.model.set_model_param(param["step"])
+        self.model.set_model_param(param)
 
     def apply_spec_model(self,):
         wave = np.exp(self.model.apply_model(np.log(self.wave)))
         flux = self.model.apply_model(self.flux)
         return wave, flux
         
-    def apply_on_spec(self, spec: StellarSpec):
+    def apply_model_on_spec(self, spec: StellarSpec):
         wave, flux = self.apply_spec_model()
         spec.set_wave(wave)
         spec.set_flux(flux)        

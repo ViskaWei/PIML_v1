@@ -8,7 +8,7 @@ class BaseModelIF(ABC):
 
     def set_model_data(self, data):
         pass
-    
+
     @abstractmethod
     def set_model(self):
         pass
@@ -28,6 +28,8 @@ class ResolutionModelIF(BaseModelIF):
             self.model = AlexResolutionModel()
         elif model_type == "Np":
             self.model = NpResolutionModel()
+        else:
+            raise ValueError("Unknown Resolution model type: {}".format(model_type))
     
     def set_model_param(self, param):
         self.model.set_step(param["step"])

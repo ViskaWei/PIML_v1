@@ -1,3 +1,3 @@
 
 
-from PIML.gateway.modelIF.specmodelIF.basespecmodelIF import basespecmodelIF, ResolutionSpecModelIF
+from PIML.gateway.modelIF.specmodelIF.basespecmodelIF import BaseSpecModelIF, ResolutionSpecModelIF

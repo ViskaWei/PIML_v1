@@ -1,6 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF
+from PIML.gateway.modelIF.basemodelIF import ResolutionModelIF
 
 class BaseProcessIF(ABC):
     """ Base class for Process. """
