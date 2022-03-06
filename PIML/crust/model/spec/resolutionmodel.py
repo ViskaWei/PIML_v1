@@ -1,16 +1,11 @@
-
+from abc import abstractmethod
 import numpy as np
-from abc import ABC, abstractmethod
+from PIML.crust.model.spec.basespecmodel import BaseSpecModel
+from PIML.crust.data.spec.basespec import StellarSpec
 
-class ResolutionModel(ABC):
-    
-    @property
+class ResolutionModel(BaseSpecModel):
     @abstractmethod
-    def name(self):
-        return "ResolutionModel"
-    
-    @abstractmethod
-    def apply(self):
+    def tune_resolution(self, ):
         pass
 
 class AlexResolutionModel(ResolutionModel):
@@ -21,12 +16,17 @@ class AlexResolutionModel(ResolutionModel):
         return "Alex"
     
     def apply(self, data):
-        return self.tunedown_resolution(data, self.step)
+        return self.tune_resolution(data, self.step)
 
-    def set_step(self, step):
+    def apply_to_spec(self, spec: StellarSpec) -> StellarSpec:
+        spec.wave = self.apply(spec.wave)
+        spec.flux = self.apply(spec.flux)
+
+
+    def set_model_param(self, step):
         self.step = step
 
-    def tunedown_resolution(self, data, step):
+    def tune_resolution(self, data, step):
         data_cumsumed = np.cumsum(data, axis=-1)
         data_cumsumed_sampled_every_step = data_cumsumed[..., ::step]
         data_sampled_every_step = np.diff(data_cumsumed_sampled_every_step, axis=-1)

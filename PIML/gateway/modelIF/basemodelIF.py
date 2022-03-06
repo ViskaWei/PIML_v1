@@ -32,7 +32,7 @@ class ResolutionModelIF(BaseModelIF):
             raise ValueError("Unknown Resolution model type: {}".format(model_type))
     
     def set_model_param(self, param):
-        self.model.set_step(param["step"])
+        self.model.set_model_param(param["step"])
 
     def apply_model(self, data):
         return self.model.apply(data)

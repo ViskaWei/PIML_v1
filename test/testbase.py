@@ -32,7 +32,7 @@ class TestBase(TestCase):
         }
 
         self.MODEL_TYPES = {
-            "ResTunableProcess": "Alex"
+            "Resolution": "Alex"
         }
 
 
