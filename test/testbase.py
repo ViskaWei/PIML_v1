@@ -31,6 +31,9 @@ class TestBase(TestCase):
             "wRng": [8200.0, 8400.0], #len(wave) = 241 out of 1178
         }
 
+        self.MODEL_TYPES = {
+            "ResTunableProcess": "Alex"
+        }
 
 
     

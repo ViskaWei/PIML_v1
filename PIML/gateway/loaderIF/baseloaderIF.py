@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.baseboxparam import BoxParam
 from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.spec.basegrid import StellarGrid
 from PIML.crust.data.spec.basespecgrid import StellarSpecGrid
 
 from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
@@ -41,9 +42,9 @@ class SpecGridLoaderIF(ObjectLoaderIF):
     def load(self):
         wave = self.load_arg("wave")
         flux = self.load_arg("flux")
-        para = self.load_arg("para")
-        pdx  = self.load_arg("pdx") if self.is_arg("pdx") else None
-        return StellarSpecGrid(wave, flux, para, pdx)
+        coord = self.load_arg("para")
+        coord_idx  = self.load_arg("pdx") if self.is_arg("pdx") else None
+        return StellarSpecGrid(wave, flux, coord, coord_idx)
 
 class SpecLoaderIF(ObjectLoaderIF):
     """ class for loading Spec. """
@@ -51,10 +52,10 @@ class SpecLoaderIF(ObjectLoaderIF):
         flux = self.load_arg("flux")
         wave = self.load_arg("wave")
         return StellarSpec(wave, flux)
-        
-class BoxParamLoaderIF(ObjectLoaderIF):
+
+class GridLoaderIF(ObjectLoaderIF):
     """ class for loading box para. """
     def load(self):
-        para = self.load_arg("para")
-        pdx  = self.load_arg("pdx") if self.is_arg("pdx") else None
-        return BoxParam(para, pdx=pdx)
+        coord = self.load_arg("para")
+        cooord_idx  = self.load_arg("pdx") if self.is_arg("pdx") else None
+        return StellarGrid(coord, cooord_idx)

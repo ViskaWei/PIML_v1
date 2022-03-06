@@ -2,19 +2,18 @@ import numpy as np
 from abc import ABC, abstractmethod
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF
 from PIML.gateway.modelIF.basemodelIF import ResolutionModelIF
+from PIML.crust.operation.baseoperation import BaseOperation, SelectOperation, SplitOperation, BoxOperation
 
 class BaseProcessIF(ABC):
     """ Base class for Process interface for data. """
-    def set_process_data(self, data):
-        pass
     @abstractmethod
-    def process(self, data):
+    def process_data(self, data):
         pass
 
 class BaseParamProcessIF(BaseProcessIF):
     """ Base class for Process InterFace for param  """
     @abstractmethod
-    def set_process_param(self, param):
+    def create_process_with_param(self, param):
         pass
 
 class BaseModelProcessIF(BaseProcessIF):
@@ -23,26 +22,17 @@ class BaseModelProcessIF(BaseProcessIF):
     def set_process_model(self, model_type):
         pass
 
-class TrimmableProcessIF(BaseParamProcessIF):
+
+
+class SplitProcessIF(BaseParamProcessIF):
     """ class for trimmable dataIF in wavelength direction. i.e. wave, flux, etc. """
-    def __init__(self) -> None:
-        self.startIdx: int = None
-        self.endIdx  : int = None
-
-    def set_process_param(self, param):
-        self.startIdx = param["startIdx"]
-        self.endIdx = param["endIdx"]
-
+    def create_process_with_param(self, param):
+        self.process = [SplitOperation(param["startIdx"], param["endIdx"])]
     def process_data(self, data):
-        return data[..., self.startIdx:self.endIdx]
+        for process in self.process:
+            data = process.run(data)
 
-    def set_process_data(self, data):
-        self.data = data
-
-    def process(self):
-        return self.process_data(self.data)
-
-class BoxableProcessIF(BaseParamProcessIF):
+class BoxProcessIF(BaseParamProcessIF):
     """ class for boxable data i.e flux, parameter, etc. """
     def __init__(self) -> None:
         self.IdxInBox = None
@@ -52,6 +42,7 @@ class BoxableProcessIF(BaseParamProcessIF):
     
     def process_data(self, data):
         return data[self.IdxInBox, ...]
+
     def set_process_data(self, data):
         self.data = data
     

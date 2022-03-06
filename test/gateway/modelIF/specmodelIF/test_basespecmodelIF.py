@@ -10,7 +10,7 @@ class TestBaseSpecModel(TestBase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
         self.testSpec = StellarSpec(wave=self.wave, flux=self.flux)
-        self.testSpecGrid = StellarSpecGrid(wave=self.wave, flux=self.flux, para = self.para)
+        self.testSpecGrid = StellarSpecGrid(wave=self.wave, flux=self.flux, coord = self.para, coord_idx=self.pdx)
         self.checkWave = np.copy(self.wave)
 
     def test_ResolutionSpecModelIF(self):

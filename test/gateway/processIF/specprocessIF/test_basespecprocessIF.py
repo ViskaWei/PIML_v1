@@ -8,8 +8,8 @@ from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProce
 class test_BaseSpecProcessIF(TestBase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
-        self.testSpec = StellarSpec(wave=self.wave, flux=self.flux)
-        self.testSpecGrid = StellarSpecGrid(wave=self.wave, flux=self.flux, para = self.para)
+        self.testSpec = StellarSpec(self.wave, self.flux)
+        self.testSpecGrid = StellarSpecGrid(self.wave, self.flux, self.para, self.pdx)
         self.checkWave = np.copy(self.wave)
 
 
@@ -17,7 +17,14 @@ class test_BaseSpecProcessIF(TestBase):
         pass
 
     def test_ResTunableSpecProcessIF(self):
+        MODEL_TYPES = {
+            "ResTunableProcess": "Alex"
+        }
+        PARAMS = {"step": 10}
         RSPIF = ResTunableSpecProcessIF()
-        RSPIF.set_spec_process_param({"step":10})
+        RSPIF.set_process_model(MODEL_TYPES)
+        RSPIF.set_process_param(PARAMS)
         RSPIF.process_spec(self.spec)
 
+
+    def test_

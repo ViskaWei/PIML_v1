@@ -1,23 +1,24 @@
 import numpy as np
 import logging
 from abc import ABC, abstractmethod
+from PIML.crust.operation.baseoperation import BaseOperation, SelectOperation, SplitOperation, BoxOperation
 
 class BaseProcess(ABC):
     """ Base class for Process. """
-
     @abstractmethod
-    def set_process_param(self, param):
+    def start(self, data):
         pass
 
-    @abstractmethod
-    def set_process_data(self, data):
-        pass
+class SpecProcess(BaseProcess):
+    """ class for spectral process. """
+    
+    def set_operation_with_param(self, param):
+        self.operation_pool = [
+            SplitOperation(),
 
-    @abstractmethod
-    def process(self, data):
-        pass
+        ]
 
-    @abstractmethod
-    def print(self):
-        pass
+
+
+
 
