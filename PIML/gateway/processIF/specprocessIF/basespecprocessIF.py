@@ -1,16 +1,34 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.spec.basegrid import StellarGrid
-from PIML.gateway.processIF.baseprocessIF import BaseProcessIF, TrimmableProcessIF, BoxableProcessIF, ResTunableProcessIF
 
 class BaseSpecProcessIF(ABC):
     """ Base class for process interface for Spec object only. """
+    @abstractmethod
+    def set_process(self, param, model_type):
+        pass
 
     @abstractmethod
     def process_spec(self, spec: StellarSpec):
         pass
 
-    # @abstractmethod
+class StellarSpecProcessIF(BaseSpecProcessIF):
+    """ class for spectral process. """
+    def __init__(self) -> None:
+        super().__init__()
+        self.ProcessList: list[BaseOperation] = []
+
+    def set_process(self, param, model_type):
+        self.ProcessList = [
+            SplitOperation(param["startIdx"], param["endIdx"]),
+            ResOperation(model_type["Resolution"], param["step"])
+        ]
+
+    def process_spec(self, spec: StellarSpec):
+        for operation in self.ProcessList:
+            spec = operation.perform(spec)
+
+
 
 class TrimmableSpecProcessIF(TrimmableProcessIF, BaseSpecProcessIF):
     """ class for trimmable dataIF in wavelength direction. i.e. wave, flux, etc. """
