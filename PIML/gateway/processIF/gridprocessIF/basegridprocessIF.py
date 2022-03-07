@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import numpy as np
 from PIML.crust.data.spec.basegrid import StellarGrid
-from PIML.gateway.processIF.baseprocessIF import BoxableProcessIF, ResTunableProcessIF
+from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
 
 
 
@@ -10,18 +10,18 @@ class BaseGridProcessIF(ABC):
     def process_grid(self, grid: StellarGrid):
         pass
 
-class GridProcessIF(BoxableProcessIF, BaseGridProcessIF):
-    """ class for boxable data i.e flux, parameter, etc. """
+# class GridProcessIF(BoxableProcessIF, BaseGridProcessIF):
+#     """ class for boxable data i.e flux, parameter, etc. """
 
-    def process_grid(self, grid: StellarGrid):
-        coord =  self.process_data(grid.coord)
-        grid.set_coord(coord)
+#     def process_grid(self, grid: StellarGrid):
+#         coord =  self.process_data(grid.coord)
+#         grid.set_coord(coord)
 
-        coord_idx =  self.process_data(grid.coord_idx)
-        grid.set_coord_idx(coord_idx)
+#         coord_idx =  self.process_data(grid.coord_idx)
+#         grid.set_coord_idx(coord_idx)
 
-        if grid.has_flux:
-            flux = self.process_data(grid.flux)
-            grid.set_flux(flux)
+#         if grid.has_flux:
+#             flux = self.process_data(grid.flux)
+#             grid.set_flux(flux)
 
-        return grid
+#         return grid

@@ -26,9 +26,14 @@ class TestBase(TestCase):
 
     
 
-        self.params = {
+        self.PARAMS = {
             "DATA_PATH": self.DATA_PATH,
-            "wRng": [8200.0, 8400.0], #len(wave) = 241 out of 1178
+            "wave_rng": [8023.0, 8230.0], #[29, 283], len(wave) = 241 out of 1178
+            "step": 10,
+        }
+
+        self.OP_PARAMS = {
+            "split_idxs": [29, 283], #np.digitize(self.wave, self.params["wRng"])
         }
 
         self.MODEL_TYPES = {

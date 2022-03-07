@@ -17,7 +17,7 @@ class BaseSpecModel(BaseModel):
         pass
 
     @abstractmethod
-    def apply_to_spec(self, spec):
+    def apply_on_Spec(self, Spec):
         pass
 
     def set_model_param(self, param):

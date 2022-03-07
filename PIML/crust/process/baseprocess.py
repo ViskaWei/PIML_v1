@@ -2,7 +2,7 @@ import numpy as np
 import logging
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.operation.baseoperation import BaseOperation, SplitOperation, ResOperation
+from PIML.crust.operation.baseoperation import BaseOperation, BaseSpecOperation, SplitOperation, ResolutionOperation
 
 class BaseProcess(ABC):
     """ Base class for Process. """
@@ -14,35 +14,27 @@ class StellarProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
         super().__init__()
-        self.ProcessList: list[BaseOperation] = []
+        self.operationList: list[BaseOperation] = []
 
-    def set_process(self, param, model_type):
-        self.ProcessList = [
-            SplitOperation(param["startIdx"], param["endIdx"]),
-            ResOperation(model_type["Resolution"], param["step"])
+    def set_process(self, PARAMS, MODEL_TYPES):
+        self.operationList = [
+            SplitOperation(PARAMS["split_idxs"]),
+            ResolutionOperation(MODEL_TYPES["Resolution"], PARAMS["step"])
         ]
 
-    def process_data(self, data):
-        for operation in self.ProcessList:
+    def start(self, data):
+        for operation in self.operationList:
             data = operation.perform(data)
         return data
 
-    def process_spec(self, spec: StellarSpec):
-        for operation in self.ProcessList:
-            spec.wave = operation.perform(spec.wave)
-            spec.flux = operation.perform(spec.flux)
+    def start_on_Spec(self, spec: StellarSpec):
+        for operation in self.operationList:
+            if operation in BaseSpecOperation.__subclasses__():
+                spec = operation.perform_on_spec(spec)
+            else:
+                spec.wave = operation.perform(spec.wave)
+                spec.flux = operation.perform(spec.flux)
 
-
-
-
-# class SpecProcess(BaseProcess):
-#     """ class for spectral process. """
-    
-#     def set_operation_with_param(self, param):
-#         self.operation_pool = [
-#             SplitOperation(),
-
-#         ]
 
 
 

@@ -18,9 +18,9 @@ class AlexResolutionModel(ResolutionModel):
     def apply(self, data):
         return self.tune_resolution(data, self.step)
 
-    def apply_to_spec(self, spec: StellarSpec) -> StellarSpec:
-        spec.wave = self.apply(spec.wave)
-        spec.flux = self.apply(spec.flux)
+    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.wave = self.apply(Spec.wave)
+        Spec.flux = self.apply(Spec.flux)
 
 
     def set_model_param(self, step):
@@ -43,6 +43,9 @@ class NpResolutionModel(ResolutionModel):
         return "Np"
     
     def apply(self):
+        pass
+
+    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         pass
 
     def set_model_param(self, param):

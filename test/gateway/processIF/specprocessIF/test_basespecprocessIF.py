@@ -3,7 +3,7 @@ from test.testbase import TestBase
 
 from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.spec.basespecgrid import StellarSpecGrid
-from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, TrimmableSpecProcessIF, BoxableSpecProcessIF, ResTunableSpecProcessIF
+from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarProcessIF
 
 class test_BaseSpecProcessIF(TestBase):
     def __init__(self, methodName: str = ...) -> None:
@@ -16,15 +16,21 @@ class test_BaseSpecProcessIF(TestBase):
     def test_BaseSpecProcessIF(self):
         pass
 
-    def test_ResTunableSpecProcessIF(self):
-        MODEL_TYPES = {
-            "ResTunableProcess": "Alex"
-        }
-        PARAMS = {"step": 10}
-        RSPIF = ResTunableSpecProcessIF()
-        RSPIF.set_process_model(MODEL_TYPES)
-        RSPIF.set_process_param(PARAMS)
-        RSPIF.process_spec(self.spec)
+    def test_StellarProcessIF(self):
+        
+        PIF = StellarProcessIF()
+        PIF.interact(self.PARAMS, self.MODEL_TYPES, self.testSpec)
+        self.assertIsNone(np.testing.assert_array_equal(self.checkWave, self.wave))
+        self.assertIsNotNone(self.testSpec.wave)
+        self.assertIsNotNone(self.testSpec.flux)
+
+        PIF = StellarProcessIF()
+        PIF.interact(self.PARAMS, self.MODEL_TYPES, self.testSpecGrid)
+        self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord, self.para))
+        self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord_idx, self.pdx))
+
+        self.assertIsNotNone(self.testSpecGrid.wave)
+        self.assertIsNotNone(self.testSpecGrid.flux)
 
 
-    def test_
+    

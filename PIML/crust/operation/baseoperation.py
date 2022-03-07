@@ -1,9 +1,10 @@
+from posixpath import split
 import numpy as np
 import logging
 from abc import ABC, abstractmethod
 from PIML.crust.model.basemodel import BaseModel
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.model.spec.resolutionmodel import AlexResolutionModel, NpResolutionModel
+from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
 
 class BaseOperation(ABC):
@@ -17,18 +18,26 @@ class BaseModelOperation(BaseOperation):
         self.model = self.set_model(model_type)
         self.model.set_model_param(model_param)
 
+    @abstractmethod
     def set_model(self, model_type) -> BaseModel:
         pass
 
-class BaseSpecOperation(BaseOperation):
+    @abstractmethod
+    def perform(self, data):
+        super().perform(data)
 
-    def perform_on_spec(self, spec: StellarSpec):
+class BaseSpecOperation(BaseOperation):
+    @abstractmethod
+    def perform_on_Spec(self, Spec: StellarSpec):
         pass
 
-class ResOperation(BaseModelOperation, BaseSpecOperation):
-    """ class for resolution tunable dataIF i.e flux, wave. """
 
-    def set_model(self, model_type):
+class ResolutionOperation(BaseModelOperation, BaseSpecOperation):
+    """ class for resolution tunable dataIF i.e flux, wave. """
+    def __init__(self, model_type, model_param) -> None:
+        super().__init__(model_type, model_param)
+
+    def set_model(self, model_type) -> ResolutionModel:
         if model_type == "Alex":
             model = AlexResolutionModel()
         elif model_type == "Np":
@@ -40,8 +49,8 @@ class ResOperation(BaseModelOperation, BaseSpecOperation):
     def perform(self, data):
         return self.model.apply(data)
     
-    def perform_on_spec(self, spec: StellarSpec) -> StellarSpec:
-        self.model.apply_to_spec(spec)
+    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        self.model.apply_to_spec(Spec)
 
 
 
@@ -70,11 +79,9 @@ class BoxOperation(SelectOperation):
 
 class SplitOperation(BaseOperation):
     """ class for splitting data. """
-    def __init__(self, startIdx, endIdx) -> None:
-        self.startIdx = startIdx
-        self.endIdx = endIdx
+    def __init__(self, split_idxs) -> None:
+        self.startIdx = split_idxs[0]
+        self.endIdx = split_idxs[1]
 
     def perform(self, data):
         return data[..., self.startIdx:self.endIdx]
-
-        
