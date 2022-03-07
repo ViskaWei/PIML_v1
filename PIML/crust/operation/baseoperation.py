@@ -1,10 +1,6 @@
-from posixpath import split
 import numpy as np
-import logging
 from abc import ABC, abstractmethod
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
 
 class BaseOperation(ABC):
@@ -25,33 +21,6 @@ class BaseModelOperation(BaseOperation):
     @abstractmethod
     def perform(self, data):
         super().perform(data)
-
-class BaseSpecOperation(BaseOperation):
-    @abstractmethod
-    def perform_on_Spec(self, Spec: StellarSpec):
-        pass
-
-
-class ResolutionOperation(BaseModelOperation, BaseSpecOperation):
-    """ class for resolution tunable dataIF i.e flux, wave. """
-    def __init__(self, model_type, model_param) -> None:
-        super().__init__(model_type, model_param)
-
-    def set_model(self, model_type) -> ResolutionModel:
-        if model_type == "Alex":
-            model = AlexResolutionModel()
-        elif model_type == "Np":
-            model = NpResolutionModel()
-        else:
-            raise ValueError("Unknown Resolution model type: {}".format(model_type))
-        return model
-
-    def perform(self, data):
-        return self.model.apply(data)
-    
-    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        self.model.apply_to_spec(Spec)
-
 
 
 class SelectOperation(BaseOperation):
@@ -79,9 +48,16 @@ class BoxOperation(SelectOperation):
 
 class SplitOperation(BaseOperation):
     """ class for splitting data. """
-    def __init__(self, split_idxs) -> None:
-        self.startIdx = split_idxs[0]
-        self.endIdx = split_idxs[1]
+    def __init__(self, rng) -> None:
+        self.rng = rng
+
+    def get_split_idxs(self, data):
+        split_idxs = np.digitize(self.rng, data)
+        return split_idxs
 
     def perform(self, data):
-        return data[..., self.startIdx:self.endIdx]
+        split_idxs = self.get_split_idxs(data)
+        return self.split(data, split_idxs)
+
+    def split(self, data, split_idxs):
+        return data[..., split_idxs[0]:split_idxs[1]]

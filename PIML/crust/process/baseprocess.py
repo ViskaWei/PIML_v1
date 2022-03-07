@@ -2,8 +2,8 @@ import numpy as np
 import logging
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.operation.baseoperation import BaseOperation, BaseSpecOperation, SplitOperation, ResolutionOperation
-
+from PIML.crust.operation.baseoperation import BaseOperation 
+from PIML.crust.operation.specoperation import BaseSpecOperation, ArmSplitOperation, ResolutionOperation
 class BaseProcess(ABC):
     """ Base class for Process. """
     @abstractmethod
@@ -14,11 +14,11 @@ class StellarProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
         super().__init__()
-        self.operationList: list[BaseOperation] = []
+        self.operationList: list[BaseSpecOperation] = []
 
     def set_process(self, PARAMS, MODEL_TYPES):
         self.operationList = [
-            SplitOperation(PARAMS["split_idxs"]),
+            ArmSplitOperation(PARAMS["arm"]),
             ResolutionOperation(MODEL_TYPES["Resolution"], PARAMS["step"])
         ]
 
@@ -29,11 +29,7 @@ class StellarProcess(BaseProcess):
 
     def start_on_Spec(self, spec: StellarSpec):
         for operation in self.operationList:
-            if operation in BaseSpecOperation.__subclasses__():
-                spec = operation.perform_on_spec(spec)
-            else:
-                spec.wave = operation.perform(spec.wave)
-                spec.flux = operation.perform(spec.flux)
+            operation.perform_on_spec(spec)
 
 
 
