@@ -28,12 +28,13 @@ class TestBase(TestCase):
 
         self.PARAMS = {
             "DATA_PATH": self.DATA_PATH,
-            "wave_rng": [8023.0, 8230.0], #[29, 283], len(wave) = 241 out of 1178
+            "arm": "arm_test",
             "step": 10,
         }
 
         self.OP_PARAMS = {
-            "split_idxs": [29, 283], #np.digitize(self.wave, self.params["wRng"])
+            "wave_rng": [8023.0, 8230.0], #[29, 283], len(wave) = 241 out of 1178
+            # "split_idxs": [29, 283], #np.digitize(self.wave, self.params["wRng"])
         }
 
         self.MODEL_TYPES = {

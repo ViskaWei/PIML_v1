@@ -50,14 +50,15 @@ class SplitOperation(BaseOperation):
     """ class for splitting data. """
     def __init__(self, rng) -> None:
         self.rng = rng
+        self.split_idxs = None
 
     def get_split_idxs(self, data):
-        split_idxs = np.digitize(self.rng, data)
-        return split_idxs
+        assert (np.min(data) <= self.rng[0]) and (np.max(data) >= self.rng[1])
+        self.split_idxs = np.digitize(self.rng, data)
 
     def perform(self, data):
-        split_idxs = self.get_split_idxs(data)
-        return self.split(data, split_idxs)
+        self.get_split_idxs(data)
+        return self.split(data, self.split_idxs)
 
     def split(self, data, split_idxs):
         return data[..., split_idxs[0]:split_idxs[1]]

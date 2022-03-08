@@ -5,7 +5,7 @@ from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.spec.basespecgrid import StellarSpecGrid
 from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarProcessIF
 
-class test_BaseSpecProcessIF(TestBase):
+class TestBaseSpecProcessIF(TestBase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
         self.testSpec = StellarSpec(self.wave, self.flux)

@@ -1,3 +1,4 @@
 from abc import ABC, abstractmethod
 
-class SpecprocessIF(ABC):
+class SpecDataIF(ABC):
+    pass

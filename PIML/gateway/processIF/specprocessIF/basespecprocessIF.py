@@ -6,6 +6,7 @@ from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.spec.basegrid import StellarGrid
 from PIML.crust.process.baseprocess import StellarProcess
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
+from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, SpecGridLoaderIF
 
 
 class BaseSpecProcessIF(BaseProcessIF):
@@ -24,13 +25,35 @@ class StellarProcessIF(BaseSpecProcessIF):
         self.OP_PARAMS: dict = {}
         self.Process = StellarProcess()
 
-    def interact(self, PARAMS, MODEL_TYPES, Spec: StellarSpec):
-        self.OP_PARAMS = self.paramIF(PARAMS, Spec)
+    def setup(self, PARAMS, MODEL_TYPES):
+        self.set_data(PARAMS["data"])
+        self.set_param(PARAMS["op"])
+        self.set_model(MODEL_TYPES)
+
+    def set_data(self, DATA_PARAMS):
+        self.DATA_PATH = DATA_PARAMS["DATA_PATH"]
+        SGL = SpecGridLoaderIF()
+        SGL.set_data_path(self.DATA_PATH)
+        self.Spec = SGL.load()
+
+    def set_param(self, OP_PARAMS):
+        self.OP_PARAMS = self.paramIF(OP_PARAMS)
+    
+    def set_model(self, MODEL_TYPES):
         self.OP_MODEL = MODEL_TYPES
-        self.Process.set_process(self.OP_PARAMS, MODEL_TYPES)
+
+    def interact(self, PARAMS, MODEL_TYPES):
+        self.setup(PARAMS, MODEL_TYPES)
+        self.Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
+        self.Process.start_on_Spec(self.Spec)
+
+    def interact_on_Spec(self, PARAMS, MODEL_TYPES, Spec: StellarSpec):
+        self.set_param(PARAMS["op"])
+        self.set_model(MODEL_TYPES)
+        self.Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
         self.Process.start_on_Spec(Spec)
 
-    def paramIF(self, PARAMS, Spec):
+    def paramIF(self, PARAMS):
         #TODO create class later
         
         return PARAMS

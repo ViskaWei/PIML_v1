@@ -24,9 +24,8 @@ class ArmSplitOperation(SplitOperation):
         return super().perform(data)
 
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        split_idxs = self.get_split_idxs(Spec.wave)
-        Spec.wave = super().split(Spec.wave, split_idxs)
-        Spec.flux = super().split(Spec.flux, split_idxs)
+        Spec.wave = super().perform(Spec.wave)
+        Spec.flux = super().split(Spec.flux, self.split_idxs)
 
 
 class ResolutionOperation(BaseModelOperation, BaseSpecOperation):
@@ -47,4 +46,4 @@ class ResolutionOperation(BaseModelOperation, BaseSpecOperation):
         return self.model.apply(data)
     
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        self.model.apply_to_spec(Spec)
+        self.model.apply_on_Spec(Spec)
