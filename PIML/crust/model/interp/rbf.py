@@ -1,23 +1,22 @@
 
 import numpy as np
+import logging
 from scipy.interpolate import RBFInterpolator
+from .baseinterpmodel import BaseInterpModel
 
-class RBF(object):
-    def __init__(self, coord, coord_scaler=None, interp_scaler=None):
-        self.rbf = None
-        self.coord = coord
-        self.coord_scaler = coord_scaler
+class RBF(BaseInterpModel):
+    def __init__(self):
+        self.set_model_param()
 
-        if coord_scaler is None:
-            self.coord_scaler = lambda x: x
-        
-        if interp_scaler is None:
-            self.interp_scaler = lambda x: x
-
-    def train_rbf(self, coord, val):
-        print(f"Building RBF with gaussan kernel on data shape {val.shape}")
-        rbf_interpolator = RBFInterpolator(coord, val, kernel='gaussian', epsilon=0.5)
+    def train_interpolator(self, coord, value):
+        logging.info(f"Building RBF with gaussan kernel on data shape {value.shape}")
+        rbf_interpolator = RBFInterpolator(coord, value, kernel=self.kernel, epsilon=self.epsilon)
         return rbf_interpolator
+
+    def set_model_param(self):
+        self.kernel = "gaussian"
+        self.epsilon = 0.5
+
 
     def build_rbf(self,  rbf_interpolator,  interp_scaler=None):
         if interp_scaler is None: interp_scaler = self.interp_scaler
@@ -36,7 +35,7 @@ class RBF(object):
         return rbf
 
     def build_logflux_rbf_interp(self, logflux):
-        rbf_interp = self.train_rbf(self.coord, logflux)
+        rbf_interp = self.train_interpolator(self.coord, logflux)
         rbf = self.build_rbf(rbf_interp)
         def interp_flux_fn(x, log=0):
             logflux = rbf(x)

@@ -1,6 +1,6 @@
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.data.spec.basegrid import StellarGrid
+# from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.gateway.processIF.gridprocessIF.basegridprocessIF import BaseGridProcessIF
 
 class test_BaseGridProcessIF(TestBase):

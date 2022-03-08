@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.spec.baseboxparam import BoxParam
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.data.spec.basegrid import StellarGrid
-from PIML.crust.data.spec.basespecgrid import StellarSpecGrid
+from PIML.crust.data.grid.basegrid import StellarGrid
+from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 
 from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
 
