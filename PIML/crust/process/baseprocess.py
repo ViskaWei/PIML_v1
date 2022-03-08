@@ -14,7 +14,7 @@ class StellarProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
         super().__init__()
-        self.operationList: list[BaseSpecOperation] = []
+        self.operationList: list[BaseSpecOperation] = None
 
     def set_process(self, PARAMS, MODEL_TYPES):
         self.operationList = [
@@ -29,9 +29,12 @@ class StellarProcess(BaseProcess):
 
     def start_on_Spec(self, spec: StellarSpec):
         for operation in self.operationList:
-            operation.perform_on_spec(spec)
+            operation.perform_on_Spec(spec)
 
 
+class RBFProcess(BaseProcess):
+    """ class for radial basis function process. """
+    
 
 
 
