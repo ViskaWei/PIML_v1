@@ -23,8 +23,8 @@ class RBFInterpModel(BaseInterpModel):
     def name(self):
         return "RBF"
 
-    def apply(self, coord, value):
-        return self.train_interpolator(coord, value)
+    def apply(self, coord_to_be_interp, interpolator):
+        return interpolator(coord_to_be_interp)
     
     def set_model_param(self, kernel="guassian", epsilon=0.5):
         self.kernel = kernel
@@ -35,6 +35,7 @@ class RBFInterpModel(BaseInterpModel):
         interpolator = RBFInterpolator(coord, value, kernel=self.kernel, epsilon=self.epsilon)
         return interpolator
 
+    def 
 
 class PCARBFInterpModel(RBFInterpModel):
     pass
