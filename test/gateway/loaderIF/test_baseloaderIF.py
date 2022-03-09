@@ -2,11 +2,13 @@ import pandas as pd
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF
 from test.testbase import TestBase
 
+DATA_PATH = "test/testdata/bosz_5000_test.h5"
+
 class TestBaseLoader(TestBase):
 
     def test_SpecLoaderIF(self):
         loaderIF = SpecLoaderIF()
-        loaderIF.set_data_path(self.DATA_PATH)
+        loaderIF.set_data_path(DATA_PATH)
         spec = loaderIF.load()
 
         self.assertIsNotNone(spec.wave)
@@ -17,7 +19,7 @@ class TestBaseLoader(TestBase):
 
     def test_SpecGridLoaderIF(self):        
         loaderIF = SpecGridLoaderIF()
-        loaderIF.set_data_path(self.DATA_PATH)
+        loaderIF.set_data_path(DATA_PATH)
         specGrid = loaderIF.load()
 
         self.assertIsNotNone(specGrid.wave)
@@ -34,7 +36,7 @@ class TestBaseLoader(TestBase):
         
     def test_GridLoaderIF(self):
         loaderIF = GridLoaderIF()
-        loaderIF.set_data_path(self.DATA_PATH)
+        loaderIF.set_data_path(DATA_PATH)
         grid = loaderIF.load()
 
         self.assertIsNotNone(grid.coord)
@@ -51,6 +53,6 @@ class TestBaseLoader(TestBase):
     def test_BaseLoaderIF(self):
         for LoaderIF in ObjectLoaderIF.__subclasses__():
             loaderIF = LoaderIF()
-            loaderIF.set_data_path(self.DATA_PATH)
+            loaderIF.set_data_path(DATA_PATH)
             data = loaderIF.load()
             self.assertIsNotNone(data)

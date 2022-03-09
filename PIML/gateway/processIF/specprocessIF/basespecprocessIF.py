@@ -1,9 +1,7 @@
 import numpy as np
-
 from abc import abstractmethod
-
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.data.spec.basegrid import StellarGrid
+from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.process.baseprocess import StellarProcess
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, SpecGridLoaderIF
@@ -40,17 +38,17 @@ class StellarProcessIF(BaseSpecProcessIF):
         self.OP_PARAMS = self.paramIF(OP_PARAMS)
     
     def set_model(self, MODEL_TYPES):
-        self.OP_MODEL = MODEL_TYPES
+        self.OP_MODELS = MODEL_TYPES
 
     def interact(self, PARAMS, MODEL_TYPES):
         self.setup(PARAMS, MODEL_TYPES)
-        self.Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
+        self.Process.set_process(self.OP_PARAMS, self.OP_MODELS)
         self.Process.start_on_Spec(self.Spec)
 
     def interact_on_Spec(self, PARAMS, MODEL_TYPES, Spec: StellarSpec):
         self.set_param(PARAMS["op"])
         self.set_model(MODEL_TYPES)
-        self.Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
+        self.Process.set_process(self.OP_PARAMS, self.OP_MODELS)
         self.Process.start_on_Spec(Spec)
 
     def paramIF(self, PARAMS):

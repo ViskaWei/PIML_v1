@@ -2,15 +2,15 @@
 import numpy as np
 from test.testbase import TestBase
 from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.operation.specoperation import BaseSpecOperation, ArmSplitOperation, ResolutionOperation
+from PIML.crust.operation.specoperation import BaseSpecOperation, SplitSpecOperation, TuneSpecOperation
 from PIML.crust.model.spec.resolutionmodel import ResolutionModel
 
 
 class TestSpecOperation(TestBase):
 
-    def test_ArmSplitOperation(self):
-        arm = "arm_test"
-        OP = ArmSplitOperation(arm)
+    def test_SplitSpecOperation(self):
+        
+        OP = SplitSpecOperation(self.arm)
         
         wave_new = OP.perform(self.wave)
         self.assertIsNotNone(wave_new)
@@ -19,13 +19,10 @@ class TestSpecOperation(TestBase):
         self.assertIsNone(np.testing.assert_array_less(OP.rng[0], Spec.wave))
         self.assertIsNone(np.testing.assert_array_less(Spec.wave, OP.rng[1]))
 
-
-
-
-    def test_ResolutionOperation(self):
+    def test_TuneSpecOperation(self):
         model_type, model_param = "Alex", 10
         
-        OP = ResolutionOperation(model_type, model_param)
+        OP = TuneSpecOperation(model_type, model_param)
         wave_new = OP.perform(self.wave)
         
         self.assertIsInstance(OP.model, ResolutionModel)

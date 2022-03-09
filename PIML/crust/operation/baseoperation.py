@@ -32,19 +32,6 @@ class SelectOperation(BaseOperation):
     def perform(self, data):
         return data[self.IdxSelected, ...]
 
-# TODO FIXME:
-class BoxOperation(SelectOperation):
-#     """ class for boxable data i.e flux, parameter, etc. """
-    pass
-#     def __init__(self, IdxInBox) -> None:
-#         super().__init__()
-    
-#     def set_process(self, param):
-#         self.IdxInBox = param["IdxInBox"]
-    
-#     def process_data(self, data):
-#         return super().process_data(data)
-    
 
 class SplitOperation(BaseOperation):
     """ class for splitting data. """

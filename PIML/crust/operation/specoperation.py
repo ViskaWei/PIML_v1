@@ -7,14 +7,13 @@ from .baseoperation import BaseOperation, BaseModelOperation, SplitOperation
 from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
 
-
 class BaseSpecOperation(BaseOperation):
     @abstractmethod
     def perform_on_Spec(self, Spec: StellarSpec):
         pass
 
 
-class ArmSplitOperation(SplitOperation):
+class SplitSpecOperation(SplitOperation):
     """ class for splitting data. """
     def __init__(self, arm: str,) -> None:
         wave_rng = Constants.DWs[arm]
@@ -28,7 +27,8 @@ class ArmSplitOperation(SplitOperation):
         Spec.flux = super().split(Spec.flux, self.split_idxs)
 
 
-class ResolutionOperation(BaseModelOperation, BaseSpecOperation):
+
+class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     """ class for resolution tunable dataIF i.e flux, wave. """
     def __init__(self, model_type, model_param) -> None:
         super().__init__(model_type, model_param)
