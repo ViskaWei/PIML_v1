@@ -3,6 +3,9 @@ import os
 import numpy as np
 from unittest import TestCase
 from PIML.crust.data.constants import Constants
+from PIML.crust.data.spec.basespec import StellarSpec
+
+from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
@@ -22,6 +25,7 @@ class TestBase(TestCase):
         self.flux =  self.specGrid.flux
         self.para = self.specGrid.coord
         self.pdx  = self.specGrid.coord_idx
+        self.pdx0 = self.pdx - self.pdx[0]
 
         SL = SpecLoaderIF()
         SL.set_data_path(self.DATA_PATH)
@@ -33,7 +37,7 @@ class TestBase(TestCase):
             "box_name": "R",
             "arm": self.arm,
             "step": 10,
-            "wave_rng": Constants.DWs[self.arm]
+            "wave_rng": Constants.ARM_RNGS[self.arm]
         }
 
         self.PARAMS = {
@@ -48,4 +52,10 @@ class TestBase(TestCase):
         }
 
 
-    
+    def get_SpecGrid(self):
+        specGrid = StellarSpecGrid(self.wave, self.flux, self.para, self.pdx)   
+        return specGrid
+
+    def get_Spec(self):
+        spec     = StellarSpec(self.wave, self.flux)
+        return spec

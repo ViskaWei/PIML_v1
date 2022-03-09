@@ -20,3 +20,4 @@ class StellarProcess(BaseProcess):
     def start(self, SpecGrid: StellarSpecGrid):
         for operation in self.operationList:
             operation.perform_on_SpecGrid(SpecGrid)
+

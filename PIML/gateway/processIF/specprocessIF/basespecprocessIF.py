@@ -2,7 +2,7 @@ import numpy as np
 from abc import abstractmethod
 from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
-from PIML.crust.process.baseprocess import StellarProcess
+from PIML.crust.process.baseprocess import StellarSpecProcess
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, SpecGridLoaderIF
 
@@ -12,7 +12,7 @@ class BaseSpecProcessIF(BaseProcessIF):
     def interact(self, param, data):
         pass
 
-class StellarProcessIF(BaseSpecProcessIF):
+class StellarSpecProcessIF(BaseSpecProcessIF):
     """ class for spectral process. 
         PARAMS = {"arm": wave arm, "step": int }
         MODEL_TYPES = {"Resolution": ResolutionModel (Alex, etc.)}
@@ -21,7 +21,7 @@ class StellarProcessIF(BaseSpecProcessIF):
     def __init__(self) -> None:
         super().__init__()
         self.OP_PARAMS: dict = {}
-        self.Process = StellarProcess()
+        self.Process = StellarSpecProcess()
 
     def setup(self, PARAMS, MODEL_TYPES):
         self.set_data(PARAMS["data"])
@@ -43,13 +43,13 @@ class StellarProcessIF(BaseSpecProcessIF):
     def interact(self, PARAMS, MODEL_TYPES):
         self.setup(PARAMS, MODEL_TYPES)
         self.Process.set_process(self.OP_PARAMS, self.OP_MODELS)
-        self.Process.start_on_Spec(self.Spec)
+        self.Process.start(self.Spec)
 
     def interact_on_Spec(self, PARAMS, MODEL_TYPES, Spec: StellarSpec):
         self.set_param(PARAMS["op"])
         self.set_model(MODEL_TYPES)
         self.Process.set_process(self.OP_PARAMS, self.OP_MODELS)
-        self.Process.start_on_Spec(Spec)
+        self.Process.start(Spec)
 
     def paramIF(self, PARAMS):
         #TODO create class later

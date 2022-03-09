@@ -16,7 +16,7 @@ class BaseSpecOperation(BaseOperation):
 class SplitSpecOperation(SplitOperation):
     """ class for splitting data. """
     def __init__(self, arm: str,) -> None:
-        wave_rng = Constants.DWs[arm]
+        wave_rng = Constants.ARM_RNGS[arm]
         super().__init__(wave_rng)
 
     def perform(self, data):

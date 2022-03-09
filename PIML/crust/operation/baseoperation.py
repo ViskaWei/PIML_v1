@@ -49,3 +49,4 @@ class SplitOperation(BaseOperation):
 
     def split(self, data, split_idxs):
         return data[..., split_idxs[0]:split_idxs[1]]
+

@@ -15,6 +15,7 @@ class TestBaseOperation(TestBase):
 
         self.assertIsNone(np.testing.assert_array_less(wave_rng[0], wave_new))
         self.assertIsNone(np.testing.assert_array_less(wave_new, wave_rng[1]))
+        self.assertEqual(OP.split_idxs.shape, (2,))
 
 
 

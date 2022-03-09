@@ -39,17 +39,13 @@ class StellarBoxOperation(BaseBoxOperation):
         bnd = np.array(Constants.DRs[box_name])
         box_min, box_max = bnd.T
         box_rng = np.diff(bnd).T[0]
-        box_num = box_rng / Constants.PhyTick 
-        box_mid = (box_num //2) * Constants.PhyTick + box_min
+        box_num = box_rng / Constants.PHYTICK 
+        box_mid = (box_num //2) * Constants.PHYTICK + box_min
         return box_min, box_max, box_rng, box_num, box_mid
     
     def is_coord_inbox(self, dfcoord):
         assert (dfcoord.min().values <= self.box["min"]).all() 
         assert (dfcoord.max().values >= self.box["max"]).all()
-
-
-
-
 
     # @staticmethod
     # def get_minmax_scaler_fns(box_min, box_rng):
@@ -59,18 +55,8 @@ class StellarBoxOperation(BaseBoxOperation):
     #         return x * box_rng + box_min        
     #     return scaler_fn, inverse_scaler_fn
 
-    # @staticmethod
-    # def get_unitcoord_scaler_fns(box_min):
-    #     def scaler_fn(x):
-    #         return np.divide((x - box_min) ,Constants.PhyTick)
-    #     def inverse_scaler_fn(x):
-    #         return x * Constants.PhyTick + box_min
-    #     return scaler_fn, inverse_scaler_fn
-
+    
 
 # def set_box_scaler(self):
 #         self.minmax_scaler, self.minmax_rescaler = BaseBoxOperation.get_minmax_scaler_fns(self.box_min, self.box_rng)
 #         self.unitcoord_scaler, self.unitcoord_rescaler = BaseBoxOperation.get_unitcoord_scaler_fns(self.box_min)
-
-        # self.scaler_fn, self.inverse_scaler_fn = self.get_minmax_scaler_fns(self.box_min, self.box_rng)
-        # self.unitcoord_scaler_fn, self.unitcoord_inverse_scaler_fn = self.get_unitcoord_scaler_fns(self.box_min)

@@ -32,4 +32,3 @@ class TestBoxOperation(TestBase):
         self.assertIsNotNone(box_dict["mid"])
 
 
-

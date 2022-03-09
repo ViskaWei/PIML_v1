@@ -3,7 +3,7 @@ from test.testbase import TestBase
 
 from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarProcessIF
+from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarSpecProcessIF
 
 class TestBaseSpecProcessIF(TestBase):
     def __init__(self, methodName: str = ...) -> None:
@@ -16,15 +16,15 @@ class TestBaseSpecProcessIF(TestBase):
     def test_BaseSpecProcessIF(self):
         pass
 
-    def test_StellarProcessIF(self):
+    def test_StellarSpecProcessIF(self):
         
-        PIF = StellarProcessIF()
+        PIF = StellarSpecProcessIF()
         PIF.interact_on_Spec(self.PARAMS, self.MODEL_TYPES, self.testSpec)
         self.assertIsNone(np.testing.assert_array_equal(self.checkWave, self.wave))
         self.assertIsNotNone(self.testSpec.wave)
         self.assertIsNotNone(self.testSpec.flux)
 
-        PIF = StellarProcessIF()
+        PIF = StellarSpecProcessIF()
         PIF.interact_on_Spec(self.PARAMS, self.MODEL_TYPES, self.testSpecGrid)
         self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord, self.para))
         self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord_idx, self.pdx))
