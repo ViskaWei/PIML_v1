@@ -6,7 +6,7 @@ from PIML.crust.operation.specoperation import SplitSpecOperation, TuneSpecOpera
 from PIML.crust.operation.gridoperation import CoordxifyGridOperation
 from PIML.crust.operation.boxoperation import StellarBoxOperation
 
-from PIML.crust.model.specgrid.basespecgridmodel import InterpSpecGridmodel, RBFInterpSpecGridmodel, PCARBFInterpSpecGridmodel
+from PIML.crust.model.specgrid.interpspecgridmodel import InterpSpecGridModel, RBFInterpSpecGridModel, PCARBFInterpSpecGridModel
 
 
 class BaseSpecGridOperation(BaseOperation):
@@ -34,12 +34,12 @@ class InterpSpecGridOperation(BaseSpecGridOperation):
     def __init__(self, model_type) -> None:
         self.model = self.set_model(model_type)
         self.model.set_model_param()
-
-    def set_model(self, model_type: str) -> InterpSpecGridmodel:
+    
+    def set_model(self, model_type: str) -> InterpSpecGridModel:
         if model_type == "RBF":
-            model = RBFInterpSpecGridmodel()
+            model = RBFInterpSpecGridModel()
         elif model_type == "PCARBF":
-            model = PCARBFInterpSpecGridmodel()
+            model = PCARBFInterpSpecGridModel()
         else:
             raise ValueError("Unknown Interp model type: {}".format(model_type))
         return model
@@ -47,21 +47,21 @@ class InterpSpecGridOperation(BaseSpecGridOperation):
     def perform(self, data):
         return self.model.apply(data)
 
-    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> StellarSpecGrid:
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.model.apply_on_SpecGrid(SpecGrid)
 
 class BoxSpecGridOperation(StellarBoxOperation, BaseSpecGridOperation):
-    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> StellarSpecGrid:
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.perform_on_Box(SpecGrid)
 
 class SplitSpecGridOperation(SplitSpecOperation, BaseSpecGridOperation):
-    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> StellarSpecGrid:
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.perform_on_Spec(SpecGrid)
 
 class TuneSpecGridOperation(TuneSpecOperation, BaseSpecGridOperation):
-    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> StellarSpecGrid:
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.perform_on_Spec(SpecGrid)
 
 class LogSpecGridOperation(LogSpecOperation, BaseSpecGridOperation):
-    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> StellarSpecGrid:
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.perform_on_Spec(SpecGrid)
