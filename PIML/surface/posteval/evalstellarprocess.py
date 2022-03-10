@@ -28,7 +28,6 @@ class EvalStellarProcess():
     def __init__(self):
         self.SP = StellarProcessIF()
         self.SP.interact(PARAMS, MODEL_TYPES)
-        self.wave = self.SP.SpecGrid.wave
 
     def eval_interpolator(self, axis = 1):
         pmt0 = self.SP.SpecGrid.box["mid"]
@@ -40,7 +39,7 @@ class EvalStellarProcess():
         flux2 = self.SP.SpecGrid.get_coord_logflux(pmt2)
         flux1 = self.SP.SpecGrid.interpolator(pmt1)
         
-        wave = self.wave
+        wave = self.SP.SpecGrid.wave
         plt.plot(wave, flux0, label= pmt0)
         plt.plot(wave, flux1, label = pmt1)
         plt.plot(wave, flux2, label = pmt2)

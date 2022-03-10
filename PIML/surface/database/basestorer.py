@@ -4,7 +4,7 @@ import zarr
 import logging
 from abc import ABC, abstractmethod
 
-class baseStorer(ABC):
+class BaseStorer(ABC):
     """ Base class for all data loaders. """
 
     @abstractmethod
@@ -20,7 +20,7 @@ class baseStorer(ABC):
         return arg in f.keys()
 
 
-class h5pyStorer(baseStorer):
+class H5pyStorer(BaseStorer):
     def store_arg(self, PATH, arg, val):
         with h5py.File(PATH, 'a') as f:
             f.create_dataset(arg, data=val, shape=val.shape)
@@ -30,7 +30,7 @@ class h5pyStorer(baseStorer):
             for arg, val in DArgs.items():
                 f.create_dataset(arg, data=val, shape=val.shape)
         
-class zarrStorer(baseStorer):
+class ZarrStorer(BaseStorer):
     def store_arg(self, PATH, arg, val):
         with zarr.open(PATH, 'a') as f:
             pass
