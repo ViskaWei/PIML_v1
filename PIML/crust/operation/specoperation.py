@@ -6,12 +6,18 @@ from PIML.crust.data.spec.basespec import StellarSpec
 from .baseoperation import BaseOperation, BaseModelOperation, SplitOperation 
 from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
-
 class BaseSpecOperation(BaseOperation):
     @abstractmethod
     def perform_on_Spec(self, Spec: StellarSpec):
         pass
 
+class LogSpecOperation(BaseSpecOperation):
+    """ Class for taking log of flux """
+    def perform(self, flux):
+        return np.log(flux)
+
+    def perform_on_Spec(self, Spec: StellarSpec):
+        Spec.logflux = self.perform(Spec.flux) 
 
 class SplitSpecOperation(SplitOperation):
     """ class for splitting data. """
@@ -25,8 +31,6 @@ class SplitSpecOperation(SplitOperation):
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         Spec.wave = super().perform(Spec.wave)
         Spec.flux = super().split(Spec.flux, self.split_idxs)
-
-
 
 class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     """ class for resolution tunable dataIF i.e flux, wave. """

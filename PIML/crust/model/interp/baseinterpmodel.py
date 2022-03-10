@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from scipy.interpolate import RBFInterpolator
 from PIML.crust.model.basemodel import BaseModel
 
-class BaseInterpModel(BaseModel):
+class InterpModel(BaseModel):
     @property
     @abstractmethod
     def name(self):
@@ -18,15 +18,15 @@ class BaseInterpModel(BaseModel):
     def train_interpolator(self, coord, value):
         pass
 
-class RBFInterpModel(BaseInterpModel):
+class RBFInterpModel(InterpModel):
     @property
     def name(self):
         return "RBF"
 
-    def apply(self, coord_to_be_interp, interpolator):
-        return interpolator(coord_to_be_interp)
-    
-    def set_model_param(self, kernel="guassian", epsilon=0.5):
+    def apply(self, coord, value):
+        return self.train_interpolator(coord, value)
+
+    def set_model_param(self, kernel="gaussian", epsilon=0.5):
         self.kernel = kernel
         self.epsilon = epsilon
 
@@ -35,7 +35,6 @@ class RBFInterpModel(BaseInterpModel):
         interpolator = RBFInterpolator(coord, value, kernel=self.kernel, epsilon=self.epsilon)
         return interpolator
 
-    def 
 
 class PCARBFInterpModel(RBFInterpModel):
     pass

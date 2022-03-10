@@ -1,6 +1,8 @@
 import logging
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, BoxSpecGridOperation
+from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, \
+    BoxSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, LogSpecGridOperation, CoordxifySpecGridOperation, InterpSpecGridOperation
+from PIML.crust.operation.specoperation import LogSpecOperation
 from PIML.crust.process.baseprocess import BaseProcess
 
 
@@ -14,7 +16,10 @@ class StellarProcess(BaseProcess):
         self.operationList = [
             BoxSpecGridOperation(PARAMS["box_name"]),
             SplitSpecGridOperation(PARAMS["arm"]),
-            TuneSpecGridOperation(MODEL_TYPES["Resolution"], PARAMS["step"])
+            TuneSpecGridOperation(MODEL_TYPES["Resolution"], PARAMS["step"]),
+            LogSpecGridOperation(),
+            CoordxifySpecGridOperation(),
+            InterpSpecGridOperation(MODEL_TYPES["Interp"]),
         ]
 
     def start(self, SpecGrid: StellarSpecGrid):

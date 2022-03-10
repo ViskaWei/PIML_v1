@@ -6,9 +6,6 @@ from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, SplitS
 
 class TestSpecGridOperation(TestBase):
     
-
-
-
     def test_CoordxifySpecGridOperation(self):
         SpecGrid = self.get_SpecGrid()
         OP = CoordxifySpecGridOperation()
@@ -17,12 +14,10 @@ class TestSpecGridOperation(TestBase):
         
     def check_Grid(self, SpecGrid: StellarSpecGrid):
         self.assertIsNotNone(SpecGrid.coordx)
+        self.assertTrue((SpecGrid.coordx[0] == 0).all())
         self.assertIsNone(np.testing.assert_array_equal(SpecGrid.coordx, self.pdx0))
         self.assertIsNone(np.testing.assert_array_equal(SpecGrid.coordx, SpecGrid.coordx_scaler(SpecGrid.coord)))
         self.assertIsNone(np.testing.assert_array_equal(SpecGrid.coord, SpecGrid.coordx_rescaler(SpecGrid.coordx)))
-
-
-
 
     def test_SplitSpecGridOperation(self):
         SpecGrid = self.get_SpecGrid()

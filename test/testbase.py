@@ -48,8 +48,17 @@ class TestBase(TestCase):
         
 
         self.MODEL_TYPES = {
-            "Resolution": "Alex"
+            "Resolution": "Alex",
+            "Interp": "RBF",
         }
+        
+    # def get_TestSpecGrid():
+    #     xgrid = np.mgrid[0:5,0:5]
+    #     coordx = xgrid.reshape(2, -1).T
+    #     value_1D  = xgrid[0].flatten()
+    #     value_2D  = np.tile(value_1D, (2,1)).T
+    #     coordx_to_interp = np.array([[1.5,1.5], [2,2]])
+    #     specGrid = StellarSpecGrid(value_1D, value_2D, coordx, None)
 
 
     def get_SpecGrid(self):
