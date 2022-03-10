@@ -1,7 +1,6 @@
-from ast import Constant
 import os
 import numpy as np
-from unittest import TestCase
+import unittest
 from PIML.crust.data.constants import Constants
 from PIML.crust.data.spec.basespec import StellarSpec
 
@@ -10,7 +9,7 @@ from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF,
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
 
-class TestBase(TestCase):
+class TestBase(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
         self.test_DATA_PATH = "test/testdata/bosz_5000_test.h5"
