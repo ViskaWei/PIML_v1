@@ -59,3 +59,10 @@ class GridLoaderIF(ObjectLoaderIF):
         coord = self.load_arg("para")
         cooord_idx  = self.load_arg("pdx") if self.is_arg("pdx") else None
         return StellarGrid(coord, cooord_idx)
+
+class NNLoaderIF(ObjectLoaderIF):
+    """ class for loading NN. """
+    def load(self):
+        data = self.load_arg("logflux")
+        label = self.load_arg("coord")
+        return data, label
