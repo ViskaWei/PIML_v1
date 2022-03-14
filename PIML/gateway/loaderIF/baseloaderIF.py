@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from PIML.crust.data.nn.basenn import NN
 from PIML.crust.data.spec.baseboxparam import BoxParam
 from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
@@ -82,4 +83,5 @@ class NNDataLoaderIF(BaseLoaderIF):
         Output: x_train, y_train, x_test, y_test
         '''
         loader = self.set_loader(name)
-        return loader.load()
+        x_train, y_train, x_test, y_test = loader.load()
+        return NN(x_train, y_train, x_test, y_test)

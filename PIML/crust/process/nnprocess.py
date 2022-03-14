@@ -2,7 +2,8 @@
 
 
 from PIML.crust.process.baseprocess import BaseProcess
-from PIML.crust.operation.nnoperation import BaseNNOperation, CompileNNOperation
+from PIML.crust.operation.nnoperation import BaseNNOperation, CompileNNOperation, EvalNNOperation, \
+TrainNNOperation
 
 class NNProcess(BaseProcess):
     def __init__(self) -> None:
@@ -11,6 +12,8 @@ class NNProcess(BaseProcess):
     def set_process(self, PARAMS, MODEL_TYPES):
         self.operationList = [
             CompileNNOperation(PARAMS["Compile"]),
+            TrainNNOperation(PARAMS["Train"]),
+            EvalNNOperation(PARAMS["Eval"]),
         ]
         
 
