@@ -5,6 +5,7 @@ from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 
 from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
+from PIML.surface.database.nnloader import MINSTDataLoader
 
 
 class BaseLoaderIF(ABC):
@@ -60,9 +61,25 @@ class GridLoaderIF(ObjectLoaderIF):
         cooord_idx  = self.load_arg("pdx") if self.is_arg("pdx") else None
         return StellarGrid(coord, cooord_idx)
 
-class NNLoaderIF(ObjectLoaderIF):
+class NNTestLoaderIF(ObjectLoaderIF):
     """ class for loading NN. """
     def load(self):
         data = self.load_arg("logflux")
         label = self.load_arg("coord")
         return data, label
+
+class NNDataLoaderIF(BaseLoaderIF):
+    """ class for loading NN Data from keras.dataset . """
+    def set_loader(self, name):
+        if name =="MINST":
+            loader = MINSTDataLoader()
+        else:
+            raise ValueError("Unknown NN name")
+        return loader
+
+    def load(self, name: str):
+        '''
+        Output: x_train, y_train, x_test, y_test
+        '''
+        loader = self.set_loader(name)
+        return loader.load()
