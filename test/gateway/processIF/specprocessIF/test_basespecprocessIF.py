@@ -19,13 +19,13 @@ class TestBaseSpecProcessIF(TestBase):
     def test_StellarSpecProcessIF(self):
         
         PIF = StellarSpecProcessIF()
-        PIF.interact_on_Spec(self.PARAMS, self.MODEL_TYPES, self.testSpec)
+        PIF.interact_on_Spec(self.PARAMS, self.OP_MODELS, self.OP_DATA, self.testSpec)
         self.assertIsNone(np.testing.assert_array_equal(self.checkWave, self.wave))
         self.assertIsNotNone(self.testSpec.wave)
         self.assertIsNotNone(self.testSpec.flux)
 
         PIF = StellarSpecProcessIF()
-        PIF.interact_on_Spec(self.PARAMS, self.MODEL_TYPES, self.testSpecGrid)
+        PIF.interact_on_Spec(self.PARAMS, self.OP_MODELS, self.testSpecGrid)
         self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord, self.para))
         self.assertIsNone(np.testing.assert_array_equal(self.testSpecGrid.coord_idx, self.pdx))
 
