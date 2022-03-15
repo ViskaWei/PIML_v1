@@ -21,6 +21,9 @@ class AlexResolutionModel(ResolutionModel):
     def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         Spec.wave = self.apply(Spec.wave)
         Spec.flux = self.apply(Spec.flux)
+        if hasattr(Spec, "sky"):
+            Spec.skyH = Spec.sky
+            Spec.sky = self.apply(Spec.sky)
 
 
     def set_model_param(self, step):

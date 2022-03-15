@@ -15,6 +15,7 @@ class TestBase(unittest.TestCase):
         self.test_DATA_PATH = "test/testdata/bosz_5000_test.h5"
 
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
+        self.SKY_PATH = "test/testdata/sky.npy"
 
         SGL = SpecGridLoaderIF()
         SGL.set_data_path(self.DATA_PATH)
@@ -30,8 +31,11 @@ class TestBase(unittest.TestCase):
         SL.set_data_path(self.DATA_PATH)
         self.spec = SL.load()
 
+        self.OBJECT = {"DATA_PATH": self.DATA_PATH}
+
+        self.OP_DATA = {"SKY_PATH": self.SKY_PATH}
+
         self.arm = "RedM"
-        self.DATA_PARAMS = {"DATA_PATH": self.DATA_PATH},
         self.OP_PARAMS = {
             "box_name": "R",
             "arm": self.arm,
@@ -39,17 +43,20 @@ class TestBase(unittest.TestCase):
             "wave_rng": Constants.ARM_RNGS[self.arm]
         }
 
+        self.OP_MODELS = {
+            "Resolution": "Alex",
+            "Interp": "RBF",
+        }
+
         self.PARAMS = {
-            "data": self.DATA_PARAMS,
-            "op"  : self.OP_PARAMS,
+            "object": self.OBJECT,
+            "data":   self.OP_DATA,
+            "op"  :   self.OP_PARAMS,
+            "model":  self.OP_MODELS,
         }
 
         
 
-        self.MODEL_TYPES = {
-            "Resolution": "Alex",
-            "Interp": "RBF",
-        }
         
     # def get_TestSpecGrid():
     #     xgrid = np.mgrid[0:5,0:5]

@@ -2,8 +2,11 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from PIML.crust.data.constants import Constants
+from PIML.crust.data.spec.baseobs import StellarObs
 from PIML.crust.data.spec.basespec import StellarSpec
-from .baseoperation import BaseOperation, BaseModelOperation, SplitOperation 
+from PIML.crust.data.spec.basesky import StellarSky
+
+from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation, SplitOperation 
 from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
 class BaseSpecOperation(BaseOperation):
@@ -19,6 +22,16 @@ class LogSpecOperation(BaseSpecOperation):
     def perform_on_Spec(self, Spec: StellarSpec):
         Spec.logflux = self.perform(Spec.flux) 
 
+class SimulateSkySpecOperation(BaseSpecOperation):
+    def __init__(self, Sky: StellarSky):
+        self.Sky = Sky
+
+    def perform(self, wave):
+        return self.Sky.rebin_sky_for_wave(wave)
+
+    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.sky = self.perform(Spec.wave)
+
 class SplitSpecOperation(SplitOperation):
     """ class for splitting data. """
     def __init__(self, arm: str,) -> None:
@@ -31,6 +44,12 @@ class SplitSpecOperation(SplitOperation):
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         Spec.wave = super().perform(Spec.wave)
         Spec.flux = super().split(Spec.flux, self.split_idxs)
+        if hasattr(Spec, "sky"):
+            Spec.sky = super().split(Spec.sky, self.split_idxs)
+
+class ConvertNLSpecOperation(BaseSpecOperation):
+    def __init__(self) -> None:
+        self.SNRNL = 
 
 class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     """ class for resolution tunable dataIF i.e flux, wave. """
@@ -48,6 +67,21 @@ class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
 
     def perform(self, data):
         return self.model.apply(data)
+    
+    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        self.model.apply_on_Spec(Spec)
+
+
+
+class SimulateObsSpecOperation(BaseSpecOperation):
+    """ class for simulating observation of flux. """
+    def __init__(self) -> None:
+        self.Obs = StellarObs()        
+
+    def perform(self, flux, sky):
+        self.Obs.create_snr_nl_converter(flux, sky)
+        return self.Obs
+
     
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         self.model.apply_on_Spec(Spec)

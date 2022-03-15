@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 from PIML.crust.data.nn.basenn import NN
 from PIML.crust.data.spec.baseboxparam import BoxParam
 from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.spec.basesky import StellarSky
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-
-from PIML.surface.database.baseloader import H5pyLoader, ZarrLoader
+from PIML.surface.database.baseloader import H5pyLoader, NpLoader, ZarrLoader
 from PIML.surface.database.nnloader import MINSTDataLoader
 
 
@@ -85,3 +85,12 @@ class NNDataLoaderIF(BaseLoaderIF):
         loader = self.set_loader(name)
         x_train, y_train, x_test, y_test = loader.load()
         return NN(x_train, y_train, x_test, y_test)
+
+
+class SkyLoaderIF(BaseLoaderIF):
+    """ class for loading Sky. """
+    def load(self, SKY_PATH):
+        loader = NpLoader()
+        # PATH = "/home/swei20/PIML_v1/test/testdata/sky.npy"
+        sky = loader.load_DArgs(SKY_PATH)
+        return StellarSky(sky)
