@@ -10,6 +10,17 @@ class BaseNNOperation(BaseOperation):
     def perform_on_NN(self, model):
         pass
 
+class BuildNNOperation(BaseNNOperation):
+    def __init__(self, model_type, model_param) -> None:
+        self.model_type = model_type
+        self.model_param = model_param
+
+    def perform_on_NN(self, model):
+        model.set_model(self.model_type)
+        model.set_model_param(self.model_param)
+
+
+
 class CompileNNOperation(BaseNNOperation):
     def __init__(self, PARAM) -> None:
         self.Complier = Compiler(PARAM["loss"], 
