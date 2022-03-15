@@ -2,46 +2,45 @@ import numpy as np
 import scipy as sp
 import logging
 from abc import ABC, abstractmethod
-from PIML.crust.data.spec.obs.baseobs import Obs
+from PIML.crust.model.obs.baseobs import Obs
 
-class BaseSNR(ABC):
+class BaseSnrMapper(ABC):
     @abstractmethod
-    def convert():
+    def create_mapper():
         pass
     @abstractmethod
-    def get_snr():
+    def map_to_snr():
         pass
 
-class BaseSNRNL(BaseSNR):
+class NoiseLevelSnrMapper(BaseSnrMapper):
     '''
-    snr to noise level converter
+    noise level to snr mapper
     '''
-    def __init__(self, Obs:Obs) -> None:
-        self.Obs = Obs
+    def __init__(self) -> None:
         self.noise_level_grid = [10, 30, 40, 50, 100, 200, 300, 400, 500]
 
-    def create_snr_nl_converter(self, flux, sky, avg=10):
+    def create_mapper(self, flux, sky, avg=10):
         assert flux.shape[-1] == sky.shape[0]
-        sigma = self.Obs.simulate_sigma(flux, sky)
-        SN = self.average_converter(avg, flux, sigma)
+        sigma = Obs.simulate_sigma(flux, sky)
+        SN = self.average_map_over_noise_realization(avg, flux, sigma)
         logging.info(f"snr2nl-SN: {SN}")
 
         f = sp.interpolate.interp1d(SN, self.noise_level_grid, fill_value=0)
         f_inv = sp.interpolate.interp1d(self.noise_level_grid, SN, fill_value=0)
         return f, f_inv
 
-    def convert_nl2snr(self, flux, sigma):
-        noise = self.Obs.get_noise(sigma)
+    def map_to_snr(self, flux, sigma):
+        noise = Obs.get_noise(sigma)
         SN = []
         for noise_level in self.noise_level_grid:
             obsfluxs = flux + noise_level * noise
-            sn = self.Obs.get_snr(obsfluxs, sigma, noise_level)
+            sn = Obs.get_snr(obsfluxs, sigma, noise_level)
             SN.append(sn)
         return SN
 
-    def average_converter(self, avg, *args):
+    def average_map_over_noise_realization(self, avg, *args):
         SNS=[]
         for i in range(avg):
-            SNS.append(self.convert_nl_to_snr(*args))
+            SNS.append(self.map_to_snr(*args))
         SN = np.mean(SNS, axis=0)
         return SN

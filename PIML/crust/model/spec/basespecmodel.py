@@ -1,24 +1,45 @@
 import numpy as np
 from abc import ABC, abstractmethod
-
+from PIML.crust.data.spec.basespec import StellarSpec
 from PIML.crust.model.basemodel import BaseModel
-# from PIML.crust.data.spec.basespec import StellarSpec
-
+from PIML.crust.model.spec.resolutionmodel import AlexResolutionModel, NpResolutionModel
 
 class BaseSpecModel(BaseModel):
-    
     @property
     @abstractmethod
     def name(self):
         return "BaseSpecModel"
-    
     @abstractmethod
     def apply(self):
         pass
-
     @abstractmethod
     def apply_on_Spec(self, Spec):
         pass
-
     def set_model_param(self, param):
+        pass
+
+class AlexResolutionSpecModel(AlexResolutionModel, BaseSpecModel):
+    def set_model_param(self, step):
+        self.step = step
+
+    def apply(self, data):
+        return self.tune_resolution(data, self.step)
+
+    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.wave = self.apply(Spec.wave)
+        Spec.flux = self.apply(Spec.flux)
+        Spec.step = self.step
+        if hasattr(Spec, "sky"):
+            Spec.skyH = Spec.sky
+            Spec.sky = self.apply(Spec.sky)
+
+class NpResolutionSpecModel(NpResolutionModel, BaseSpecModel):
+    def set_model_param(self, param):
+        self.wave = param["wave"]
+        self.wref = param["wref"]
+        self.res_in = param["res_in"]
+        self.res_out = param["res_out"]
+    def apply(self):
+        pass
+    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         pass

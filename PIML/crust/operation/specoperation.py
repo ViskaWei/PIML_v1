@@ -2,12 +2,12 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from PIML.crust.data.constants import Constants
-from PIML.crust.data.spec.baseobs import StellarObs
-from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.spec.basespec import BaseSpec, StellarSpec
 from PIML.crust.data.spec.basesky import StellarSky
 
+from PIML.crust.model.obs.basesnrmapper import NoiseLevelSnrMapper
+from PIML.crust.model.spec.basespecmodel import BaseSpecModel, AlexResolutionSpecModel, NpResolutionSpecModel
 from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation, SplitOperation 
-from PIML.crust.model.spec.resolutionmodel import ResolutionModel, AlexResolutionModel, NpResolutionModel
 
 class BaseSpecOperation(BaseOperation):
     @abstractmethod
@@ -47,20 +47,30 @@ class SplitSpecOperation(SplitOperation):
         if hasattr(Spec, "sky"):
             Spec.sky = super().split(Spec.sky, self.split_idxs)
 
-class ConvertNLSpecOperation(BaseSpecOperation):
+class MapSNRSpecOperation(BaseSpecOperation):
+    '''
+    perform after sky is simulated with SimulateSkySpecOperation
+    '''
     def __init__(self) -> None:
-        self.SNRNL = 
+        self.mapper = NoiseLevelSnrMapper()
+    
+    def perform(self, flux, sky):
+        map, map_inv = self.mapper.create_mapper(flux, sky)
+        return map, map_inv
+    
+    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.map_snr, Spec.map_snr_inv = self.perform(Spec.flux, Spec.sky)
 
 class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     """ class for resolution tunable dataIF i.e flux, wave. """
     def __init__(self, model_type, model_param) -> None:
         super().__init__(model_type, model_param)
 
-    def set_model(self, model_type) -> ResolutionModel:
+    def set_model(self, model_type) -> BaseSpecModel:
         if model_type == "Alex":
-            model = AlexResolutionModel()
+            model = AlexResolutionSpecModel()
         elif model_type == "Np":
-            model = NpResolutionModel()
+            model = NpResolutionSpecModel()
         else:
             raise ValueError("Unknown Resolution model type: {}".format(model_type))
         return model
@@ -72,16 +82,7 @@ class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
         self.model.apply_on_Spec(Spec)
 
 
-
 class SimulateObsSpecOperation(BaseSpecOperation):
     """ class for simulating observation of flux. """
     def __init__(self) -> None:
         self.Obs = StellarObs()        
-
-    def perform(self, flux, sky):
-        self.Obs.create_snr_nl_converter(flux, sky)
-        return self.Obs
-
-    
-    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        self.model.apply_on_Spec(Spec)

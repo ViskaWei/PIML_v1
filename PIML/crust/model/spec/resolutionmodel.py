@@ -1,41 +1,23 @@
-from abc import abstractmethod
 import numpy as np
-from PIML.crust.model.spec.basespecmodel import BaseSpecModel
-from PIML.crust.data.spec.basespec import StellarSpec
+from abc import ABC, abstractmethod
 
-class ResolutionModel(BaseSpecModel):
+class ResolutionModel(ABC):
     @abstractmethod
     def tune_resolution(self, ):
         pass
 
 class AlexResolutionModel(ResolutionModel):
     """ class for tuning data with Alex method """
-
     @property
     def name(self):
         return "Alex"
-    
-    def apply(self, data):
-        return self.tune_resolution(data, self.step)
-
-    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        Spec.wave = self.apply(Spec.wave)
-        Spec.flux = self.apply(Spec.flux)
-        if hasattr(Spec, "sky"):
-            Spec.skyH = Spec.sky
-            Spec.sky = self.apply(Spec.sky)
-
-
-    def set_model_param(self, step):
-        self.step = step
 
     def tune_resolution(self, data, step):
         data_cumsumed = np.cumsum(data, axis=-1)
-        data_cumsumed_sampled_every_step = data_cumsumed[..., ::step]
-        data_sampled_every_step = np.diff(data_cumsumed_sampled_every_step, axis=-1)
-        data_averaged_every_step = np.divide(data_sampled_every_step, step)
-        return data_averaged_every_step
-
+        data_cumsumed_sampled_per_step = data_cumsumed[..., ::step]
+        data_sampled_per_step = np.diff(data_cumsumed_sampled_per_step, axis=-1)
+        data_averaged_per_step = np.divide(data_sampled_per_step, step)
+        return data_averaged_per_step
 
 class NpResolutionModel(ResolutionModel):
     #TODO: implement this
@@ -44,18 +26,6 @@ class NpResolutionModel(ResolutionModel):
     @property
     def name(self):
         return "Np"
-    
-    def apply(self):
-        pass
-
-    def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
-        pass
-
-    def set_model_param(self, param):
-        self.wave = param["wave"]
-        self.wref = param["wref"]
-        self.res_in = param["res_in"]
-        self.res_out = param["res_out"]
 
     def get_sigmas(self):
         sigma_input = self.wref / self.res_in

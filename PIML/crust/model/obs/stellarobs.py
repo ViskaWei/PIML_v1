@@ -3,8 +3,8 @@ from PIML.crust.data.spec.obs.baseobs import Obs
 
 
 class StellarObs(Obs):
-    def __init__(self, ) -> None:
-        pass
+    def __init__(self, step) -> None:
+        self.step = step
 
 
 
