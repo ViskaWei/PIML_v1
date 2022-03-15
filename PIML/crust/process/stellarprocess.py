@@ -17,12 +17,13 @@ class StellarProcess(BaseProcess):
         self.operationList = [
             # add self.box = {...}
             BoxSpecGridOperation(PARAMS["box_name"]),
-            # generate sky_grid with waveH from Sky file by integration
-            # add self.sky
-            SimulateSkySpecOperation(DATA["Sky"]),
             # split into arm 
             # modify wave, flux, (sky)
             SplitSpecGridOperation(PARAMS["arm"]),
+            # generate sky_grid (3200-11000) with waveH from Sky file by integration
+            # cannot change order as self.wave (3000 - 14000) out of interp range
+            # add self.sky
+            SimulateSkySpecOperation(DATA["Sky"]),
             # map noise level to snr
             # add self.map_snr, self.map_snr_inv
             MapSNRSpecGridOperation(),

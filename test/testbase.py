@@ -15,7 +15,7 @@ class TestBase(unittest.TestCase):
         self.test_DATA_PATH = "test/testdata/bosz_5000_test.h5"
 
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
-        self.SKY_PATH = "test/testdata/sky.npy"
+        self.SKY_PATH = "test/testdata/wavesky.npy"
 
         SGL = SpecGridLoaderIF()
         SGL.set_data_path(self.DATA_PATH)

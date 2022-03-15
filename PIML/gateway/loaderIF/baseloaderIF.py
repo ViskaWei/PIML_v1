@@ -91,6 +91,6 @@ class SkyLoaderIF(BaseLoaderIF):
     """ class for loading Sky. """
     def load(self, SKY_PATH):
         loader = NpLoader()
-        # PATH = "/home/swei20/PIML_v1/test/testdata/sky.npy"
+        # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"
         sky = loader.load_DArgs(SKY_PATH)
         return StellarSky(sky)
