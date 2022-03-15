@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 import h5py
 import zarr
 import logging
@@ -64,3 +65,17 @@ class ZarrLoader(BaseLoader):
     def load_DArgs(self, PATH):
         with zarr.open(PATH, 'r') as f:
             return BaseLoader._get_args(f)
+
+
+class NpLoader(BaseLoader):
+    def load_arg(self, PATH, arg):
+        pass
+
+    def load_DArgs(self, PATH, delimiter=','):
+        return np.genfromtxt(PATH, delimiter=delimiter)
+
+
+        # def load_skyOG(self):
+        # skyOG = np.genfromtxt(self.DATADIR +'skybg_50_10.csv', delimiter=',')
+        # skyOG[:, 0] = 10 * skyOG[:, 0]
+        # return skyOG
