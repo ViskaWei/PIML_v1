@@ -3,7 +3,8 @@ from PIML.crust.data.constants import Constants
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation
 from PIML.crust.operation.specoperation import SimulateSkySpecOperation,\
-    SplitSpecOperation, TuneSpecOperation, LogSpecOperation, MapSNRSpecOperation
+    SplitSpecOperation, TuneSpecOperation, LogSpecOperation, \
+    MapSNRSpecOperation, AddPfsObsSpecOperation
 from PIML.crust.operation.gridoperation import CoordxifyGridOperation
 from PIML.crust.operation.boxoperation import StellarBoxOperation
 
@@ -72,5 +73,9 @@ class SimulateSkySpecGridOperation(SimulateSkySpecOperation, BaseSpecGridOperati
         self.perform_on_Spec(SpecGrid)
 
 class MapSNRSpecGridOperation(MapSNRSpecOperation, BaseSpecGridOperation):
+    def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
+        self.perform_on_Spec(SpecGrid)
+
+class AddPfsObsSpecGridOperation(AddPfsObsSpecOperation, BaseSpecGridOperation):
     def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.perform_on_Spec(SpecGrid)

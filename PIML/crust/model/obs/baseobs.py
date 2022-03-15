@@ -1,11 +1,11 @@
 import numpy as np
-
 from abc import ABC, abstractmethod
-
 from PIML.crust.data.spec.basespec import StellarSpec
-# from PIML.crust.data.spec.baseobs import StellarObs
 
 class BaseObs(ABC):
+    @abstractmethod
+    def simulate_sigma():
+        pass
     @abstractmethod
     def simulate():
         pass
@@ -30,6 +30,10 @@ class Obs(BaseObs):
         return np.random.normal(0, sigma, np.shape(sigma))
 
     @staticmethod
+    def get_snr(obsfluxs, sigma, noise_level=1):
+        return np.mean(np.divide(obsfluxs, noise_level*sigma))
+
+    @staticmethod
     def simulate(flux, sky):
         sigma = Obs.simulate_sigma(flux, sky)
         noise = Obs.get_noise(sigma)
@@ -41,8 +45,4 @@ class Obs(BaseObs):
         sigma = np.sqrt(var)
         return sigma
 
-    @staticmethod
-    def get_snr(obsfluxs, sigma, noise_level=1):
-        return np.mean(np.divide(obsfluxs, noise_level*sigma))
 
-    

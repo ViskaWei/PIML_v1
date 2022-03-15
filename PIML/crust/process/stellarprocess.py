@@ -3,6 +3,7 @@ from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, \
     BoxSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, \
     LogSpecGridOperation, CoordxifySpecGridOperation, InterpSpecGridOperation, \
     SimulateSkySpecOperation, MapSNRSpecGridOperation
+from PIML.crust.operation.specoperation import AddLowResObsSpecOperation
 from PIML.crust.process.baseprocess import BaseProcess
 
 
@@ -25,13 +26,18 @@ class StellarProcess(BaseProcess):
             # map noise level to snr
             # add self.map_snr, self.map_snr_inv
             MapSNRSpecGridOperation(),
-            # downsample to overcome redshift
-            # add self.skyH, self.step
-            # modify wave, flux, sky
-            TuneSpecGridOperation(MODEL_TYPES["Resolution"], PARAMS["step"]),
+
+            if hasattr(PARAMS, "step") and PARAMS["step"] > 1:
+                # downsample to overcome redshift
+                # add self.skyH, self.step
+                # modify wave, flux, sky
+                TuneSpecGridOperation(MODEL_TYPES["Resolution"], PARAMS["step"]),
+            else:
+                PARAMS["step"] = 1
             # simulator of noise
             # add self.Obs = {...}
-            
+            AddPfsObsSpecGridOperation(PARAMS["step"]),               
+
             
             # taking log of flux
             # add self.logflux

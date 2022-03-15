@@ -6,7 +6,9 @@ from PIML.crust.data.spec.basespec import BaseSpec, StellarSpec
 from PIML.crust.data.spec.basesky import StellarSky
 
 from PIML.crust.model.obs.basesnrmapper import NoiseLevelSnrMapper
+from PIML.crust.model.obs.stellarobs import LowResObs, PfsObs
 from PIML.crust.model.spec.basespecmodel import BaseSpecModel, AlexResolutionSpecModel, NpResolutionSpecModel
+
 from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation, SplitOperation 
 
 class BaseSpecOperation(BaseOperation):
@@ -80,9 +82,20 @@ class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         self.model.apply_on_Spec(Spec)
-
-
-class SimulateObsSpecOperation(BaseSpecOperation):
+    
+class AddPfsObsSpecOperation(BaseSpecOperation):
     """ class for simulating observation of flux. """
-    def __init__(self) -> None:
-        self.Obs = StellarObs()        
+    def __init__(self, step) -> None:
+        if step == 1:
+            self.Obs = PfsObs()
+        elif step > 1:
+            self.Obs = LowResObs(step)
+        else:
+            raise ValueError("step must be >= 1")
+
+    def perform(self, sky):
+        self.Obs.set_sky(sky)
+        return self.Obs
+
+    def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.Obs = self.perform(Spec.sky)
