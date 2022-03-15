@@ -50,9 +50,9 @@ class TestBaseLoader(TestBase):
         self.assertEqual(grid.coord.shape, (120,5))
 
 
-    def test_BaseLoaderIF(self):
-        for LoaderIF in ObjectLoaderIF.__subclasses__():
-            loaderIF = LoaderIF()
-            loaderIF.set_data_path(DATA_PATH)
-            data = loaderIF.load()
-            self.assertIsNotNone(data)
+    # def test_BaseLoaderIF(self):
+    #     for LoaderIF in ObjectLoaderIF.__subclasses__():
+    #         loaderIF = LoaderIF()
+    #         loaderIF.set_data_path(DATA_PATH)
+    #         data = loaderIF.load()
+    #         self.assertIsNotNone(data)

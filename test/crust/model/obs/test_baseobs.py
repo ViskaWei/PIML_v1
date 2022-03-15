@@ -15,7 +15,7 @@ class TestBaseObs(TestBase):
         
         sigma = obs.simulate_sigma(flux, sky)
         sigma_to_check =  np.ones(10) * 127.
-        self.assertIsNone(np.testing.assert_array_equal(sigma, sigma_to_check))
+        self.assertIsNone(np.testing.assert_array_equal(sigma.round(), sigma_to_check))
 
         fluxs = np.tile(flux, (2,1))
         vars = obs.get_var(fluxs, sky)

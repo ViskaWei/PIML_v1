@@ -16,7 +16,7 @@ class TestBaseProcess(TestBase):
         spec = StellarSpec(self.wave, self.flux)
 
         Process = StellarSpecProcess()
-        Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
+        Process.set_process(self.OP_PARAMS, self.OP_MODELS)
         Process.start(spec)
 
         self.assertIsNone(np.testing.assert_array_less(spec.wave.shape, self.wave.shape))
@@ -28,7 +28,7 @@ class TestBaseProcess(TestBase):
         Grid = StellarGrid(self.para, self.pdx)
 
         Process = StellarGridProcess()
-        Process.set_process(self.OP_PARAMS, self.MODEL_TYPES)
+        Process.set_process(self.OP_PARAMS, self.OP_MODELS)
         Process.start(Grid)
 
         self.assertIsNotNone(Grid.box)
