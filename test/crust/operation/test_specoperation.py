@@ -1,11 +1,27 @@
 
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.operation.specoperation import BaseSpecOperation, SplitSpecOperation, TuneSpecOperation
+from PIML.crust.operation.specoperation import BaseSpecOperation, \
+    LogSpecOperation, SplitSpecOperation, TuneSpecOperation,\
+    SimulateSkySpecOperation, MapSNRSpecOperation
 from PIML.crust.model.spec.resolutionmodel import ResolutionModel
 
 
 class TestSpecOperation(TestBase):
+
+    def test_LogSpecOperation(self):
+        flux = np.arange(1,10)
+        logflux_to_check = np.log(flux)
+        OP = LogSpecOperation()
+        logflux = OP.perform(flux)
+        self.assertIsNone(np.testing.assert_array_equal(logflux, logflux_to_check))
+
+    def test_SimulateSkySpecOperation(self):
+
+        OP = SimulateSkySpecOperation(self.Sky)
+        OP.perform()
+
+
 
     def test_SplitSpecOperation(self):
         
