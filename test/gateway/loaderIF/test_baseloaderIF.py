@@ -1,5 +1,8 @@
+import numpy as np
 import pandas as pd
-from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF,\
+    SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF, \
+    NNTestLoaderIF, SkyLoaderIF
 from test.testbase import TestBase
 
 DATA_PATH = "test/testdata/bosz_5000_test.h5"
@@ -48,6 +51,17 @@ class TestBaseLoader(TestBase):
         self.assertIsInstance(grid.dfcoord, pd.DataFrame)
 
         self.assertEqual(grid.coord.shape, (120,5))
+
+    def test_SkyLoaderIF(self):
+        loaderIF = SkyLoaderIF()
+        Sky = loaderIF.load(self.SKY_PATH)
+        sky_to_check = np.load(self.SKY_PATH)
+        self.same_array(Sky.wave, sky_to_check[0])
+        self.same_array(Sky.sky, sky_to_check[1])
+        self.assertIsNotNone(Sky.wave2sky_fn)
+
+
+
 
 
     # def test_BaseLoaderIF(self):

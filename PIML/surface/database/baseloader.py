@@ -70,10 +70,11 @@ class ZarrLoader(BaseLoader):
 class NpLoader(BaseLoader):
     def load_arg(self, PATH, arg):
         pass
+    def load_DArgs(self, PATH):
+        return np.load(PATH)
 
-    def load_DArgs(self, PATH, delimiter=','):
+    def load_csv(self, PATH, delimiter=','):
         return np.genfromtxt(PATH, delimiter=delimiter)
-
 
         # def load_skyOG(self):
         # skyOG = np.genfromtxt(self.DATADIR +'skybg_50_10.csv', delimiter=',')

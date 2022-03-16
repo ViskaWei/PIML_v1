@@ -8,11 +8,16 @@ from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
+DATA_DIR ="/home/swei20/PIML_v1/"
 
 class TestBase(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
-        self.test_DATA_PATH = "test/testdata/bosz_5000_test.h5"
+    
+
+
+
+        self.test_DATA_PATH = DATA_DIR + "test/testdata/bosz_5000_test.h5"
 
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
 
@@ -20,23 +25,24 @@ class TestBase(unittest.TestCase):
         SGL.set_data_path(self.DATA_PATH)
         self.specGrid = SGL.load()
 
-        self.wave =  self.specGrid.wave
-        self.flux =  self.specGrid.flux
-        self.para = self.specGrid.coord
-        self.pdx  = self.specGrid.coord_idx
-        self.pdx0 = self.pdx - self.pdx[0]
+        self.wave =  self.specGrid.wave      #3000-14000, 15404
+        self.flux =  self.specGrid.flux      #(2880, 15404)
+        self.para = self.specGrid.coord      #(2880, 5)
+        self.pdx  = self.specGrid.coord_idx  #(2880, 5)
+        self.pdx0 = self.pdx - self.pdx[0]   #(2880, 5)
 
         SL = SpecLoaderIF()
         SL.set_data_path(self.DATA_PATH)
         self.spec = SL.load()
 
-        self.SKY_PATH = "test/testdata/wavesky.npy"
+        self.SKY_PATH = DATA_DIR +"test/testdata/wavesky.npy"
         self.Sky  = SkyLoaderIF().load(self.SKY_PATH)
-        self.skyH = np.load("test/testdata/skyH.npy")
-        self.sky = np.load("test/testdata/sky.npy")
+        self.skyH = np.load(DATA_DIR + "test/testdata/skyH.npy")  #2204
+        self.sky = np.load(DATA_DIR +"test/testdata/sky.npy")    #220
 
-        self.waveH_RedM = np.load("/test/testdata/waveH_RedM.npy")
-        self.wave_RedM  = np.load("/test/testdata/wave_RedM.npy")
+        self.waveH_RedM = np.load(DATA_DIR +"/test/testdata/waveH_RedM.npy")
+        self.wave_RedM  = np.load(DATA_DIR +"/test/testdata/wave_RedM.npy")
+        self.fluxH_mid  = np.load(DATA_DIR +"/test/testdata/fluxH_mid.npy") 
 
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
@@ -82,3 +88,7 @@ class TestBase(unittest.TestCase):
     def get_Spec(self):
         spec     = StellarSpec(self.wave, self.flux)
         return spec
+
+    def same_array(self, a, b):
+        return self.assertIsNone(np.testing.assert_array_equal(a, b))
+        

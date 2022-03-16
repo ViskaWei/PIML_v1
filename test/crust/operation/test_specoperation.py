@@ -19,8 +19,14 @@ class TestSpecOperation(TestBase):
     def test_SimulateSkySpecOperation(self):
 
         OP = SimulateSkySpecOperation(self.Sky)
-        OP.perform()
+        sky = OP.perform(self.waveH_RedM)
+        sky_to_check = self.skyH
+        self.assertIsNone(np.testing.assert_array_equal(sky, sky_to_check))
 
+    def test_MapSNRSpecOperation(self):
+        OP = MapSNRSpecOperation()
+        map_snr, map_snr_inv = OP.perform(self.fluxH_mid, self.skyH)
+        self.assertIsNone(np.testing.assert_allclose(map_snr([10,20,30]).round(),  np.array([152,  76,  46])))
 
 
     def test_SplitSpecOperation(self):
@@ -30,11 +36,21 @@ class TestSpecOperation(TestBase):
         wave_new = OP.perform(self.wave)
         self.assertIsNotNone(wave_new)
 
-        Spec = self.check_perform_on_spec(OP)
+        Spec = self.check_perform_on_spec(OP) 
         self.assertIsNone(np.testing.assert_array_less(OP.rng[0], Spec.wave))
         self.assertIsNone(np.testing.assert_array_less(Spec.wave, OP.rng[1]))
+        if self.arm =="RedM":
+            self.same_array(wave_new, self.waveH_RedM)
         self.assertEqual(OP.split_idxs.shape, (2,))
         
+        # sky test cannot be done on full spec
+        OP = SimulateSkySpecOperation(self.Sky)
+        OP.perform_on_Spec(Spec)
+        self.assertIsNotNone(Spec.sky)
+
+
+
+
     def test_TuneSpecOperation(self):
         model_type, model_param = "Alex", 10
         
@@ -56,3 +72,5 @@ class TestSpecOperation(TestBase):
         self.assertIsNotNone(Spec.wave)
         self.assertIsNotNone(Spec.flux)
         return Spec
+
+
