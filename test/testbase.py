@@ -13,12 +13,7 @@ DATA_DIR ="/home/swei20/PIML_v1/"
 class TestBase(unittest.TestCase):
     def __init__(self, methodName: str = ...) -> None:
         super().__init__(methodName)
-    
-
-
-
         self.test_DATA_PATH = DATA_DIR + "test/testdata/bosz_5000_test.h5"
-
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
 
         SGL = SpecGridLoaderIF()
@@ -47,7 +42,7 @@ class TestBase(unittest.TestCase):
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
 
-        self.OP_DATA = {"SKY_PATH": self.SKY_PATH}
+        self.OP_DATA = {"SKY_PATH": self.SKY_PATH, "Sky": self.Sky}
 
         self.arm = "RedM"
         self.OP_PARAMS = {
