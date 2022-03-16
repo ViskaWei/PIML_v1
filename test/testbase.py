@@ -5,7 +5,7 @@ from PIML.crust.data.constants import Constants
 from PIML.crust.data.spec.basespec import StellarSpec
 
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
 
@@ -15,7 +15,6 @@ class TestBase(unittest.TestCase):
         self.test_DATA_PATH = "test/testdata/bosz_5000_test.h5"
 
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
-        self.SKY_PATH = "test/testdata/wavesky.npy"
 
         SGL = SpecGridLoaderIF()
         SGL.set_data_path(self.DATA_PATH)
@@ -30,6 +29,15 @@ class TestBase(unittest.TestCase):
         SL = SpecLoaderIF()
         SL.set_data_path(self.DATA_PATH)
         self.spec = SL.load()
+
+        self.SKY_PATH = "test/testdata/wavesky.npy"
+        self.Sky  = SkyLoaderIF().load(self.SKY_PATH)
+        self.skyH = np.load("test/testdata/skyH.npy")
+        self.sky = np.load("test/testdata/sky.npy")
+
+        self.waveH_RedM = np.load("/test/testdata/waveH_RedM.npy")
+        self.wave_RedM  = np.load("/test/testdata/wave_RedM.npy")
+
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
 
