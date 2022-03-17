@@ -1,8 +1,6 @@
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.data.grid.basegrid import StellarGrid
-from PIML.crust.process.baseprocess import StellarSpecProcess, StellarGridProcess
+from PIML.crust.process.baseprocess import StellarSpecProcess
 
 class TestBaseProcess(TestBase):
     def test_BaseProcess(self):
@@ -10,28 +8,30 @@ class TestBaseProcess(TestBase):
 
     def test_StellarProcess(self):
         self.check_StellarSpecProcess()
-        self.check_StellarGridProcess()
 
     def check_StellarSpecProcess(self):
-        spec = StellarSpec(self.wave, self.flux)
-
+        Spec = self.get_Spec()
         Process = StellarSpecProcess()
-        Process.set_process(self.OP_PARAMS, self.OP_MODELS)
-        Process.start(spec)
+        Process.set_process(self.D.OP_PARAMS, self.D.OP_MODELS, self.D.OP_DATA)
+        Process.start(Spec)
+        # SplitSpecOperation, TuneSpecOperation
+        self.same_array(Spec.wave, self.D.wave_RedM)
+        self.same_array(Spec.flux[self.D.midx], self.D.flux_mid)
+        # SimulateSkySpecOperation
+        self.same_array(Spec.sky, self.D.sky)
+        self.same_array(Spec.skyH, self.D.skyH)
+        # MapSNRSpecOperation
+        self.assertIsNone(np.testing.assert_allclose(Spec.map_snr    ([10, 20, 30]).round(),  np.array([152, 76, 46])))
+        self.assertIsNone(np.testing.assert_allclose(Spec.map_snr_inv([10, 20, 30]).round(),  np.array([135, 90, 45])))
+        
+        # AddPfsObsSpecOperation
+        self.Spec.Obs
 
-        self.assertIsNone(np.testing.assert_array_less(spec.wave.shape, self.wave.shape))
-        self.assertIsNone(np.testing.assert_array_equal(spec.flux.shape[0], self.flux.shape[0]))
-        self.assertIsNone(np.testing.assert_array_less(spec.flux.shape[1], self.flux.shape[1]))
+        # LogSpecOperation
+        self.same_array(Spec.logflux[self.D.midx], np.log(self.D.flux_mid))
 
+        
 
-    def check_StellarGridProcess(self):
-        Grid = StellarGrid(self.para, self.pdx)
-
-        Process = StellarGridProcess()
-        Process.set_process(self.OP_PARAMS, self.OP_MODELS)
-        Process.start(Grid)
-
-        self.assertIsNotNone(Grid.box)
         
 
 

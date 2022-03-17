@@ -2,6 +2,8 @@ import numpy as np
 from PIML.crust.model.obs.baseobs import Obs
 
 class PfsObs(Obs):
+    def __init__(self):
+        self.
     def set_sky(self, sky):
         self.sky = sky 
 
