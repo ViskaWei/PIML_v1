@@ -2,8 +2,8 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 from PIML.crust.data.constants import Constants
-from PIML.crust.data.spec.basespec import BaseSpec, StellarSpec
-from PIML.crust.data.spec.basesky import StellarSky
+from PIML.crust.data.specdata.basespec import BaseSpec, StellarSpec
+from PIML.crust.data.specdata.basesky import StellarSky
 
 from PIML.crust.model.obs.basesnrmapper import NoiseLevelSnrMapper
 from PIML.crust.model.obs.stellarobs import LowResObs, PfsObs

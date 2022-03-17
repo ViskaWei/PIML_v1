@@ -2,7 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from PIML.crust.data.constants import Constants
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.gateway.processIF.specgridprocessIF.basespecgridprocessIF import StellarSpecGridProcessIF
 
 class EvalStellarSpecGridProcess():

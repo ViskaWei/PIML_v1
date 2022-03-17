@@ -1,8 +1,8 @@
 import numpy as np
 from test.testbase import TestBase
 
-from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specdata.basespec import StellarSpec
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarSpecProcessIF
 
 class TestBaseSpecProcessIF(TestBase):

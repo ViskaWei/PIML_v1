@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.operation.specoperation import BaseSpecOperation,\
     SplitSpecOperation, TuneSpecOperation, SimulateSkySpecOperation,\

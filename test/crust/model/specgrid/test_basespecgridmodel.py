@@ -1,6 +1,6 @@
 from test.testbase import TestBase
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 # from PIML.crust.model.specgrid.interpspecgridmodel import InterpModel, RBFInterpModel, PCARBFInterpModel
 # from PIML.crust.model.specgrid.basespecgridmodel import InterpSpecGridModel
 

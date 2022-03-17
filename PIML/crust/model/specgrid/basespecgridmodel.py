@@ -1,7 +1,7 @@
 import numpy as np
 from abc import abstractmethod
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 
 
 

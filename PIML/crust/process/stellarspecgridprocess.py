@@ -1,4 +1,4 @@
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, \
     BoxSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, \
     LogSpecGridOperation, CoordxifySpecGridOperation, InterpSpecGridOperation, \

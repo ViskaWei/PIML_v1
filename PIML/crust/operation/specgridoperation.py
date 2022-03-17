@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.constants import Constants
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation
 from PIML.crust.operation.specoperation import SimulateSkySpecOperation,\
     SplitSpecOperation, TuneSpecOperation, LogSpecOperation, \

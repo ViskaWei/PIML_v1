@@ -1,6 +1,6 @@
 import numpy as np
 from abc import abstractmethod
-from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.process.baseprocess import StellarSpecProcess
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, SpecLoaderIF, SkyLoaderIF

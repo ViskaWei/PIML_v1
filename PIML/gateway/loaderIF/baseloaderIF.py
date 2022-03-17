@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
-from PIML.crust.data.nn.basenn import NN
-from PIML.crust.data.spec.baseboxparam import BoxParam
-from PIML.crust.data.spec.basespec import StellarSpec
-from PIML.crust.data.spec.basesky import StellarSky
+from PIML.crust.data.nndata.basenn import NN
+from PIML.crust.data.specdata.baseboxparam import BoxParam
+from PIML.crust.data.specdata.basespec import StellarSpec
+from PIML.crust.data.specdata.basesky import StellarSky
 from PIML.crust.data.grid.basegrid import StellarGrid
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.surface.database.baseloader import H5pyLoader, NpLoader, ZarrLoader
 from PIML.surface.database.nnloader import MINSTDataLoader
 

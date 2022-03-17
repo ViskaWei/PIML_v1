@@ -1,7 +1,7 @@
 
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, BoxSpecGridOperation, CoordxifySpecGridOperation
 
 class TestSpecGridOperation(TestBase):

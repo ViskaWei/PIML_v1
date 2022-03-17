@@ -1,8 +1,8 @@
 from abc import abstractmethod
 import numpy as np
-from PIML.crust.data.spec.baseobs import StellarObs
+from PIML.crust.data.specdata.baseobs import StellarObs
 from PIML.crust.model.spec.basespecmodel import BaseSpecModel
-from PIML.crust.data.spec.basespec import StellarSpec
+from PIML.crust.data.specdata.basespec import StellarSpec
 
 class ObsModel(BaseSpecModel):
     @abstractmethod

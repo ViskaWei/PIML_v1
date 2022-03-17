@@ -3,7 +3,7 @@ import logging
 from abc import ABC, abstractmethod
 from scipy.interpolate import RBFInterpolator
 from PIML.crust.model.specgrid.basespecgridmodel import BaseSpecGridModel
-from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 
 
 
