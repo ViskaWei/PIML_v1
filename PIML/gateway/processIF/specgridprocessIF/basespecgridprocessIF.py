@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-from PIML.crust.process.stellarprocess import StellarProcess
+from PIML.crust.process.stellarspecgridprocess import StellarSpecGridProcess
 from PIML.gateway.loaderIF.baseloaderIF import SpecGridLoaderIF
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
 from PIML.gateway.processIF.specprocessIF.basespecprocessIF import StellarSpecProcessIF
@@ -13,12 +13,12 @@ class BaseSpecGridProcessIF(BaseProcessIF):
         pass
 
 
-class StellarProcessIF(StellarSpecProcessIF, BaseSpecGridProcessIF):
+class StellarSpecGridProcessIF(StellarSpecProcessIF, BaseSpecGridProcessIF):
     def __init__(self) -> None:
         super().__init__()
         self.OP_PARAMS: dict = {}
         self.loader = SpecGridLoaderIF()
-        self.Process = StellarProcess()
+        self.Process = StellarSpecGridProcess()
 
     def interact_on_SpecGrid(self, PARAMS, SpecGrid: StellarSpecGrid):
         self.setup(PARAMS)

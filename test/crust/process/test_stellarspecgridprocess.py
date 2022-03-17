@@ -2,16 +2,16 @@ import numpy as np
 from test.testbase import TestBase
 
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
-from PIML.crust.process.stellarprocess import StellarProcess
+from PIML.crust.process.stellarspecgridprocess import StellarSpecGridProcess
 
 
-class TestStellarProcess(TestBase):
-    def test_StellarProcess(self):
-        SP = StellarProcess()
+class TestStellarSpecGridProcess(TestBase):
+    def test_StellarSpecGridProcess(self):
+        SP = StellarSpecGridProcess()
         SP.set_process(self.D.OP_PARAMS, self.D.OP_MODELS, self.D.OP_DATA)
-        self.check_StellarProcess_on_SpecGrid(SP)
+        self.check_StellarSpecGridProcess_on_SpecGrid(SP)
 
-    def check_StellarProcess_on_SpecGrid(self, Process: StellarProcess):
+    def check_StellarSpecGridProcess_on_SpecGrid(self, Process: StellarSpecGridProcess):
         SpecGrid = self.get_SpecGrid()
         Process.start(SpecGrid)
         

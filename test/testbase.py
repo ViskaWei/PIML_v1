@@ -40,6 +40,7 @@ class DataInitializer():
         self.wave_RedM  = np.load(DATA_DIR +"/test/testdata/wave_RedM.npy")
         self.fluxH_mid  = np.load(DATA_DIR +"/test/testdata/fluxH_mid.npy") 
         self.flux_mid   = np.load(DATA_DIR + "/test/testdata/flux_mid.npy")
+        self.sigma_mid  = np.load(DATA_DIR + "/test/testdata/sigma_mid.npy")
 
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
@@ -47,10 +48,13 @@ class DataInitializer():
         self.OP_DATA = {"SKY_PATH": self.SKY_PATH, "Sky": self.Sky}
 
         self.arm = "RedM"
+        self.step = 10
+        self.box_name = "R"
+
         self.OP_PARAMS = {
-            "box_name": "R",
+            "box_name": self.box_name,
             "arm": self.arm,
-            "step": 10,
+            "step": self.step,
             "wave_rng": Constants.ARM_RNGS[self.arm]
         }
 

@@ -24,7 +24,7 @@ class TestSpecGridOperation(TestBase):
         OP = SplitSpecGridOperation(self.D.OP_PARAMS["arm"])
         OP.perform_on_SpecGrid(SpecGrid)
 
-        self.assertTrue(OP.rng[0], SpecGrid.wave))
+        self.assertTrue(OP.rng[0], SpecGrid.wave)
         self.assertIsNone(np.testing.assert_array_less(SpecGrid.wave, OP.rng[1]))
         self.assertEqual(OP.split_idxs.shape, (2,))
 

@@ -7,14 +7,14 @@ from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, \
 from PIML.crust.process.baseprocess import BaseProcess
 
 
-class StellarProcess(BaseProcess):
+class StellarSpecGridProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
         super().__init__()
-        self.operationList: list[BaseSpecGridOperation] = None
+        self.operation_list: list[BaseSpecGridOperation] = None
 
     def set_process(self, PARAMS, MODEL_TYPES, DATA):
-        self.operationList = [
+        self.operation_list = [
             # add self.box = {...}
             BoxSpecGridOperation(PARAMS["box_name"]),
             # split into arm 
@@ -46,6 +46,6 @@ class StellarProcess(BaseProcess):
         
 
     def start(self, SpecGrid: StellarSpecGrid):
-        for operation in self.operationList:
+        for operation in self.operation_list:
             operation.perform_on_SpecGrid(SpecGrid)
 
