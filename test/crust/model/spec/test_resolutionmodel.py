@@ -11,12 +11,12 @@ class TestResolutionModel(TestBase):
         model = AlexResolutionModel()
         assert (model.name == "Alex")
 
-        data = self.wave
+        data = self.D.wave
         dataNew = model.tune_resolution(data, step)
         dataToCheck = np.diff(np.cumsum(data, axis=-1)[..., ::step], axis=-1) / step
         self.assertIsNone(np.testing.assert_array_equal(dataNew, dataToCheck))
 
-        data = self.flux
+        data = self.D.flux
         dataNew = model.tune_resolution(data, step)        
         dataToCheck = np.diff(np.cumsum(data, axis=-1)[..., ::step], axis=-1) / step
         self.assertIsNone(np.testing.assert_array_equal(dataNew, dataToCheck))

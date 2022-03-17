@@ -6,23 +6,19 @@ from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 from PIML.gateway.processIF.specprocessIF.basespecprocessIF import BaseSpecProcessIF, StellarSpecProcessIF
 
 class TestBaseSpecProcessIF(TestBase):
-    def __init__(self, methodName: str = ...) -> None:
-        super().__init__(methodName)
-        self.testSpec = StellarSpec(self.wave, self.flux)
-        self.testSpecGrid = StellarSpecGrid(self.wave, self.flux, self.para, self.pdx)
-        self.checkWave = np.copy(self.wave)
-
-
+        
     def test_BaseSpecProcessIF(self):
         pass
 
     def test_StellarSpecProcessIF(self):
-        
+        testSpec = self.get_Spec()
+        wave_to_check = np.copy(testSpec.wave)
+
         PIF = StellarSpecProcessIF()
-        PIF.interact_on_Spec(self.PARAMS, self.testSpec)
-        self.assertIsNone(np.testing.assert_array_equal(self.checkWave, self.wave))
-        self.assertIsNotNone(self.testSpec.wave)
-        self.assertIsNotNone(self.testSpec.flux)
+        PIF.interact_on_Spec(self.D.PARAMS, testSpec)
+        # self.assertIsNone(np.testing.assert_array_equal(checkWave, self.D.wave))
+        self.assertIsNotNone(testSpec.wave)
+        self.assertIsNotNone(testSpec.flux)
 
         # PIF = StellarSpecProcessIF()
         # PIF.interact_on_Spec(self.PARAMS, self.OP_MODELS, self.testSpecGrid)

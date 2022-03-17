@@ -54,8 +54,8 @@ class TestBaseLoader(TestBase):
 
     def test_SkyLoaderIF(self):
         loaderIF = SkyLoaderIF()
-        Sky = loaderIF.load(self.SKY_PATH)
-        sky_to_check = np.load(self.SKY_PATH)
+        Sky = loaderIF.load(self.D.SKY_PATH)
+        sky_to_check = np.load(self.D.SKY_PATH)
         self.same_array(Sky.wave, sky_to_check[0])
         self.same_array(Sky.sky, sky_to_check[1])
         self.assertIsNotNone(Sky.wave2sky_fn)

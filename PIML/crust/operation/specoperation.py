@@ -35,7 +35,6 @@ class SimulateSkySpecOperation(BaseSpecOperation):
         Spec.sky = self.perform(Spec.wave)
 
 class SplitSpecOperation(SplitOperation):
-    """ class for splitting data. """
     def __init__(self, arm: str,) -> None:
         wave_rng = Constants.ARM_RNGS[arm]
         super().__init__(wave_rng)

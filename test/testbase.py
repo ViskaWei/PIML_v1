@@ -1,18 +1,18 @@
 import os
 import numpy as np
-import unittest
+from unittest import TestCase
 from PIML.crust.data.constants import Constants
 from PIML.crust.data.spec.basespec import StellarSpec
-
+from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgrid.basespecgrid import StellarSpecGrid
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
 DATA_DIR ="/home/swei20/PIML_v1/"
 
-class TestBase(unittest.TestCase):
-    def __init__(self, methodName: str = ...) -> None:
-        super().__init__(methodName)
+
+class DataInitializer():
+    def __init__(self):
         self.test_DATA_PATH = DATA_DIR + "test/testdata/bosz_5000_test.h5"
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
 
@@ -25,6 +25,7 @@ class TestBase(unittest.TestCase):
         self.para = self.specGrid.coord      #(2880, 5)
         self.pdx  = self.specGrid.coord_idx  #(2880, 5)
         self.pdx0 = self.pdx - self.pdx[0]   #(2880, 5)
+        self.midx = 1377
 
         SL = SpecLoaderIF()
         SL.set_data_path(self.DATA_PATH)
@@ -38,6 +39,7 @@ class TestBase(unittest.TestCase):
         self.waveH_RedM = np.load(DATA_DIR +"/test/testdata/waveH_RedM.npy")
         self.wave_RedM  = np.load(DATA_DIR +"/test/testdata/wave_RedM.npy")
         self.fluxH_mid  = np.load(DATA_DIR +"/test/testdata/fluxH_mid.npy") 
+        self.flux_mid   = np.load(DATA_DIR + "/test/testdata/flux_mid.npy")
 
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
@@ -64,9 +66,12 @@ class TestBase(unittest.TestCase):
             "model":  self.OP_MODELS,
         }
 
+class TestBase(TestCase):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.D = DataInitializer()
         
 
-        
     # def get_TestSpecGrid():
     #     xgrid = np.mgrid[0:5,0:5]
     #     coordx = xgrid.reshape(2, -1).T
@@ -77,13 +82,21 @@ class TestBase(unittest.TestCase):
 
 
     def get_SpecGrid(self):
-        specGrid = StellarSpecGrid(self.wave, self.flux, self.para, self.pdx)   
+        specGrid = StellarSpecGrid(self.D.wave, self.D.flux, self.D.para, self.D.pdx)   
         return specGrid
 
     def get_Spec(self):
-        spec     = StellarSpec(self.wave, self.flux)
-        return spec
+        Spec     = StellarSpec(self.D.wave, self.D.flux)
+        return Spec
+
+    def get_Grid(self):
+        Grid = StellarGrid(self.D.para, self.D.pdx)
+        return Grid
+
 
     def same_array(self, a, b):
         return self.assertIsNone(np.testing.assert_array_equal(a, b))
         
+
+if __name__ == "__main__":
+    TestCase.main()

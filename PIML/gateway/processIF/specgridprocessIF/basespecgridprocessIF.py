@@ -13,15 +13,15 @@ class BaseSpecGridProcessIF(BaseProcessIF):
         pass
 
 
-class StellarProcessIF(StellarSpecProcessIF):
+class StellarProcessIF(StellarSpecProcessIF, BaseSpecGridProcessIF):
     def __init__(self) -> None:
         super().__init__()
         self.OP_PARAMS: dict = {}
         self.loader = SpecGridLoaderIF()
         self.Process = StellarProcess()
 
-    def interact_on_SpecGrid(self, PARAMS, MODEL_TYPES, SpecGrid: StellarSpecGrid):
-        self.setup(PARAMS, MODEL_TYPES)
+    def interact_on_SpecGrid(self, PARAMS, SpecGrid: StellarSpecGrid):
+        self.setup(PARAMS)
         self.Process.set_process(self.OP_PARAMS, self.OP_MODELS, self.OP_DATA)
         self.Process.start(SpecGrid)
 
