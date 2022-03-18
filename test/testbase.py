@@ -67,11 +67,20 @@ class DataInitializer():
             "Interp": "RBF",
         }
 
-        self.PARAMS = {
+        self.SPEC_GRID_PARAMS = {
             "object": self.OBJECT,
             "data":   self.OP_DATA,
             "op"  :   self.OP_PARAMS,
             "model":  self.OP_MODELS,
+        }
+
+        self.NN_PREP_PARAMS = {
+            "rng": np.array([4., 5., 3., 5., 3.]),
+        }
+
+        self.PARAMS = {
+            "SpecGrid": self.SPEC_GRID_PARAMS,
+            "NNPrep": self.NN_PREP_PARAMS,
         }
 
 

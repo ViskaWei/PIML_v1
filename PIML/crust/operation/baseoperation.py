@@ -1,6 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.model.basemodel import BaseModel
+from PIML.crust.model.sampler.basesampler import SamplerBuilder
 
 
 class BaseOperation(ABC):
@@ -51,3 +52,29 @@ class SplitOperation(BaseOperation):
         return data[..., split_idxs[0]:split_idxs[1]]
 
 
+class SamplerOperation(BaseOperation):
+    def perform(self,ndim):
+        Builder = SamplerBuilder(ndim)
+        sampler_fn = Builder.build()
+        return sampler_fn
+
+class CoordxifyOperation(BaseOperation):
+    def __init__(self, origin, tick) -> None:
+        self.origin = origin
+        self.tick = tick
+
+    def get_scalers(self):
+        self.scaler = lambda x: (x - self.origin) / self.tick
+        self.rescaler = lambda x: x * self.tick + self.origin
+
+    def perform(self, coord):
+        self.get_scalers()
+        return self.scaler(coord)
+
+class LaberMakerOperation(BaseOperation):
+    def __init__(self, ) -> None:
+        self.label_scaler = label_scaler
+        self.label_rescaler = label_rescaler
+
+    def perform(self, label):
+        return self.label_rescaler(self.label_scaler(label))
