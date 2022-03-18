@@ -9,7 +9,7 @@ class TestBaseProcess(TestBase):
     def test_StellarSpecProcess(self):
         Spec = self.get_Spec()
         np.random.seed(922)
-        
+
         Process = StellarSpecProcess()
         Process.set_process(self.D.OP_PARAMS, self.D.OP_MODELS, self.D.OP_DATA)
         Process.start(Spec)

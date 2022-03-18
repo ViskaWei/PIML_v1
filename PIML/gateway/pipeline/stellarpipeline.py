@@ -8,7 +8,7 @@ from PIML.gateway.processIF.specgridprocessIF.basespecgridprocessIF import Stell
 class StellarDataPipeline(BasePipeline):
     """ Pipeline for SpecGrid. """
     def __init__(self) -> None:
-        self.pipeline = 
+        self.pipeline = None
 
         
 
@@ -19,9 +19,9 @@ class StellarDataPipeline(BasePipeline):
 
 
     def build(self, ):
-        for process in self.process_list:
-            P = process
-            P.interact(t.PARAMS)
-            Ob = SP.Object
+    #     for process in self.process_list:
+    #         P = process
+    #         P.interact(t.PARAMS)
+    #         Ob = SP.Object
         pass
     

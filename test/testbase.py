@@ -107,8 +107,10 @@ class TestBase(TestCase):
     def same_array(self, a, b):
         return self.assertIsNone(np.testing.assert_array_equal(a, b))
         
+    def close_array(self, a, b, tol=1e-3):
+        return self.assertIsNone(np.testing.assert_allclose(a, b, atol=tol))
 
-    def check_StellarSpec(self, Spec: StellarSpec, SpecOnly=True):
+    def check_StellarSpec(self, Spec: StellarSpec):
         flux_mid = Spec.flux[self.D.midx]
         
         # SplitSpecOperation, TuneSpecOperation
@@ -121,12 +123,12 @@ class TestBase(TestCase):
         self.same_array(Spec.sky, self.D.sky)
         self.same_array(Spec.skyH, self.D.skyH)
         # MapSNRSpecOperation
-        if SpecOnly:
-            nl_to_check  = np.array([152., 76., 46.])
-            snr_to_check = np.array([135., 90., 45.])
-        else:
-            nl_to_check  = np.array([157., 78., 47.])
-            snr_to_check = np.array([140., 93., 47.])
+        # if SpecOnly:
+        #     nl_to_check  = np.array([152., 76., 46.])
+        #     snr_to_check = np.array([135., 90., 45.])
+        # else:
+        nl_to_check  = np.array([157., 78., 47.])
+        snr_to_check = np.array([140., 93., 47.])
 
         self.assertIsNone(np.testing.assert_allclose(
             Spec.map_snr    ([10, 20, 30]), nl_to_check,
@@ -147,9 +149,10 @@ class TestBase(TestCase):
         self.check_StellarSpec(SpecGrid)
         # InterpSpecGridOperation
         logflux_interp = SpecGrid.interpolator(self.D.coord_interp,  scale=True)
-        self.same_array(logflux_interp, self.D.logflux_interp)
-        logflux_interp = SpecGrid.interpolator(self.D.coordx_interp, scale=False)
-        self.same_array(logflux_interp, self.D.logflux_interp)
+        self.close_array(logflux_interp, self.D.logflux_interp, tol=1e-4)
+        logflux_interp2 = SpecGrid.interpolator(self.D.coordx_interp, scale=False)
+        self.same_array(logflux_interp, logflux_interp2)
+        self.close_array(logflux_interp, self.D.logflux_interp, tol=1e-4)
         
 
 
