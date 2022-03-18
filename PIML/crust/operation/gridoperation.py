@@ -25,6 +25,7 @@ class  CoordxifyGridOperation(BaseGridOperation):
         
     def perform_on_Grid(self, Grid: BaseGrid) -> BaseGrid:
         Grid.coordx = self.perform(Grid.coord)
+        Grid.coordx_rng = Grid.coordx.max(0) - Grid.coordx.min(0)
         Grid.coordx_scaler = self.scaler
         Grid.coordx_rescaler = self.rescaler
 

@@ -41,6 +41,10 @@ class DataInitializer():
         self.fluxH_mid  = np.load(DATA_DIR +"/test/testdata/fluxH_mid.npy") 
         self.flux_mid   = np.load(DATA_DIR + "/test/testdata/flux_mid.npy")
         self.sigma_mid  = np.load(DATA_DIR + "/test/testdata/sigma_mid.npy")
+        self.coord_interp = np.array([-0.5,  6125,  2.5, -0.25,  0.0])
+        self.coordx_interp = np.array([2., 2.5, 1., 2., 1.])
+
+        self.logflux_interp = np.load(DATA_DIR + "/test/testdata/logflux_interp.npy")
 
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
@@ -69,6 +73,8 @@ class DataInitializer():
             "op"  :   self.OP_PARAMS,
             "model":  self.OP_MODELS,
         }
+
+
 
 class TestBase(TestCase):
     def __init__(self, *args, **kwargs):
@@ -101,6 +107,54 @@ class TestBase(TestCase):
     def same_array(self, a, b):
         return self.assertIsNone(np.testing.assert_array_equal(a, b))
         
+
+    def check_StellarSpec(self, Spec: StellarSpec, SpecOnly=True):
+        flux_mid = Spec.flux[self.D.midx]
+        
+        # SplitSpecOperation, TuneSpecOperation
+        #TODO fix this wave
+        self.assertIsNone(np.testing.assert_allclose(
+            Spec.wave, self.D.wave_RedM, 
+            atol=1e-3))
+        self.same_array(flux_mid, self.D.flux_mid)
+        # SimulateSkySpecOperation
+        self.same_array(Spec.sky, self.D.sky)
+        self.same_array(Spec.skyH, self.D.skyH)
+        # MapSNRSpecOperation
+        if SpecOnly:
+            nl_to_check  = np.array([152., 76., 46.])
+            snr_to_check = np.array([135., 90., 45.])
+        else:
+            nl_to_check  = np.array([157., 78., 47.])
+            snr_to_check = np.array([140., 93., 47.])
+
+        self.assertIsNone(np.testing.assert_allclose(
+            Spec.map_snr    ([10, 20, 30]), nl_to_check,
+            atol=1))
+        self.assertIsNone(np.testing.assert_allclose(
+            Spec.map_snr_inv([10, 20, 30]), snr_to_check,
+            atol=1))
+        
+        # AddPfsObsSpecOperation
+        self.assertEqual(Spec.Obs.step, self.D.step)
+        self.same_array(Spec.Obs.sky, self.D.sky)
+        self.same_array(Spec.Obs.cal_sigma(flux_mid), self.D.sigma_mid)
+
+        # LogSpecOperation
+        self.same_array(Spec.logflux[self.D.midx], np.log(self.D.flux_mid))
+
+    def check_StellarSpecGrid(self, SpecGrid: StellarSpecGrid):
+        self.check_StellarSpec(SpecGrid)
+        # InterpSpecGridOperation
+        logflux_interp = SpecGrid.interpolator(self.D.coord_interp,  scale=True)
+        self.same_array(logflux_interp, self.D.logflux_interp)
+        logflux_interp = SpecGrid.interpolator(self.D.coordx_interp, scale=False)
+        self.same_array(logflux_interp, self.D.logflux_interp)
+        
+
+
+
+
 
 if __name__ == "__main__":
     TestCase.main()
