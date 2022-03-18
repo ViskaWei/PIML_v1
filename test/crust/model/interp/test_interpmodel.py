@@ -19,6 +19,7 @@ class TestInterpSpecGridModel(TestCase):
         model = RBFInterpSpecGridModel()
         model.set_model_param(kernel="gaussian", epsilon=0.5)
         model.set_model_data(coordx, value_2D)
+        
         self.check_base_interpolator(model.base_interpolator)
 
     def test_InterpSpecGridModel_on_SpecGrid(self):

@@ -31,8 +31,8 @@ class RBFInterpSpecGridModel(InterpSpecGridModel):
 
     def apply_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
         self.set_model_data(SpecGrid.coordx, SpecGrid.logflux)
-        def interpolator(eval_coord):
-            coordx = SpecGrid.coordx_scaler(eval_coord)
+        def interpolator(eval_coord, scale=True):
+            coordx = SpecGrid.coordx_scaler(eval_coord) if scale else eval_coord
             return self.base_interpolator(coordx)            
         SpecGrid.interpolator = interpolator
 

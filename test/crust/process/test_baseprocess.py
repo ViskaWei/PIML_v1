@@ -7,9 +7,6 @@ class TestBaseProcess(TestBase):
         pass
 
     def test_StellarSpecProcess(self):
-        self.check_StellarSpecProcess()
-
-    def check_StellarSpecProcess(self):
         Spec = self.get_Spec()
         Process = StellarSpecProcess()
         Process.set_process(self.D.OP_PARAMS, self.D.OP_MODELS, self.D.OP_DATA)
@@ -42,7 +39,7 @@ class TestBaseProcess(TestBase):
         # LogSpecOperation
         self.same_array(Spec.logflux[self.D.midx], np.log(self.D.flux_mid))
 
-        
+def main():de
 
         
 
