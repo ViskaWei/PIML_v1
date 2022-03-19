@@ -8,13 +8,23 @@ from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
-DATA_DIR ="/home/swei20/PIML_v1/"
+ROOT = "/home/swei20/PIML_v1/"
 
+SPEC_GRID_DATA_DIR = os.path.join(ROOT, "test/testdata/testspecgriddata/")
+NN_PREP_DATA_DIR = os.path.join(ROOT, "test/testdata/testnnprepdata/")
 
 class DataInitializer():
     def __init__(self):
-        self.test_DATA_PATH = DATA_DIR + "test/testdata/bosz_5000_test.h5"
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
+        self.set_SpecGrid_data()
+        self.set_NNPrep_data()
+        self.PARAMS = {
+            "SpecGrid": self.SPEC_GRID_PARAMS,
+            "NNPrep": self.NN_PREP_PARAMS,
+        }
+
+    def set_SpecGrid_data(self, DATA_DIR=SPEC_GRID_DATA_DIR):
+        self.test_DATA_PATH = DATA_DIR + "bosz_5000_test.h5"
 
         SGL = SpecGridLoaderIF()
         SGL.set_data_path(self.DATA_PATH)
@@ -31,20 +41,20 @@ class DataInitializer():
         SL.set_data_path(self.DATA_PATH)
         self.spec = SL.load()
 
-        self.SKY_PATH = DATA_DIR +"test/testdata/wavesky.npy"
+        self.SKY_PATH = DATA_DIR +"wavesky.npy"
         self.Sky  = SkyLoaderIF().load(self.SKY_PATH)
-        self.skyH = np.load(DATA_DIR + "test/testdata/skyH.npy")  #2204
-        self.sky = np.load(DATA_DIR +"test/testdata/sky.npy")    #220
+        self.skyH = np.load(DATA_DIR + "skyH.npy")  #2204
+        self.sky = np.load(DATA_DIR +"sky.npy")    #220
 
-        self.waveH_RedM = np.load(DATA_DIR +"/test/testdata/waveH_RedM.npy")
-        self.wave_RedM  = np.load(DATA_DIR +"/test/testdata/wave_RedM.npy")
-        self.fluxH_mid  = np.load(DATA_DIR +"/test/testdata/fluxH_mid.npy") 
-        self.flux_mid   = np.load(DATA_DIR + "/test/testdata/flux_mid.npy")
-        self.sigma_mid  = np.load(DATA_DIR + "/test/testdata/sigma_mid.npy")
+        self.waveH_RedM = np.load(DATA_DIR +"waveH_RedM.npy")
+        self.wave_RedM  = np.load(DATA_DIR +"wave_RedM.npy")
+        self.fluxH_mid  = np.load(DATA_DIR +"fluxH_mid.npy") 
+        self.flux_mid   = np.load(DATA_DIR + "flux_mid.npy")
+        self.sigma_mid  = np.load(DATA_DIR + "sigma_mid.npy")
         self.coord_interp = np.array([-0.5,  6125,  2.5, -0.25,  0.0])
         self.coordx_interp = np.array([2., 2.5, 1., 2., 1.])
 
-        self.logflux_interp = np.load(DATA_DIR + "/test/testdata/logflux_interp.npy")
+        self.logflux_interp = np.load(DATA_DIR + "logflux_interp.npy")
 
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
@@ -74,14 +84,17 @@ class DataInitializer():
             "model":  self.OP_MODELS,
         }
 
+
+
+
+
+    def set_NNPrep_data(self, DATA_DIR=NN_PREP_DATA_DIR):
+        interpolator = 
+        
         self.NN_PREP_PARAMS = {
             "rng": np.array([4., 5., 3., 5., 3.]),
         }
 
-        self.PARAMS = {
-            "SpecGrid": self.SPEC_GRID_PARAMS,
-            "NNPrep": self.NN_PREP_PARAMS,
-        }
 
 
 

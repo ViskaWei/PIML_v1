@@ -51,13 +51,6 @@ class SplitOperation(BaseOperation):
     def split(self, data, split_idxs):
         return data[..., split_idxs[0]:split_idxs[1]]
 
-
-class SamplerOperation(BaseOperation):
-    def perform(self, ndim):
-        Builder = SamplerBuilder(ndim)
-        sampler_fn = Builder.build()
-        return sampler_fn
-
 class CoordxifyOperation(BaseOperation):
     def __init__(self, origin, tick) -> None:
         self.origin = origin
