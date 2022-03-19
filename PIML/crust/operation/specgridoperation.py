@@ -8,7 +8,8 @@ from PIML.crust.operation.specoperation import SimulateSkySpecOperation,\
 from PIML.crust.operation.gridoperation import CoordxifyGridOperation
 from PIML.crust.operation.boxoperation import StellarBoxOperation
 
-from PIML.crust.model.specgrid.interpspecgridmodel import InterpSpecGridModel, RBFInterpSpecGridModel, PCARBFInterpSpecGridModel
+from PIML.crust.model.specgrid.interpspecgridmodel import InterpBuilderSpecGridModel,\
+    RBFInterpBuilderSpecGridModel, PCARBFInterpBuilderSpecGridModel
 
 
 class BaseSpecGridOperation(BaseOperation):
@@ -37,11 +38,11 @@ class InterpSpecGridOperation(BaseSpecGridOperation):
         self.model = self.set_model(model_type)
         self.model.set_model_param()
     
-    def set_model(self, model_type: str) -> InterpSpecGridModel:
+    def set_model(self, model_type: str) -> InterpBuilderSpecGridModel:
         if model_type == "RBF":
-            model = RBFInterpSpecGridModel()
+            model = RBFInterpBuilderSpecGridModel()
         elif model_type == "PCARBF":
-            model = PCARBFInterpSpecGridModel()
+            model = PCARBFInterpBuilderSpecGridModel()
         else:
             raise ValueError("Unknown Interp model type: {}".format(model_type))
         return model

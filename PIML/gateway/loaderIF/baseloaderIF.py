@@ -92,7 +92,7 @@ class SkyLoaderIF(BaseLoaderIF):
     def load(self, SKY_PATH):
         loader = NpLoader()
         # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"
-        sky = loader.load_DArgs(SKY_PATH)
+        sky = loader.load_arg(SKY_PATH)
         return StellarSky(sky)
 
 class InterpLoaderIF(BaseLoaderIF):

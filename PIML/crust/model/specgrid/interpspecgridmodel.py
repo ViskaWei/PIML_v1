@@ -11,7 +11,7 @@ class InterpBuilderSpecGridModel(BaseSpecGridModel):
         pass
 
 
-class RBFInterpSpecGridModel(RBFInterpBuilder, InterpBuilderSpecGridModel):
+class RBFInterpBuilderSpecGridModel(RBFInterpBuilder, InterpBuilderSpecGridModel):
 
     def set_model_param(self, kernel="gaussian", epsilon=0.5):
         self.builder = RBFInterpBuilder(kernel, epsilon)
@@ -25,6 +25,6 @@ class RBFInterpSpecGridModel(RBFInterpBuilder, InterpBuilderSpecGridModel):
         SpecGrid.builder = self.builder
 
     
-class PCARBFInterpSpecGridModel(RBFInterpSpecGridModel):
+class PCARBFInterpBuilderSpecGridModel(RBFInterpBuilderSpecGridModel):
     pass
 

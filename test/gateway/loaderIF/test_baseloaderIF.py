@@ -5,7 +5,7 @@ from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF,\
     NNTestLoaderIF, SkyLoaderIF
 from test.testbase import TestBase
 
-DATA_PATH = "test/testdata/bosz_5000_test.h5"
+DATA_PATH = "test/testdata/testspecgriddata/bosz_5000_test.h5"
 
 class TestBaseLoader(TestBase):
 
