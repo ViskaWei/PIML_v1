@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.basennprep import BaseNNPrep, NNPrep, SpecGridNNPrep
-from PIML.crust.model.sampler.gridsampler import StellarGridSampler
+from PIML.crust.method.sampler.gridsampler import StellarGridSampler
 from PIML.crust.operation.baseoperation import BaseOperation, SamplerOperation, CoordxifyOperation
 # from PIML.crust.operation.samplingoperation import CoordxSamplingOperation
 

@@ -1,23 +1,23 @@
 
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.model.spec.resolutionmodel import  AlexResolutionModel, NpResolutionModel
+from PIML.crust.method.resolution import  AlexResolution, NpResolution
 
-class TestResolutionModel(TestBase):
+class TestResolution(TestBase):
 
-    def test_AlexResolutionModel(self):
+    def test_AlexResolution(self):
         step = 10
 
-        model = AlexResolutionModel()
+        model = AlexResolution()
         assert (model.name == "Alex")
 
         data = self.D.wave
-        dataNew = model.tune_resolution(data, step)
+        dataNew = model.tune(data, step)
         dataToCheck = np.diff(np.cumsum(data, axis=-1)[..., ::step], axis=-1) / step
         self.assertIsNone(np.testing.assert_array_equal(dataNew, dataToCheck))
 
         data = self.D.flux
-        dataNew = model.tune_resolution(data, step)        
+        dataNew = model.tune(data, step)        
         dataToCheck = np.diff(np.cumsum(data, axis=-1)[..., ::step], axis=-1) / step
         self.assertIsNone(np.testing.assert_array_equal(dataNew, dataToCheck))
 

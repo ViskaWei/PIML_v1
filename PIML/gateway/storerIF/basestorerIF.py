@@ -1,5 +1,5 @@
 
-
+import os
 from abc import ABC, abstractmethod
 from PIML.surface.database.basestorer import BaseStorer, H5pyStorer, PickleStorer, ZarrStorer
 
@@ -32,7 +32,11 @@ class ObjectStorerIF(BaseStorerIF):
     def store(self):
         pass
 
-class InterpStoreIF(BaseStorerIF):
-    def store_arg(self, PATH, interp):
+class InterpStorerIF(BaseStorerIF):
+    def set_data_path(self, DATA_DIR: str, name="interp"):
+        self.DATA_DIR = DATA_DIR
+        self.DATA_PATH = os.path.join(DATA_DIR, name+".pickel")
+
+    def store(self, interp):
         storer = PickleStorer()
-        storer.store_arg(PATH, interp)
+        storer.store_arg(self.PATH, interp)

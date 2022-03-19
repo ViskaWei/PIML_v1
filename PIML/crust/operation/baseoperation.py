@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.model.sampler.basesampler import SamplerBuilder
+from PIML.crust.method.sampler.basesampler import SamplerBuilder
 
 
 class BaseOperation(ABC):

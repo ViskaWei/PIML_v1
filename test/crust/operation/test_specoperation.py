@@ -4,7 +4,7 @@ from test.testbase import TestBase
 from PIML.crust.operation.specoperation import BaseSpecOperation, \
     LogSpecOperation, SplitSpecOperation, TuneSpecOperation,\
     SimulateSkySpecOperation, MapSNRSpecOperation
-from PIML.crust.model.spec.resolutionmodel import ResolutionModel
+from PIML.crust.method.resolution import Resolution
 
 
 class TestSpecOperation(TestBase):
@@ -54,7 +54,7 @@ class TestSpecOperation(TestBase):
         OP = TuneSpecOperation(model_type, model_param)
         wave_new = OP.perform(self.D.wave)
         
-        self.assertIsInstance(OP.model, ResolutionModel)
+        self.assertIsInstance(OP.model, Resolution)
         self.assertIsNotNone(wave_new)
 
 

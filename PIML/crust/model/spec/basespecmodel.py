@@ -2,7 +2,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.model.spec.resolutionmodel import AlexResolutionModel, NpResolutionModel
+from PIML.crust.method.resolution import AlexResolution, NpResolution
 
 class BaseSpecModel(BaseModel):
     @property
@@ -18,12 +18,12 @@ class BaseSpecModel(BaseModel):
     def set_model_param(self, param):
         pass
 
-class AlexResolutionSpecModel(AlexResolutionModel, BaseSpecModel):
+class AlexResolutionSpecModel(AlexResolution, BaseSpecModel):
     def set_model_param(self, step):
         self.step = step
 
     def apply(self, data):
-        return self.tune_resolution(data, self.step)
+        return self.tune(data, self.step)
 
     def apply_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
         Spec.wave = self.apply(Spec.wave)
@@ -33,7 +33,7 @@ class AlexResolutionSpecModel(AlexResolutionModel, BaseSpecModel):
             Spec.skyH = Spec.sky
             Spec.sky = self.apply(Spec.sky)
 
-class NpResolutionSpecModel(NpResolutionModel, BaseSpecModel):
+class NpResolutionSpecModel(NpResolution, BaseSpecModel):
     def set_model_param(self, param):
         self.wave = param["wave"]
         self.wref = param["wref"]

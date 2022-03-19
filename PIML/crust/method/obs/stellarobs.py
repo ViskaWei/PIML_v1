@@ -1,5 +1,5 @@
 import numpy as np
-from PIML.crust.model.obs.baseobs import Obs
+from PIML.crust.method.obs.baseobs import Obs
 
 class PfsObs(Obs):
         

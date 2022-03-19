@@ -1,25 +1,25 @@
 import numpy as np
 from abc import ABC, abstractmethod
 
-class ResolutionModel(ABC):
+class Resolution(ABC):
     @abstractmethod
-    def tune_resolution(self, ):
+    def tune(self, ):
         pass
 
-class AlexResolutionModel(ResolutionModel):
+class AlexResolution(Resolution):
     """ class for tuning data with Alex method """
     @property
     def name(self):
         return "Alex"
 
-    def tune_resolution(self, data, step):
+    def tune(self, data, step):
         data_cumsumed = np.cumsum(data, axis=-1)
         data_cumsumed_sampled_per_step = data_cumsumed[..., ::step]
         data_sampled_per_step = np.diff(data_cumsumed_sampled_per_step, axis=-1)
         data_averaged_per_step = np.divide(data_sampled_per_step, step)
         return data_averaged_per_step
 
-class NpResolutionModel(ResolutionModel):
+class NpResolution(Resolution):
     #TODO: implement this
     """ class for tuning data with Numpy method """
 
@@ -43,7 +43,7 @@ class NpResolutionModel(ResolutionModel):
     def gauss_kernel(self, dwave, sigma):
         return 1.0 / np.sqrt(2 * np.pi) / sigma * np.exp(-dwave**2 / (2 * sigma**2))
 
-    def tune_resolution(self, data, step):
+    def tune(self, data, step):
         self.get_sigmas()
         self.get_kernel()
 
