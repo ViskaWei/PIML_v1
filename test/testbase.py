@@ -24,7 +24,7 @@ class DataInitializer():
         }
 
     def set_SpecGrid_data(self, DATA_DIR=SPEC_GRID_DATA_DIR):
-        self.test_DATA_PATH = DATA_DIR + "bosz_5000_test.h5"
+        self.SpecGrid_TEST_PATH = DATA_DIR + "bosz_5000_test.h5"
 
         SGL = SpecGridLoaderIF()
         SGL.set_data_path(self.DATA_PATH)
