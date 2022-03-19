@@ -11,9 +11,9 @@ class BaseNNPrepOperation(BaseOperation):
     def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
         pass
 
-class SamplerNNPrepOperation(SamplerOperation, BaseNNPrepOperation):
+class SamplerBuilderNNPrepOperation(SamplerOperation, BaseNNPrepOperation):
     def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
-        NNP.sampler = self.perform(NNP.coordx_dim)
+        NNP.sampler_builder = self.perform(NNP.coordx_dim)
         
 class CoordxifyNNPrepOperation(CoordxifyOperation, BaseNNPrepOperation):
     def __init__(self, coordx_rng) -> None:
@@ -25,7 +25,6 @@ class CoordxifyNNPrepOperation(CoordxifyOperation, BaseNNPrepOperation):
         NNP.label_rescaler = self.rescaler
 
 class DataGeneratorNNPrepOperation(BaseNNPrepOperation):
-    
     def perform(self, interpolator, rescaler):
         interpolator
         def generator(label):
@@ -37,3 +36,8 @@ class DataGeneratorNNPrepOperation(BaseNNPrepOperation):
     def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
         NNP.data_generator = self.perform(NNP.interpolator, NNP.label_rescaler)
 
+class NzGeneratorNNPrepOperation(BaseNNPrepOperation):
+    def perform(self, Obs):
+
+    def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
+        NNP.nz_generator = self.perform(NNP.interpolator, NNP.label_rescaler)

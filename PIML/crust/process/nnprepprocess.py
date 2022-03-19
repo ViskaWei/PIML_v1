@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.basennprep import NNPrep
-from PIML.crust.operation.nnoperation.basennprepoperation import BaseNNPrepOperation,\
-    SamplerNNPrepOperation, CoordxifyNNPrepOperation, BuildLabelMakerNNPrepOperation
+from PIML.crust.operation.nnoperation.basennprepoperation import BaseNNPrepOperation, DataGeneratorNNPrepOperation,\
+    SamplerBuilderNNPrepOperation, CoordxifyNNPrepOperation
 from PIML.crust.process.baseprocess import BaseProcess
 
 
@@ -17,11 +17,9 @@ class NNPrepProcess(BaseNNPrepProcess):
 
     def set_process(self, PARAMS, MODEL_TYPES, DATA):
         self.operation_list = [
-            SamplerNNPrepOperation(),
-    #         BuildNNOperation(MODEL_TYPES["Model"], PARAMS["Model"]),
-    #         CompileNNOperation(PARAMS["Compile"]),
-    #         TrainNNOperation(PARAMS["Train"]),
-    #         EvalNNOperation(PARAMS["Eval"]),
+            SamplerBuilderNNPrepOperation(),
+            CoordxifyNNPrepOperation(PARAMS["rng"]),
+            DataGeneratorNNPrepOperation(),
         ]
 
     def prepare(self, NNP: NNPrep):

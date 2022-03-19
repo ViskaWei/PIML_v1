@@ -2,25 +2,21 @@
 from PIML.crust.model.sampler.basesampler import SamplerBuilder
 from PIML.crust.operation.baseoperation import BaseOperation
 
-class SamplingOperation(BaseOperation):
+class SamplerBuilderOperation(BaseOperation):
+    def perform(self, ndim):
+        return SamplerBuilder(ndim).build
+
+class SamplerOperation(BaseOperation):
     def __init__(self, sampling_method: str) -> None:
         self.method = sampling_method
 
-    def perform(self, data):
-        pass
-        
-class CoordxSamplingOperation(SamplingOperation):
-    def __init__(self, sampling_method: str) -> None:
-        super().__init__(sampling_method)
+    def perform(self, ndim):
+        Builder = SamplerBuilder(ndim)
+        sampler_fn = Builder.build(self.method)
+        return sampler_fn
 
-    def perform(self, coordx_rng):
-        ndim = coordx_rng.shape[0]
-        rng  = coordx_rng
-        offset=0
-
-        builder = SamplerBuilder(ndim, rng, offset=offset)
-        sampler = builder.build()
-        # sampler(N, seed=None)
-        return sampler
+# class CoordxSamplingOperation(SamplerOperation):
+#     def __init__(self, sampling_method: str) -> None:
+#         super().__init__(sampling_method)
 
 
