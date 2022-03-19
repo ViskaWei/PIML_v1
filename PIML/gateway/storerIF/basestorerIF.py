@@ -1,7 +1,7 @@
 
 
 from abc import ABC, abstractmethod
-from PIML.surface.database.basestorer import BaseStorer, H5pyStorer, ZarrStorer
+from PIML.surface.database.basestorer import BaseStorer, H5pyStorer, PickleStorer, ZarrStorer
 
 class BaseStorerIF(ABC):
     @abstractmethod
@@ -31,3 +31,8 @@ class ObjectStorerIF(BaseStorerIF):
 
     def store(self):
         pass
+
+class InterpStoreIF(BaseStorerIF):
+    def store_arg(self, PATH, interp):
+        storer = PickleStorer()
+        storer.store_arg(PATH, interp)

@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import h5py
 import zarr
+import pickle
 import logging
 from abc import ABC, abstractmethod
 
@@ -68,10 +69,11 @@ class ZarrLoader(BaseLoader):
 
 
 class NpLoader(BaseLoader):
-    def load_arg(self, PATH, arg):
-        pass
-    def load_DArgs(self, PATH):
+    def load_arg(self, PATH):
         return np.load(PATH)
+
+    def load_DArgs(self, PATH):
+        raise NotImplementedError("NpLoader does not support DArgs")
 
     def load_csv(self, PATH, delimiter=','):
         return np.genfromtxt(PATH, delimiter=delimiter)
@@ -80,3 +82,11 @@ class NpLoader(BaseLoader):
         # skyOG = np.genfromtxt(self.DATADIR +'skybg_50_10.csv', delimiter=',')
         # skyOG[:, 0] = 10 * skyOG[:, 0]
         # return skyOG
+
+class PickleLoader(BaseLoader):
+    def load_arg(self, PATH):
+        with open(PATH, 'rb') as f:
+            return pickle.load(f)
+        
+    def load_DArgs(self, PATH):
+        raise NotImplementedError("PickleLoader does not support DArgs")

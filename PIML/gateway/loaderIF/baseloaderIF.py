@@ -5,7 +5,7 @@ from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.specdata.basesky import StellarSky
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
-from PIML.surface.database.baseloader import H5pyLoader, NpLoader, ZarrLoader
+from PIML.surface.database.baseloader import H5pyLoader, NpLoader, PickleLoader, ZarrLoader
 from PIML.surface.database.nnloader import MINSTDataLoader
 
 
@@ -94,3 +94,8 @@ class SkyLoaderIF(BaseLoaderIF):
         # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"
         sky = loader.load_DArgs(SKY_PATH)
         return StellarSky(sky)
+
+class InterpLoaderIF(BaseLoaderIF):
+    def load(self, PATH):
+        loader = PickleLoader()
+        return loader.load_arg(PATH)

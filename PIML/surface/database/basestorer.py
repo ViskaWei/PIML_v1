@@ -1,6 +1,7 @@
 import os
 import h5py
 import zarr
+import pickle
 import logging
 from abc import ABC, abstractmethod
 
@@ -38,3 +39,11 @@ class ZarrStorer(BaseStorer):
     def store_DArgs(self, PATH, DArgs):
         with zarr.open(PATH, 'w') as f:
             pass
+
+class PickleStorer(BaseStorer):
+    def store_arg(self, PATH, val):
+        with open(PATH, 'wb') as f:
+            pickle.dump(val, f, pickle.HIGHEST_PROTOCOL)
+
+    def store_DArgs(self, PATH, DArgs):
+        raise NotImplementedError("PickleStorer does not support DArgs")
