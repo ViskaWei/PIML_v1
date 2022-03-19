@@ -53,7 +53,7 @@ class SplitOperation(BaseOperation):
 
 
 class SamplerOperation(BaseOperation):
-    def perform(self,ndim):
+    def perform(self, ndim):
         Builder = SamplerBuilder(ndim)
         sampler_fn = Builder.build()
         return sampler_fn
@@ -71,10 +71,26 @@ class CoordxifyOperation(BaseOperation):
         self.get_scalers()
         return self.scaler(coord)
 
-class LaberMakerOperation(BaseOperation):
-    def __init__(self, ) -> None:
-        self.label_scaler = label_scaler
-        self.label_rescaler = label_rescaler
+# class BuildLaberGeneratorOperation(BaseOperation):
+#     def __init__(self, sampler) -> None:
+#         self.label_scaler = label_scaler
+#         self.label_rescaler = label_rescaler
 
-    def perform(self, label):
-        return self.label_rescaler(self.label_scaler(label))
+#     def perform(self, label):
+#         return self.label_rescaler(self.label_scaler(label))
+
+# class BuildDataGeneratorOperation(BaseOperation):
+#     def __init__(self, ) -> None:
+#         self.data_generator = data_generator
+
+#     def perform(self, data):
+#         return self.data_generator(data)
+
+class ApplyInterpOperation(BaseOperation):
+    def __init__(self, interpolator, rescaler=None) -> None:
+        self.interpolator = interpolator
+        self.rescaler = rescaler
+
+    def perform(self, data):
+        coordx = data if self.rescaler is None else self.rescaler(data)
+        return self.interpolator(coordx)

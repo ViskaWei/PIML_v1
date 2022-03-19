@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from PIML.crust.model.interp.rbfinterp import RBFInterpBuilder
+from PIML.crust.model.interp.interpbuilder import RBFInterpBuilder
 from PIML.crust.model.specgrid.basespecgridmodel import BaseSpecGridModel
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 

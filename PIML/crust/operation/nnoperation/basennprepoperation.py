@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.basennprep import BaseNNPrep, NNPrep, SpecGridNNPrep
+from PIML.crust.model.sampler.gridsampler import StellarGridSampler
 from PIML.crust.operation.baseoperation import BaseOperation, SamplerOperation, CoordxifyOperation
 # from PIML.crust.operation.samplingoperation import CoordxSamplingOperation
 
@@ -23,18 +24,16 @@ class CoordxifyNNPrepOperation(CoordxifyOperation, BaseNNPrepOperation):
         NNP.label_scaler = self.scaler
         NNP.label_rescaler = self.rescaler
 
-class BuildLabelMakerNNPrepOperation(BaseNNPrepOperation):
-    def 
+class DataGeneratorNNPrepOperation(BaseNNPrepOperation):
+    
+    def perform(self, interpolator, rescaler):
+        interpolator
+        def generator(label):
+            coordx = rescaler(label)
+            value  = interpolator(coordx)
+            return value
+        return generator
 
     def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
-        NNP.label = self.perform(NNP.label)
-
-class MakeDataNNPrepOperation(BaseNNPrepOperation):
-    def __init__(self) -> None:
-        
-
-
-    def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
-        NNP.train_idxs = self.perform(NNP.sampler)
-        NNP.train_idxs = NNP.train_idxs.astype(np.int32)
+        NNP.data_generator = self.perform(NNP.interpolator, NNP.label_rescaler)
 
