@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.method.sampler.basesampler import SamplerBuilder
+from PIML.crust.method.sampler.samplerbuilder import SamplerBuilder
 
 
 class BaseOperation(ABC):
@@ -23,7 +23,6 @@ class BaseModelOperation(BaseOperation):
     def perform(self, data):
         super().perform(data)
 
-
 class SelectOperation(BaseOperation):
     """ class for selective process. """
 
@@ -32,7 +31,6 @@ class SelectOperation(BaseOperation):
 
     def perform(self, data):
         return data[self.IdxSelected, ...]
-
 
 class SplitOperation(BaseOperation):
     """ class for splitting data. """

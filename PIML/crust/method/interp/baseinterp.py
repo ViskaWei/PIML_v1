@@ -1,16 +1,12 @@
-
-
-
 import numpy as np
 from abc import ABC, abstractmethod
-
 
 class BaseInterp(ABC):
     @abstractmethod
     def interp(self):
         pass
 
-class RBFInterpModel(BaseInterp):
+class RBFInterp(BaseInterp):
     def __init__(self, interpolator) -> None:
         self.interpolator = interpolator
 

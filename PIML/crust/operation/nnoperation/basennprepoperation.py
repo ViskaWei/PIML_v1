@@ -38,6 +38,7 @@ class DataGeneratorNNPrepOperation(BaseNNPrepOperation):
 
 class NzGeneratorNNPrepOperation(BaseNNPrepOperation):
     def perform(self, Obs):
+        pass
 
     def perform_on_NNPrep(self, NNP: SpecGridNNPrep): 
         NNP.nz_generator = self.perform(NNP.interpolator, NNP.label_rescaler)

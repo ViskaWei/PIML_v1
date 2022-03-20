@@ -1,5 +1,5 @@
 
-from PIML.crust.method.sampler.basesampler import SamplerBuilder
+from PIML.crust.method.sampler.samplerbuilder import SamplerBuilder
 from PIML.crust.operation.baseoperation import BaseOperation
 
 class SamplerBuilderOperation(BaseOperation):

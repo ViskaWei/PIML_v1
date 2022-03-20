@@ -10,19 +10,28 @@ class InterpBuilderSpecGridModel(BaseSpecGridModel):
     def apply_on_SpecGrid(self, SpecGrid: StellarSpecGrid):
         pass
 
-
-class RBFInterpBuilderSpecGridModel(RBFInterpBuilder, InterpBuilderSpecGridModel):
+class RBFInterpBuilderSpecGridModel(InterpBuilderSpecGridModel):
 
     def set_model_param(self, kernel="gaussian", epsilon=0.5):
         self.builder = RBFInterpBuilder(kernel, epsilon)
 
+    def apply(self, coord, value):
+        self.builder.build(coord, value)
+        def interpolator(eval_coord):
+            if eval_coord.ndim == 1:
+                return self.builder.interpolator([eval_coord])[0]
+            else:
+                return self.builder.interpolator(eval_coord)
+        return interpolator
+
     def apply_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
-        interpolator =self.builder(SpecGrid.coordx, SpecGrid.logflux)
-        def interpolator(eval_coord, scale=True):
+        interpolator = self.apply(SpecGrid.coordx, SpecGrid.logflux)
+        def coord_interpolator(eval_coord, scale=True):
             coordx = SpecGrid.coordx_scaler(eval_coord) if scale else eval_coord
             return interpolator(coordx)            
-        SpecGrid.interpolator = interpolator
+        SpecGrid.interpolator = coord_interpolator
         SpecGrid.builder = self.builder
+        SpecGrid.base_interp = self.builder.interpolator
 
     
 class PCARBFInterpBuilderSpecGridModel(RBFInterpBuilderSpecGridModel):

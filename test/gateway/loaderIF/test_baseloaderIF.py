@@ -2,12 +2,15 @@ import numpy as np
 import pandas as pd
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF,\
     SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF, \
-    NNTestLoaderIF, SkyLoaderIF
-from test.testbase import TestBase
+    NNTestLoaderIF, SkyLoaderIF, InterpLoaderIF
 
-DATA_PATH = "test/testdata/testspecgriddata/bosz_5000_test.h5"
+from unittest import TestCase
 
-class TestBaseLoader(TestBase):
+DATA_PATH   = "test/testdata/testspecgriddata/bosz_5000_test.h5"
+SKY_PATH    = "test/testdata/testspecgriddata/wavesky.npy"
+INTERP_PATH = "test/testdata/testmethoddata/interp.pickel"
+
+class TestBaseLoader(TestCase):
 
     def test_SpecLoaderIF(self):
         loaderIF = SpecLoaderIF()
@@ -54,11 +57,19 @@ class TestBaseLoader(TestBase):
 
     def test_SkyLoaderIF(self):
         loaderIF = SkyLoaderIF()
-        Sky = loaderIF.load(self.D.SKY_PATH)
-        sky_to_check = np.load(self.D.SKY_PATH)
-        self.same_array(Sky.wave, sky_to_check[0])
-        self.same_array(Sky.sky, sky_to_check[1])
+        Sky = loaderIF.load(SKY_PATH)
+        sky_to_check = np.load(SKY_PATH)
+        self.assertIsNone(np.testing.assert_array_equal(Sky.wave, sky_to_check[0]))
+        self.assertIsNone(np.testing.assert_array_equal(Sky.sky, sky_to_check[1]))
         self.assertIsNotNone(Sky.wave2sky_fn)
+
+    def test_InterpLoaderIF(self):
+        loaderIF = InterpLoaderIF()
+        interp = loaderIF.load(INTERP_PATH)
+        value = interp([[1.17,1.18]]).round(3)
+        value_to_check = np.array([[1.191, 1.191]])
+        self.assertIsNone(np.testing.assert_array_equal(value, value_to_check))
+
 
 
 
