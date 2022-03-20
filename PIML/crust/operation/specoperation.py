@@ -5,8 +5,8 @@ from PIML.crust.data.constants import Constants
 from PIML.crust.data.specdata.basespec import BaseSpec, StellarSpec
 from PIML.crust.data.specdata.basesky import StellarSky
 
-from PIML.crust.method.obs.basesnrmapper import NoiseLevelSnrMapper
-from PIML.crust.method.obs.stellarobs import LowResObs, PfsObs
+from PIML.core.method.obs.basesnrmapper import NoiseLevelSnrMapper
+from PIML.core.method.obs.stellarobs import LowResObs, PfsObs
 from PIML.crust.model.spec.basespecmodel import BaseSpecModel, AlexResolutionSpecModel, NpResolutionSpecModel
 
 from PIML.crust.operation.baseoperation import BaseOperation, BaseModelOperation, SplitOperation 

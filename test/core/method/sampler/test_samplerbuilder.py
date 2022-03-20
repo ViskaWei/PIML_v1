@@ -4,7 +4,7 @@ import numpy as np
 from scipy.stats.qmc import Halton
 
 from unittest import TestCase
-from PIML.crust.method.sampler.samplerbuilder import SamplerBuilder
+from PIML.core.method.sampler.samplerbuilder import SamplerBuilder
 
 class TestBaseSampler(TestCase):
 

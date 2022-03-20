@@ -2,7 +2,7 @@ import numpy as np
 from abc import ABC, abstractmethod
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.model.basemodel import BaseModel
-from PIML.crust.method.resolution import AlexResolution, NpResolution
+from PIML.core.method.resolution import AlexResolution, NpResolution
 
 class BaseSpecModel(BaseModel):
     @property

@@ -4,7 +4,7 @@ from test.testbase import TestBase
 from PIML.crust.operation.specoperation import BaseSpecOperation, \
     LogSpecOperation, SplitSpecOperation, TuneSpecOperation,\
     SimulateSkySpecOperation, MapSNRSpecOperation
-from PIML.crust.method.resolution import Resolution
+from PIML.core.method.resolution import Resolution
 
 
 class TestSpecOperation(TestBase):

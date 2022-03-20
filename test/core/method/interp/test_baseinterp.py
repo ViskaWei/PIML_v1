@@ -1,6 +1,6 @@
 import numpy as np
 from unittest import TestCase
-from PIML.crust.method.interp.baseinterp import BaseInterp, RBFInterp
+from PIML.core.method.interp.baseinterp import BaseInterp, RBFInterp
 from PIML.gateway.loaderIF.baseloaderIF import InterpLoaderIF
 
 class TestBaseInterp(TestCase):

@@ -2,7 +2,7 @@ import numpy as np
 import scipy as sp
 import logging
 from abc import ABC, abstractmethod
-from PIML.crust.method.obs.baseobs import Obs
+from PIML.core.method.obs.baseobs import Obs
 
 class BaseSnrMapper(ABC):
     @abstractmethod

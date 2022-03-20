@@ -1,7 +1,7 @@
 
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.method.resolution import  AlexResolution, NpResolution
+from PIML.core.method.resolution import  AlexResolution, NpResolution
 
 class TestResolution(TestBase):
 

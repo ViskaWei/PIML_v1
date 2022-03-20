@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from unittest import TestCase
-from PIML.crust.method.interp.interpbuilder import RBFInterpBuilder
+from PIML.core.method.interp.interpbuilder import RBFInterpBuilder
 
 DATA_DIR= "/home/swei20/PIML_v1/test/testdata/testmethoddata/"
 

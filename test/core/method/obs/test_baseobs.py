@@ -1,7 +1,7 @@
 
 import numpy as np
 from test.testbase import TestBase
-from PIML.crust.method.obs.baseobs import Obs
+from PIML.core.method.obs.baseobs import Obs
 
 class TestBaseObs(TestBase):
     def test_Obs(self):

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 from PIML.crust.model.specgrid.basespecgridmodel import BaseSpecGridModel
-# from PIML.crust.method.interp.baseinterp import RBFInterpModel
-from PIML.crust.method.interp.interpbuilder import RBFInterpBuilder
+# from PIML.core.method.interp.baseinterp import RBFInterpModel
+from PIML.core.method.interp.interpbuilder import RBFInterpBuilder
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 
 class InterpBuilderSpecGridModel(BaseSpecGridModel):
@@ -31,7 +31,6 @@ class RBFInterpBuilderSpecGridModel(InterpBuilderSpecGridModel):
             return interpolator(coordx)            
         SpecGrid.interpolator = coord_interpolator
         SpecGrid.builder = self.builder
-        SpecGrid.base_interp = self.builder.interpolator
 
     
 class PCARBFInterpBuilderSpecGridModel(RBFInterpBuilderSpecGridModel):

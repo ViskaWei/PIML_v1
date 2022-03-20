@@ -14,8 +14,13 @@ from PIML.crust.operation.boxoperation import BaseBoxOperation,\
 class BaseProcess(ABC):
     """ Base class for Process. """
     @abstractmethod
+    def set_process(self):
+        pass
+    
+    @abstractmethod
     def start(self, data):
         pass
+
 
 class StellarSpecProcess(BaseProcess):
     """ class for spectral process. """

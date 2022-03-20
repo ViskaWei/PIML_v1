@@ -14,11 +14,16 @@ class BaseLoaderIF(ABC):
     def load(self):
         pass
 
-class ObjectLoaderIF(BaseLoaderIF):
+class PathLoaderIF(BaseLoaderIF):
+    @abstractmethod
+    def set_path(self, PATH):
+        pass
+
+class ObjectLoaderIF(PathLoaderIF):
     """ Base class for dataIF. """
     # required_atributes = ["DATA_PATH", "loader"]
 
-    def set_data_path(self, DATA_PATH: str):
+    def set_path(self, DATA_PATH: str):
         self.DATA_PATH = DATA_PATH
         if DATA_PATH.endswith(".h5"):
             self.loader = H5pyLoader()
@@ -87,9 +92,10 @@ class NNDataLoaderIF(BaseLoaderIF):
         return NN(x_train, y_train, x_test, y_test)
 
 
+
 class SkyLoaderIF(BaseLoaderIF):
     """ class for loading Sky. """
-    def load(self, SKY_PATH):
+    def load(self, SKY_PATH: str):
         loader = NpLoader()
         # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"
         sky = loader.load_arg(SKY_PATH)
