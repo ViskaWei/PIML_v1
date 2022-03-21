@@ -1,7 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
-from PIML.crust.model.basemodel import BaseModel
 from PIML.core.method.sampler.samplerbuilder import SamplerBuilder
+from PIML.crust.model.basemodel import BaseModel
 
 
 class BaseOperation(ABC):
@@ -85,3 +85,12 @@ class ApplyInterpOperation(BaseOperation):
     def perform(self, data):
         coordx = data if self.rescaler is None else self.rescaler(data)
         return self.interpolator(coordx)
+
+class SamplingOperation(BaseOperation):
+    def __init__(self, method):
+        self.method = method
+    
+    def perform(self, ndim):
+        builder = SamplerBuilder(ndim)
+        sampler = builder.build(self.method)
+        return sampler

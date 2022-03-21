@@ -6,11 +6,13 @@ from PIML.crust.process.baseprocess import BaseProcess
 
 
 class BaseNNPrepProcess(BaseProcess):
-    @abstractmethod
-    def prepare(self, data):
-        pass
+    # set_process, start
+    pass
 
 class NNPrepProcess(BaseNNPrepProcess):
+    pass
+
+class StellarNNPrepProcess(NNPrepProcess):
     def __init__(self) -> None:
         super().__init__()
         self.operation_list: list[BaseNNPrepOperation] = None
@@ -22,6 +24,7 @@ class NNPrepProcess(BaseNNPrepProcess):
             DataGeneratorNNPrepOperation(),
         ]
 
-    def prepare(self, NNP: NNPrep):
+    def start(self, NNP: NNPrep):
         for operation in self.operation_list:
             operation.perform_on_NNPrep(NNP)
+

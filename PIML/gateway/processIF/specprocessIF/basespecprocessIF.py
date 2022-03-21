@@ -1,11 +1,11 @@
 from abc import abstractmethod
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.process.baseprocess import StellarSpecProcess
-from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
+from PIML.gateway.processIF.baseprocessIF import ProcessIF
 from PIML.gateway.loaderIF.baseloaderIF import SpecLoaderIF, SkyLoaderIF
 
 
-class BaseSpecProcessIF(BaseProcessIF):
+class BaseSpecProcessIF(ProcessIF):
     """ Base class for process interface for Spec object only. """
     @abstractmethod
     def interact_on_Spec(self, param, Spec: StellarSpec):
@@ -13,7 +13,7 @@ class BaseSpecProcessIF(BaseProcessIF):
 
 class StellarSpecProcessIF(BaseSpecProcessIF):
     def __init__(self) -> None:
-        self.OP_PARAMS: dict = {}
+        super().__init__()
         self.loader = SpecLoaderIF()
         self.Process = StellarSpecProcess()
 
@@ -30,8 +30,7 @@ class StellarSpecProcessIF(BaseSpecProcessIF):
 
     def interact_on_Spec(self, PARAMS, Spec: StellarSpec):
         self.setup(PARAMS)
-        self.Process.set_process(self.OP_PARAMS, self.OP_MODELS, self.OP_DATA)
-        self.Process.start(Spec)
+        self.interact_on_object(Spec)
 
     def paramIF(self, PARAMS):
         #TODO create class later

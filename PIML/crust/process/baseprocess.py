@@ -25,7 +25,6 @@ class BaseProcess(ABC):
 class StellarSpecProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
-        super().__init__()
         self.operation_list: list[BaseSpecOperation] = None
 
     def set_process(self, PARAMS, MODEL_TYPES, DATA):
@@ -46,7 +45,6 @@ class StellarSpecProcess(BaseProcess):
 class StellarGridProcess(BaseProcess):
     """ class for spectral process. """
     def __init__(self) -> None:
-        super().__init__()
         self.operation_list: list[BaseGridOperation] = None
 
     def set_process(self, PARAMS, MODEL_TYPES):

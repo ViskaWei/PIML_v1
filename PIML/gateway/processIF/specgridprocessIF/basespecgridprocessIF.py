@@ -14,7 +14,7 @@ class BaseSpecGridProcessIF(BaseProcessIF):
 
 class StellarSpecGridProcessIF(StellarSpecProcessIF, BaseSpecGridProcessIF):
     def __init__(self) -> None:
-        self.OP_PARAMS: dict = {}
+        super().__init__()
         self.loader = SpecGridLoaderIF()
         self.Process = StellarSpecGridProcess()
 

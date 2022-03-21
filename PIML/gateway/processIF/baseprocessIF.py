@@ -22,6 +22,10 @@ class BaseProcessIF(ABC):
 
 class ProcessIF(BaseProcessIF):
     def __init__(self) -> None:
+        self.OP_PARAMS: dict = {}
+        self.OP_MODELS: dict = {}
+        self.OP_DATA: dict = {}
+        
         self.loader: PathLoaderIF = None
         self.Process: BaseProcess = None
 
@@ -38,5 +42,8 @@ class ProcessIF(BaseProcessIF):
     def interact(self, PARAMS):
         self.set_object(PARAMS["object"])
         self.setup(PARAMS)
+        self.interact_on_object(self.Object)
+
+    def interact_on_object(self, Object):
         self.Process.set_process(self.OP_PARAMS, self.OP_MODELS, self.OP_DATA)
-        self.Process.start(self.Object)
+        self.Process.start(Object)
