@@ -44,8 +44,11 @@ class DataGeneratorNNPrepOperation(BaseNNPrepOperation):
         NNP.gen_data_from_label = self.perform(NNP.interpolator, NNP.label_rescaler)
 
 class NzGeneratorNNPrepOperation(BaseNNPrepOperation):
-    def perform(self, Obs):
-        pass
+    def perform(self, cal_sigma):
+        def gen_sigma(data):
+            return cal_sigma(data)
+        return gen_sigma
 
     def perform_on_NNPrep(self, NNP: StellarNNPrep): 
         NNP.nz_generator = self.perform(NNP.interpolator, NNP.label_rescaler)
+

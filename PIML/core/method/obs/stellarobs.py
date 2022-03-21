@@ -10,6 +10,11 @@ class PfsObs(Obs):
         var = Obs.get_var(flux, self.sky)
         return np.sqrt(var)
 
+    def cal_logsigma(self, logflux):
+        flux = np.exp(logflux)
+        sigma = self.cal_sigma(flux)
+        return sigma / flux
+
     def simulate(self, flux):
         sigma = self.simulate_sigma(flux)
         noise = self.get_noise(sigma)
