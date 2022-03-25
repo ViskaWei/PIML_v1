@@ -4,7 +4,6 @@ from PIML.core.method.sampler.gridsampler import StellarGridSampler
 from PIML.crust.operation.baseoperation import BaseOperation, SamplingOperation, CoordxifyOperation
 # from PIML.crust.operation.samplingoperation import CoordxSamplingOperation
 
-
 class BaseNNPrepOperation(BaseOperation):
     """ Base class for Process of preparing NN data. """
     @abstractmethod
@@ -51,4 +50,3 @@ class NzGeneratorNNPrepOperation(BaseNNPrepOperation):
 
     def perform_on_NNPrep(self, NNP: StellarNNPrep): 
         NNP.nz_generator = self.perform(NNP.interpolator, NNP.label_rescaler)
-

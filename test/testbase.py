@@ -27,7 +27,7 @@ class DataInitializer():
         self.SpecGrid_TEST_PATH = DATA_DIR + "bosz_5000_test.h5"
 
         SGL = SpecGridLoaderIF()
-        SGL.set_data_path(self.DATA_PATH)
+        SGL.set_path(self.DATA_PATH)
         self.specGrid = SGL.load()
 
         self.wave =  self.specGrid.wave      #3000-14000, 15404
@@ -38,7 +38,7 @@ class DataInitializer():
         self.midx = 1377
 
         SL = SpecLoaderIF()
-        SL.set_data_path(self.DATA_PATH)
+        SL.set_path(self.DATA_PATH)
         self.spec = SL.load()
 
         self.SKY_PATH = DATA_DIR +"wavesky.npy"
@@ -55,7 +55,6 @@ class DataInitializer():
         self.coordx_interp = np.array([2., 2.5, 1., 2., 1.])
 
         self.logflux_interp = np.load(DATA_DIR + "logflux_interp.npy")
-
 
         self.OBJECT = {"DATA_PATH": self.DATA_PATH}
 

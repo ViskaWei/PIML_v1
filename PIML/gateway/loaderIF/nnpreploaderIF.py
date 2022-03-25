@@ -16,8 +16,9 @@ class StellarNNPrepLoaderIF(NNPrepLoaderIF):
         self.DATA_DIR = DATA_DIR
 
     def load(self):
-        interp = self.load_Interp(self.DATA_DIR)
-        rng    = self.load_rng(self.DATA_DIR)
+        interp    = self.load_Interp(self.DATA_DIR)
+        rng       = self.load_rng(self.DATA_DIR)
+        cal_sigma = self.load_cal_sigma(self.DATA_DIR)
         return StellarNNPrep(rng, interp)
 
     def load_Interp(self, DATA_DIR):
@@ -29,3 +30,7 @@ class StellarNNPrepLoaderIF(NNPrepLoaderIF):
         #FIXME 
 
         return np.array([4., 5., 3., 5., 3.])
+
+    def load_cal_sigma(self, DATA_DIR):
+        PATH = os.path.join(DATA_DIR, "cal_sigma.pickle")
+        return loader.load(PATH)

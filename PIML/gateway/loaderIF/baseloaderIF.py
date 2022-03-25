@@ -105,3 +105,8 @@ class InterpLoaderIF(BaseLoaderIF):
     def load(self, PATH):
         loader = PickleLoader()
         return loader.load_arg(PATH)
+
+class PickleLoaderIF(BaseLoaderIF):
+    def load(self, PATH):
+        loader = PickleLoader()
+        return loader.load_arg(PATH)

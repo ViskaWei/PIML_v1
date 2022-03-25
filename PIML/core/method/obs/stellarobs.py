@@ -20,6 +20,7 @@ class PfsObs(Obs):
         noise = self.get_noise(sigma)
         return noise + flux
 
+    
 
 class LowResObs(PfsObs):
     def __init__(self, step):

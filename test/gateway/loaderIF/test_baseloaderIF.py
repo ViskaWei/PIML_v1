@@ -14,7 +14,7 @@ class TestBaseLoader(TestCase):
 
     def test_SpecLoaderIF(self):
         loaderIF = SpecLoaderIF()
-        loaderIF.set_data_path(DATA_PATH)
+        loaderIF.set_path(DATA_PATH)
         spec = loaderIF.load()
 
         self.assertIsNotNone(spec.wave)
@@ -25,7 +25,7 @@ class TestBaseLoader(TestCase):
 
     def test_SpecGridLoaderIF(self):        
         loaderIF = SpecGridLoaderIF()
-        loaderIF.set_data_path(DATA_PATH)
+        loaderIF.set_path(DATA_PATH)
         specGrid = loaderIF.load()
 
         self.assertIsNotNone(specGrid.wave)
@@ -42,7 +42,7 @@ class TestBaseLoader(TestCase):
         
     def test_GridLoaderIF(self):
         loaderIF = GridLoaderIF()
-        loaderIF.set_data_path(DATA_PATH)
+        loaderIF.set_path(DATA_PATH)
         grid = loaderIF.load()
 
         self.assertIsNotNone(grid.coord)
@@ -78,6 +78,6 @@ class TestBaseLoader(TestCase):
     # def test_BaseLoaderIF(self):
     #     for LoaderIF in ObjectLoaderIF.__subclasses__():
     #         loaderIF = LoaderIF()
-    #         loaderIF.set_data_path(DATA_PATH)
+    #         loaderIF.set_path(DATA_PATH)
     #         data = loaderIF.load()
     #         self.assertIsNotNone(data)
