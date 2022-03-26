@@ -5,7 +5,7 @@ from PIML.crust.data.constants import Constants
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
-from PIML.gateway.loaderIF.baseloaderIF import InterpLoaderIF, ObjectLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
+from PIML.gateway.loaderIF.baseloaderIF import FileLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
 ROOT = "/home/swei20/PIML_v1/"
@@ -64,14 +64,14 @@ class DataInitializer():
         self.step = 10
         self.box_name = "R"
 
-        self.OP_PARAMS = {
+        self.OP_PARAM = {
             "box_name": self.box_name,
             "arm": self.arm,
             "step": self.step,
             "wave_rng": Constants.ARM_RNGS[self.arm]
         }
 
-        self.OP_MODELS = {
+        self.OP_MODEL = {
             "Resolution": "Alex",
             "Interp": "RBF",
         }
@@ -79,23 +79,34 @@ class DataInitializer():
         self.SPEC_GRID_PARAMS = {
             "object": self.OBJECT,
             "data":   self.OP_DATA,
-            "op"  :   self.OP_PARAMS,
-            "model":  self.OP_MODELS,
+            "op"  :   self.OP_PARAM,
+            "model":  self.OP_MODEL,
         }
 
-
-
+        
 
 
     def set_NNPrep_data(self, DATA_DIR=NN_PREP_DATA_DIR):
-        loader = InterpLoaderIF()
+        loader = FileLoaderIF()
         self.RBFinterp = loader.load(DATA_DIR + "interp.pickle")
 
         self.NN_PREP_PARAMS = {
-            "rng": np.array([4., 5., 3., 5., 3.]),
+            "object": self.NNPrep_Object,
+            "data":   self.NNPrep_Data,
+            "op":   self.NNPrep_Params,
+            "model":  self.NNPrep_Model,
         }
 
-
+        self.NNPrep_Object = {
+            "dir": DATA_DIR,
+        }
+        self.NNPrep_Params = {
+            "step": self.step,
+        }
+        self.NNPrep_Data = {
+            "rng": np.array([4., 5., 3., 5., 3.]),
+        }
+        self.NNPrep_Model = {}
 
 
 class TestBase(TestCase):

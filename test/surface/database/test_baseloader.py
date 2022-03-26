@@ -5,7 +5,7 @@ from test.testbase import TestBase
 class TestBaseLoader(TestBase):
     def test_H5pyLoader(self):
         loader = H5pyLoader()
-        DArgs = loader.load_DArgs(self.D.SpecGrid_TEST_PATH)
+        DArgs = loader.load_dict_args(self.D.SpecGrid_TEST_PATH)
         self.assertIsNotNone(DArgs)
         self.assertEqual(DArgs["flux"].shape, (120,1178))
         self.assertEqual(DArgs["wave"].shape, (1178,))

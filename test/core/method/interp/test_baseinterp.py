@@ -1,7 +1,7 @@
 import numpy as np
 from unittest import TestCase
 from PIML.core.method.interp.baseinterp import BaseInterp, RBFInterp
-from PIML.gateway.loaderIF.baseloaderIF import InterpLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, FileLoaderIF
 
 class TestBaseInterp(TestCase):
     """
@@ -10,7 +10,8 @@ class TestBaseInterp(TestCase):
     def test_RBFInterp(self):
         PATH = "test/testdata/testmethoddata/interp.pickel"
         pass
-        # interpolator = InterpLoaderIF().load(PATH)
+        # loader = FileLoaderIF()
+        # self.RBFinterp = loader.load(DATA_DIR + "interp.pickle")
 
 
         # interpolator = builder.build(coordx, value_2D)

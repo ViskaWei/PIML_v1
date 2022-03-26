@@ -10,14 +10,35 @@ from abc import ABC, abstractmethod
 
 class BaseLoader(ABC):
     """ Base class for all data loaders. """
-    
+    @abstractmethod
+    def load(self, path) -> object:
+        pass
+
+class NpLoader(BaseLoader):
+    def load(self, PATH):
+        return np.load(PATH)
+
+    def load_csv(self, PATH, delimiter=','):
+        return np.genfromtxt(PATH, delimiter=delimiter)
+
+class PickleLoader(BaseLoader):
+    def load(self, PATH):
+        with open(PATH, 'rb') as f:
+            return pickle.load(f)
+
+
+class DictLoader(ABC):
     @abstractmethod
     def load_arg(self, PATH, arg):
         pass
 
     @abstractmethod
-    def load_DArgs(self, PATH):
+    def load_dict_args(self, PATH):
         pass
+
+    @staticmethod
+    def _is_arg(f, arg):
+        return arg in f.keys()
 
     @staticmethod
     def _get_arg(f, arg):
@@ -33,12 +54,7 @@ class BaseLoader(ABC):
             DArgvals[arg] = f[arg][:] 
         return DArgvals
 
-    @staticmethod
-    def _is_arg(f, arg):
-        return arg in f.keys()
-
-
-class H5pyLoader(BaseLoader):
+class H5pyLoader(DictLoader):
     
     def get_keys(self, PATH):
         with h5py.File(PATH, 'r') as f:
@@ -53,40 +69,18 @@ class H5pyLoader(BaseLoader):
             logging.info(f"h5pyLoading {arg} from {PATH}")
             return BaseLoader._get_arg(f, arg)
 
-    def load_DArgs(self, PATH):
+    def load_dict_args(self, PATH):
         with h5py.File(PATH, 'r') as f:
             logging.info(f"h5pyLoading {f.keys} from {PATH}")
             return BaseLoader._get_args(f)
 
-class ZarrLoader(BaseLoader):
+class ZarrLoader(DictLoader):
     def load_arg(self, PATH, arg):  
         with zarr.open(PATH, 'r') as f:
             return BaseLoader._get_arg(f, arg)
             
-    def load_DArgs(self, PATH):
+    def load_dict_args(self, PATH):
         with zarr.open(PATH, 'r') as f:
             return BaseLoader._get_args(f)
 
 
-class NpLoader(BaseLoader):
-    def load_arg(self, PATH):
-        return np.load(PATH)
-
-    def load_DArgs(self, PATH):
-        raise NotImplementedError("NpLoader does not support DArgs")
-
-    def load_csv(self, PATH, delimiter=','):
-        return np.genfromtxt(PATH, delimiter=delimiter)
-
-        # def load_skyOG(self):
-        # skyOG = np.genfromtxt(self.DATADIR +'skybg_50_10.csv', delimiter=',')
-        # skyOG[:, 0] = 10 * skyOG[:, 0]
-        # return skyOG
-
-class PickleLoader(BaseLoader):
-    def load_arg(self, PATH):
-        with open(PATH, 'rb') as f:
-            return pickle.load(f)
-        
-    def load_DArgs(self, PATH):
-        raise NotImplementedError("PickleLoader does not support DArgs")

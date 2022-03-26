@@ -7,10 +7,10 @@ from PIML.crust.process.baseprocess import BaseProcess
 class BaseProcessIF(ABC):
     """ Base class for Process interface for data. """
     @abstractmethod
-    def set_data(self, DATA_PARAMS):
+    def set_data(self, DATA_PARAM):
         pass
     @abstractmethod
-    def set_param(self, OP_PARAMS):
+    def set_param(self, OP_PARAM):
         pass
     @abstractmethod
     def set_model(self, MODEL_TYPES):
@@ -22,8 +22,8 @@ class BaseProcessIF(ABC):
 
 class ProcessIF(BaseProcessIF):
     def __init__(self) -> None:
-        self.OP_PARAMS: dict = {}
-        self.OP_MODELS: dict = {}
+        self.OP_PARAM: dict = {}
+        self.OP_MODEL: dict = {}
         self.OP_DATA: dict = {}
         
         self.loader: PathLoaderIF = None
@@ -42,8 +42,8 @@ class ProcessIF(BaseProcessIF):
     def interact(self, PARAMS):
         self.set_object(PARAMS["object"])
         self.setup(PARAMS)
-        self.interact_on_object(self.Object)
+        self.interact_on_Object(self.Object)
 
-    def interact_on_object(self, Object):
-        self.Process.set_process(self.OP_PARAMS, self.OP_MODELS, self.OP_DATA)
+    def interact_on_Object(self, Object):
+        self.Process.set_process(self.OP_PARAM, self.OP_MODEL, self.OP_DATA)
         self.Process.start(Object)

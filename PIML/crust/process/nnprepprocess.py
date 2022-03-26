@@ -2,7 +2,8 @@ from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.basennprep import NNPrep
 from PIML.crust.operation.nnoperation.basennprepoperation import BaseNNPrepOperation,\
     DataGeneratorNNPrepOperation, UniformLabelSamplerNNPrepOperation,\
-    HaltonLabelSamplerNNPrepOperation, CoordxifyNNPrepOperation
+    HaltonLabelSamplerNNPrepOperation, CoordxifyNNPrepOperation,\
+    AddPfsObsNNPredOperation
 from PIML.crust.process.baseprocess import BaseProcess
 
 
@@ -20,9 +21,11 @@ class StellarNNPrepProcess(NNPrepProcess):
 
     def set_process(self, PARAMS, MODEL_TYPES, DATA):
         self.operation_list = [
+            CoordxifyNNPrepOperation(DATA["rng"]),
+            AddPfsObsNNPredOperation(PARAMS["step"]),
+
             UniformLabelSamplerNNPrepOperation(),
             HaltonLabelSamplerNNPrepOperation(),
-            CoordxifyNNPrepOperation(PARAMS["rng"]),
             DataGeneratorNNPrepOperation(),
         ]
 

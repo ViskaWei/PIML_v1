@@ -10,7 +10,7 @@ class TestStellarSpecGridProcess(TestBase):
         SpecGrid = self.get_SpecGrid()
 
         SP = StellarSpecGridProcess()
-        SP.set_process(self.D.OP_PARAMS, self.D.OP_MODELS, self.D.OP_DATA)
+        SP.set_process(self.D.OP_PARAM, self.D.OP_MODEL, self.D.OP_DATA)
         SP.start(SpecGrid)
         self.check_StellarSpecGrid(SpecGrid)
 

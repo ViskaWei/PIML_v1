@@ -2,35 +2,23 @@
 
 import os
 import numpy as np
-from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, InterpLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, FileLoaderIF
 from PIML.crust.data.nndata.basennprep import NNPrep, StellarNNPrep
 
 class NNPrepLoaderIF(BaseLoaderIF):
-    def load(self, path) -> NNPrep:
+    def load(self) -> NNPrep:
         pass
 
-
 class StellarNNPrepLoaderIF(NNPrepLoaderIF):
-
     def set_path(self, DATA_DIR):
         self.DATA_DIR = DATA_DIR
 
     def load(self):
-        interp    = self.load_Interp(self.DATA_DIR)
-        rng       = self.load_rng(self.DATA_DIR)
-        cal_sigma = self.load_cal_sigma(self.DATA_DIR)
-        return StellarNNPrep(rng, interp)
+        interp = self.load_file("interp.pickle")
+        sky    = self.load_file("sky.npy")
+        return StellarNNPrep(interp, sky)
 
-    def load_Interp(self, DATA_DIR):
-        PATH = os.path.join(DATA_DIR, "interp.pickle")
-        loader = InterpLoaderIF()
-        return loader.load(PATH)
-
-    def load_rng(self, DATA_DIR):
-        #FIXME 
-
-        return np.array([4., 5., 3., 5., 3.])
-
-    def load_cal_sigma(self, DATA_DIR):
-        PATH = os.path.join(DATA_DIR, "cal_sigma.pickle")
+    def load_file(self, filename):
+        loader = FileLoaderIF()
+        PATH = os.path.join(self.DATA_DIR, filename)
         return loader.load(PATH)

@@ -1,13 +1,12 @@
 import numpy as np
-from PIML.core.method.obs.baseobs import Obs
+from PIML.core.method.obs.baseobs import BaseObs
 
-class PfsObs(Obs):
-        
+class PfsObs(BaseObs):
     def set_sky(self, sky):
         self.sky = sky 
 
     def cal_sigma(self, flux):
-        var = Obs.get_var(flux, self.sky)
+        var = BaseObs.get_var(flux, self.sky)
         return np.sqrt(var)
 
     def cal_logsigma(self, logflux):
@@ -19,8 +18,6 @@ class PfsObs(Obs):
         sigma = self.simulate_sigma(flux)
         noise = self.get_noise(sigma)
         return noise + flux
-
-    
 
 class LowResObs(PfsObs):
     def __init__(self, step):

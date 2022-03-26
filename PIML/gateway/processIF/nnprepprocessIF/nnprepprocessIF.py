@@ -17,17 +17,18 @@ class StellarNNPrepProcessIF(NNPrepProcessIF):
         self.loader = StellarNNPrepLoaderIF()   
         self.Process = StellarNNPrepProcess()
 
-    def set_data(self, DATA_PARAMS):
-        pass
+    def set_data(self, DATA_PARAM):
+        self.OP_DATA["rng"]  = DATA_PARAM["rng"]
 
-    def set_param(self, OP_PARAMS):
+    def set_param(self, OP_PARAM):
+        self.OP_PARAM["step"] = OP_PARAM["step"]
         pass
 
     def set_model(self, MODEL_TYPES):
         pass
-        # self.OP_MODELS = MODEL_TYPES
+        # self.OP_MODEL = MODEL_TYPES
 
     def interact_on_NNPrep(self, PARAMS, NNPrep: StellarNNPrep):
-        self.setup(PARAMS)
-        self.interact_on_object(NNPrep)
+        super().setup(PARAMS)
+        super().interact_on_Object(NNPrep)
 

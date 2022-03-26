@@ -1,5 +1,6 @@
 import numpy as np
 from abc import ABC, abstractmethod
+from PIML.core.method.obs.baseobs import Obs
 from PIML.core.method.sampler.samplerbuilder import SamplerBuilder
 from PIML.crust.model.basemodel import BaseModel
 
@@ -94,3 +95,10 @@ class SamplingOperation(BaseOperation):
         builder = SamplerBuilder(ndim)
         sampler = builder.build(self.method)
         return sampler
+
+class ObsOperaion(BaseOperation):
+    def __init__(self, step=None) -> None:
+        self.step = step
+    
+    def prepare(self, sky):
+        return Obs(sky, self.step) 

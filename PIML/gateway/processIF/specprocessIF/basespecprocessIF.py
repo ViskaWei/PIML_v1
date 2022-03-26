@@ -17,20 +17,20 @@ class StellarSpecProcessIF(BaseSpecProcessIF):
         self.loader = SpecLoaderIF()
         self.Process = StellarSpecProcess()
 
-    def set_data(self, DATA_PARAMS):
-        self.SKY_PATH = DATA_PARAMS["SKY_PATH"]
+    def set_data(self, DATA_PARAM):
+        self.SKY_PATH = DATA_PARAM["SKY_PATH"]
         self.Sky = SkyLoaderIF().load(self.SKY_PATH)
         self.OP_DATA = {"Sky": self.Sky}
 
-    def set_param(self, OP_PARAMS):
-        self.OP_PARAMS = self.paramIF(OP_PARAMS)
+    def set_param(self, OP_PARAM):
+        self.OP_PARAM = self.paramIF(OP_PARAM)
     
     def set_model(self, MODEL_TYPES):
-        self.OP_MODELS = MODEL_TYPES
+        self.OP_MODEL = MODEL_TYPES
 
     def interact_on_Spec(self, PARAMS, Spec: StellarSpec):
         self.setup(PARAMS)
-        self.interact_on_object(Spec)
+        self.interact_on_Object(Spec)
 
     def paramIF(self, PARAMS):
         #TODO create class later
