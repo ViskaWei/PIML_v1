@@ -31,4 +31,5 @@ class StellarNNPrepProcess(NNPrepProcess):
     def start(self, NNP: NNPrep):
         for operation in self.operation_list:
             operation.perform_on_NNPrep(NNP)
+                
 

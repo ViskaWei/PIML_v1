@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from PIML.gateway.loaderIF.baseloaderIF import PathLoaderIF
 from PIML.crust.process.baseprocess import BaseProcess
-
-
+from PIML.gateway.loaderIF.baseloaderIF import PathLoaderIF
+from PIML.gateway.storerIF.basestorerIF import BaseStorerIF
 
 class BaseProcessIF(ABC):
     """ Base class for Process interface for data. """
@@ -26,8 +25,9 @@ class ProcessIF(BaseProcessIF):
         self.OP_MODEL: dict = {}
         self.OP_DATA: dict = {}
         
-        self.loader: PathLoaderIF = None
+        self.loader : PathLoaderIF = None
         self.Process: BaseProcess = None
+        self.storer : BaseStorerIF = None
 
     def set_object(self, OBJECT_PARAMS):
         self.DATA_DIR = OBJECT_PARAMS["DATA_DIR"]
@@ -47,3 +47,7 @@ class ProcessIF(BaseProcessIF):
     def interact_on_Object(self, Object):
         self.Process.set_process(self.OP_PARAM, self.OP_MODEL, self.OP_DATA)
         self.Process.start(Object)
+    
+    def finish(self, store_path):
+        # store
+        pass

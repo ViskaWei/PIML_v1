@@ -32,7 +32,7 @@ class Obs(BaseObs):
         self.step = step
 
     def get_var(self, flux):
-        return super().get_var(flux, self.sky)
+        return BaseObs.get_var(flux, self.sky)
 
     def get_sigma(self, flux):
         var = self.get_var(flux)

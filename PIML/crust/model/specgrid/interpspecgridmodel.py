@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 
 from PIML.crust.model.specgrid.basespecgridmodel import BaseSpecGridModel
-# from PIML.core.method.interp.baseinterp import RBFInterpModel
-from PIML.core.method.interp.interpbuilder import RBFInterpBuilder
+from PIML.crust.model.interpmodel import RBFInterpBuilderModel
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 
 class InterpBuilderSpecGridModel(BaseSpecGridModel):
@@ -13,7 +12,7 @@ class InterpBuilderSpecGridModel(BaseSpecGridModel):
 class RBFInterpBuilderSpecGridModel(InterpBuilderSpecGridModel):
 
     def set_model_param(self, kernel="gaussian", epsilon=0.5):
-        self.builder = RBFInterpBuilder(kernel, epsilon)
+        self.builder = RBFInterpBuilderModel(kernel, epsilon)
 
     def apply(self, coord, value):
         self.builder.build(coord, value)

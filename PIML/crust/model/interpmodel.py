@@ -14,7 +14,7 @@ class RBFInterpBuilderModel(RBFInterpBuilder, InterpBuilderModel):
         super().__init__(kernel, epsilon)
 
     def store(self, DATA_DIR, name="interp"):
-        self.storer = InterpStorerIF()
-        self.storer.set_data_path(DATA_DIR, name)
+        self.storer = PickleStorerIF()
+        self.storer.set_path(DATA_DIR, name)
         self.storer.store(self.interpolator)
         

@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import h5py
 import zarr
 import pickle
@@ -15,6 +16,12 @@ class PickleStorer(BaseStorer):
     def store(self, PATH, val):
         with open(PATH, 'wb') as f:
             pickle.dump(val, f, pickle.HIGHEST_PROTOCOL)
+
+class NpStorer(BaseStorer):
+    def store(self, PATH, val):
+        np.save(PATH, val)
+
+
 
 class BaseDictStorer(ABC):
     @abstractmethod

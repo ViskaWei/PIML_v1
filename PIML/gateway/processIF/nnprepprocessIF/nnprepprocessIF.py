@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.basennprep import NNPrep
-from PIML.crust.process.nnprepprocess import NNPrepProcess, StellarNNPrepProcess
+from PIML.crust.process.nnprepprocess import StellarNNPrepProcess
 
 from PIML.gateway.loaderIF.nnpreploaderIF import StellarNNPrepLoaderIF
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
+from PIML.gateway.storerIF.basestorerIF import PickleStorerIF
 
 
 class NNPrepProcessIF(ProcessIF):
@@ -16,7 +17,7 @@ class StellarNNPrepProcessIF(NNPrepProcessIF):
         super().__init__()
         self.loader  = StellarNNPrepLoaderIF()   
         self.Process = StellarNNPrepProcess()
-        self.storer  = StellarNNPrepStorerIF()
+        self.storer  = PickleStorerIF()
 
     def set_data(self, DATA_PARAM):
         self.OP_DATA["rng"]  = DATA_PARAM["rng"]
@@ -32,4 +33,10 @@ class StellarNNPrepProcessIF(NNPrepProcessIF):
     def interact_on_NNPrep(self, PARAMS, NNPrep: NNPrep):
         super().setup(PARAMS)
         super().interact_on_Object(NNPrep)
+        self.Object = NNPrep
+        
 
+    def finish(self, store_path, name="NNPrep"):
+        self.storer.set_path(store_path, name)
+        self.storer.store(self.Object)
+        

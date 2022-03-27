@@ -29,7 +29,6 @@ class AddPfsObsNNPredOperation(ObsOperation, BaseNNPrepOperation):
     
     def perform_on_NNPrep(self, NNP: NNPrep):
         NNP.Obs = self.perform(NNP.sky)
-        NNP.gen_sigma = Obs.get_log_sigma
 
 class UniformLabelSamplerNNPrepOperation(SamplingOperation, BaseNNPrepOperation):
     def __init__(self):
