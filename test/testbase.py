@@ -1,10 +1,13 @@
 import os
 import numpy as np
 from unittest import TestCase
+
 from PIML.crust.data.constants import Constants
+from PIML.crust.data.nndata.baseprepnn import PrepNN
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
+
 from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF, WaveSkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
@@ -89,10 +92,15 @@ class DataInitializer():
     def set_PrepNN_data(self, DATA_DIR=NN_PREP_DATA_DIR):
         self.ntrain =10
         self.ntest = 5
+        self.res = int(10000/self.step)
+        self.name = self.arm + f"_R{self.res}"
+
         loader = ObjectLoaderIF()
-        self.RBFinterp = loader.load(DATA_DIR + "interp.pickle")
+        self.RBFinterp = loader.load(DATA_DIR + self.name + "_interp.pickle")
         self.PrepNN_Object = {
             "path"  : DATA_DIR,
+            "arm"   : self.arm,
+            "res"   : self.res,
         }
         self.PrepNN_Params = {
             "step"  : self.step,
@@ -104,12 +112,14 @@ class DataInitializer():
             "rng"   : np.array([4., 5., 3., 5., 3.]),
         }
         self.PrepNN_Model = {}
+        self.PrepNN_Out   = {"path": "/datascope/subaru/user/swei20/data/pfsspec/prepnn/"}
 
         self.NN_PREP_PARAMS = {
             "object": self.PrepNN_Object,
             "data"  : self.PrepNN_Data,
             "op"    : self.PrepNN_Params,
             "model" : self.PrepNN_Model,
+            "out"   : self.PrepNN_Out,
         }
 
 
@@ -129,6 +139,9 @@ class TestBase(TestCase):
     #     coordx_to_interp = np.array([[1.5,1.5], [2,2]])
     #     specGrid = StellarSpecGrid(value_1D, value_2D, coordx, None)
 
+    def get_PrepNN(self):
+        PrepNN(self.D.RBFinterp, self.D.sky, self.D.arm, self.D.res)
+        return PrepNN
 
     def get_SpecGrid(self):
         specGrid = StellarSpecGrid(self.D.wave, self.D.flux, self.D.para, self.D.pdx)   
@@ -193,6 +206,14 @@ class TestBase(TestCase):
         self.same_array(logflux_interp, logflux_interp2)
         self.close_array(logflux_interp, self.D.logflux_interp, tol=1e-4)
         
+    def check_PrepNN(self, PrepNN: PrepNN):
+        self.assertTrue(PrepNN.name == self.D.name)
+        
+        
+        #finishPredNNOperation
+        self.assertTrue(PrepNN.train_name == (self.D.name + f"_N{self.D.ntrain}_train"))
+        self.assertTrue(PrepNN.test_name  == (self.D.name + f"_N{self.D.ntest}_test"))
+
 
 
 

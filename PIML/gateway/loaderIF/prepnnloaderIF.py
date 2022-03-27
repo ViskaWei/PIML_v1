@@ -11,10 +11,10 @@ class PrepNNLoaderIF(BaseLoaderIF):
 
 class StellarPrepNNLoaderIF(PrepNNLoaderIF):
 
-    def set_param(self, PARAMS):
-        self.dir = PARAMS["path"]
-        self.arm = PARAMS["arm"]
-        self.res = PARAMS["res"]
+    def set_param(self, PARAM):
+        self.dir = PARAM["path"]
+        self.arm = PARAM["arm"]
+        self.res = PARAM["res"]
 
     def load(self):
         interp = self.load_interp("interp.pickle")
@@ -22,9 +22,11 @@ class StellarPrepNNLoaderIF(PrepNNLoaderIF):
         return PrepNN(interp, sky, self.arm, self.res)
 
     def load_interp(self, filename="interp.pickle"):
+        name = self.arm + f"_R{self.res}_" + filename
         loader = ObjectLoaderIF()
-        PATH = os.path.join(self.DATA_DIR, filename)
-        return loader.load(PATH)
+        self.interp_path = os.path.join(self.dir, name)
+        interp = loader.load(self.interp_path)
+        return interp
 
     def load_sky(self, filename="sky.h5"):
         loader = SkyLoaderIF()

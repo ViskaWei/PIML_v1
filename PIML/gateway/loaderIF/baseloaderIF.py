@@ -116,6 +116,6 @@ class WaveSkyLoaderIF(ObjectLoaderIF):
 class SkyLoaderIF(DictLoaderIF):
     def load(self, path, arm, res):
         self.set_path(path)
-        name = f"{arm} + R{res}"
+        name = f"{arm}_R{res}"
         sky = self.load_arg(name)
         return sky

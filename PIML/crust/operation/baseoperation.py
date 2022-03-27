@@ -90,11 +90,12 @@ class ObsOperation(BaseOperation):
         return Obs(sky, step=self.step) 
 
 class DataPrepOperation(BaseOperation):
-    def __init__(self, n) -> None:
+    def __init__(self, n, seed=None) -> None:
         self.n= n
-        
+        self.seed = seed
+
     def perform(self, sampler, generator, noiser):
-        label = sampler(self.n)
+        label = sampler(self.n, seed=self.seed)
         data  = generator(label)
         sigma = noiser(data)
         return data, sigma, label

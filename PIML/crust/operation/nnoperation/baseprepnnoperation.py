@@ -56,14 +56,25 @@ class DataGeneratorPrepNNOperation(BasePrepNNOperation):
         NNP.generator = self.perform(NNP.interpolator, NNP.label_rescaler)
 
 class TrainPrepNNOperation(DataPrepOperation, BasePrepNNOperation):
-    def __init__(self, ntrain) -> None:
+    def __init__(self, ntrain, seed=None) -> None:
         super().__init__(ntrain)
     def perform_on_PrepNN(self, NNP: PrepNN): 
+        NNP.ntrain = self.n
         NNP.train["data"], NNP.train["sigma"], NNP.train["label"] = self.perform(NNP.uniform_label_sampler, NNP.generator, NNP.noiser)
 
 class TestPrepNNOperation(DataPrepOperation, BasePrepNNOperation):
     def __init__(self, ntest) -> None:
         super().__init__(ntest)
     def perform_on_PrepNN(self, NNP: PrepNN):
+        NNP.ntest = self.n
         NNP.test["data"], NNP.test["sigma"], NNP.test["label"] = self.perform(NNP.halton_label_sampler, NNP.generator, NNP.noiser)
+        
+class FinishPrepNNOperation(BasePrepNNOperation):
+    def perform(self, name, n, suffix=""):
+        return f"{name}_N{n}{suffix}"
+
+    def perform_on_PrepNN(self, NNP: PrepNN):
+        NNP.train_name = self.perform(NNP.name, NNP.ntrain, suffix="_train")
+        NNP.test_name = self.perform(NNP.name, NNP.ntest, suffix="_test")
+
         

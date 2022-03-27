@@ -15,15 +15,18 @@ class BaseProcessIF(ABC):
     def set_model(self, MODEL_TYPES):
         pass
     @abstractmethod
+    def set_out(self, out):
+        pass
+    @abstractmethod
     def interact(self, param, data):
         pass
-
 
 class ProcessIF(BaseProcessIF):
     def __init__(self) -> None:
         self.OP_PARAM: dict = {}
         self.OP_MODEL: dict = {}
-        self.OP_DATA: dict = {}
+        self.OP_DATA : dict = {}
+        self.OP_OUT  : dict = {}
         
         self.loader : ParamLoaderIF = None
         self.Process: BaseProcess = None
@@ -37,6 +40,8 @@ class ProcessIF(BaseProcessIF):
         self.set_data(PARAMS["data"])
         self.set_param(PARAMS["op"])
         self.set_model(PARAMS["model"])
+        if "out" in PARAMS:
+            self.set_out(PARAMS["out"])
 
     def interact(self, PARAMS):
         self.set_object(PARAMS["object"])
@@ -47,6 +52,11 @@ class ProcessIF(BaseProcessIF):
         self.Process.set_process(self.OP_PARAM, self.OP_MODEL, self.OP_DATA)
         self.Process.start(Object)
     
+
+    def set_out(self, PARAMS):
+        self.OP_OUT = PARAMS
+        
+
     def finish(self, store_path):
         # store
         pass
