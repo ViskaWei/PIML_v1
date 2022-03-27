@@ -49,3 +49,10 @@ class PickleStorerIF(BaseStorerIF):
     def store(self, data):
         storer = PickleStorer()
         storer.store(self.DATA_PATH, data)
+
+class NNStorerIF(DictStorerIF):
+    def store(self, PrepNN):
+        def set_path(self, DATA_DIR: str, name):
+            self.DATA_DIR = DATA_DIR
+            self.DATA_PATH = os.path.join(DATA_DIR, name+".pickle")
+        self.store_DArgs(PrepNN.train)
