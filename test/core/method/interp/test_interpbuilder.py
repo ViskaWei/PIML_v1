@@ -1,9 +1,6 @@
-import os
 import numpy as np
 from unittest import TestCase
 from PIML.core.method.interp.interpbuilder import RBFInterpBuilder
-
-DATA_DIR= "/home/swei20/PIML_v1/test/testdata/testmethoddata/"
 
 class TestInterpBuilder(TestCase):
 
@@ -20,7 +17,6 @@ class TestInterpBuilder(TestCase):
         
         builder.build(coordx, value_2D)
         self.check_build(builder.interpolator)
-        self.check_store(builder, name="test_RBFInterpBuilder")
 
 
     def check_build(self, interpolator):
@@ -29,13 +25,6 @@ class TestInterpBuilder(TestCase):
 
         value_interped   = interpolator(coordx_to_interp).round(1)
         self.assertIsNone(np.testing.assert_array_almost_equal(value_interped, value_to_check))
-
-    def check_store(self, builder, name = "interp"):
-        PATH = os.path.join(DATA_DIR, name + ".pickle")
-        if os.path.exists(PATH): os.remove(PATH)
-
-        builder.store(DATA_DIR, name)
-        self.assertTrue(os.path.exists(PATH))
 
 
     

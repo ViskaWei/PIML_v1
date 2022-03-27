@@ -10,13 +10,13 @@ from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.surface.database.baseloader import H5pyLoader, NpLoader, PickleLoader, ZarrLoader
 from PIML.surface.database.nnloader import MINSTDataLoader
 
-
 class BaseLoaderIF(ABC):
     @abstractmethod
-    def load(self):
+    def load(self, path):
         pass
 
-class PathLoaderIF(BaseLoaderIF):
+
+class PathLoaderIF(object):
     def set_path(self, DATA_PATH: str):
         self.DATA_PATH = DATA_PATH
         if DATA_PATH.endswith(".h5"):
@@ -29,16 +29,18 @@ class PathLoaderIF(BaseLoaderIF):
             self.loader = PickleLoader()
         else:
             raise NotImplementedError(f"{DATA_PATH} not implemented")
-    
-    def load(self, DATA_PATH: str=None):
-        if DATA_PATH is not None: self.set_path(DATA_PATH)
-        return self.loader.load(self.DATA_PATH)
 
+#------------------------------------------------------------------------------
 class DirLoaderIF(PathLoaderIF):
     def set_dir(self, DATA_DIR: str, name, ext):
         DATA_PATH = os.path.join(DATA_DIR, name + ext)
         self.set_path(DATA_PATH)
 
+class ParamLoaderIF(PathLoaderIF):
+    def set_param(self, PARAMS):
+        self.set_path(PARAMS["path"])
+
+#------------------------------------------------------------------------------
 class DictLoaderIF(PathLoaderIF):
     def load_dict_args(self):
         self.keys = self.loader.get_keys(self.DATA_PATH)
@@ -50,9 +52,12 @@ class DictLoaderIF(PathLoaderIF):
     def is_arg(self, arg):
         return self.loader.is_arg(self.DATA_PATH, arg)
 
-class ParamLoaderIF(PathLoaderIF):
-    def set_param(self, PARAMS):
-        self.set_path(PARAMS["path"])
+class ObjectLoaderIF(DirLoaderIF, BaseLoaderIF):
+    def load(self, DATA_PATH: str=None):
+        if DATA_PATH is not None: self.set_path(DATA_PATH)
+        return self.loader.load(self.DATA_PATH)
+
+#------------------------------------------------------------------------------
 
 class SpecGridLoaderIF(ParamLoaderIF, DictLoaderIF):
     """ class for loading Spec Grid (wave, flux, Physical Param for each flux..). """
@@ -101,7 +106,7 @@ class NNDataLoaderIF(BaseLoaderIF):
         x_train, y_train, x_test, y_test = loader.load()
         return NN(x_train, y_train, x_test, y_test)
 
-class WaveSkyLoaderIF(PathLoaderIF):
+class WaveSkyLoaderIF(ObjectLoaderIF):
     """ class for loading Sky. """
     def load(self, DATA_PATH: str=None):
         # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"

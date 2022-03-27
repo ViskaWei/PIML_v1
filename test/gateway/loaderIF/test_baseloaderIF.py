@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from PIML.gateway.loaderIF.baseloaderIF import FileLoaderIF,\
+from PIML.gateway.loaderIF.baseloaderIF import ObjectLoaderIF,\
     SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF, \
     NNTestLoaderIF, WaveSkyLoaderIF
 
@@ -63,8 +63,8 @@ class TestBaseLoader(TestCase):
         self.assertIsNone(np.testing.assert_array_equal(Sky.sky, sky_to_check[1]))
         self.assertIsNotNone(Sky.wave2sky_fn)
 
-    def test_FileLoaderIF(self):
-        loaderIF = FileLoaderIF()
+    def test_ObjectLoaderIF(self):
+        loaderIF = ObjectLoaderIF()
         # test pickle
         interp = loaderIF.load(INTERP_PATH)
         value = interp([[1.17,1.18]]).round(3)

@@ -2,7 +2,7 @@
 
 import os
 import numpy as np
-from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, PathLoaderIF, SkyLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, ObjectLoaderIF, SkyLoaderIF
 from PIML.crust.data.nndata.baseprepnn import PrepNN
 
 class PrepNNLoaderIF(BaseLoaderIF):
@@ -22,7 +22,7 @@ class StellarPrepNNLoaderIF(PrepNNLoaderIF):
         return PrepNN(interp, sky, self.arm, self.res)
 
     def load_interp(self, filename="interp.pickle"):
-        loader = PathLoaderIF()
+        loader = ObjectLoaderIF()
         PATH = os.path.join(self.DATA_DIR, filename)
         return loader.load(PATH)
 
