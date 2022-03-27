@@ -25,13 +25,17 @@ class BaseObs(object):
     def get_snr(obsfluxs, sigma, noise_level=1):
         return np.mean(np.divide(obsfluxs, noise_level*sigma))
 
+
 class Obs(BaseObs):
     def __init__(self, sky, step=1) -> None:
         self.sky = sky
         self.step = step
 
+    def get_var(self, flux):
+        return super().get_var(flux, self.sky)
+
     def get_sigma(self, flux):
-        var = self.get_var(flux, self.sky)
+        var = self.get_var(flux)
         var /= self.step
         return np.sqrt(var)
 

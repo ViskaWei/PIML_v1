@@ -9,16 +9,16 @@ class TestBaseObs(TestBase):
         sky = np.arange(10) +1
         var_to_check = np.array([16020., 16031., 16042., 16053., 16064.,\
                                 16075., 16086., 16097., 16108., 16119.])
-        obs = Obs()
-        var = obs.get_var(flux, sky)
+        obs = Obs(sky)
+        var = obs.get_var(flux)
         self.assertIsNone(np.testing.assert_array_equal(var, var_to_check))
         
-        sigma = obs.simulate_sigma(flux, sky)
+        sigma = obs.get_sigma(flux)
         sigma_to_check =  np.ones(10) * 127.
         self.assertIsNone(np.testing.assert_array_equal(sigma.round(), sigma_to_check))
 
         fluxs = np.tile(flux, (2,1))
-        vars = obs.get_var(fluxs, sky)
+        vars = obs.get_var(fluxs)
         vars_to_check = np.tile(var_to_check, (2,1))
         self.assertIsNone(np.testing.assert_array_equal(vars, vars_to_check))
 

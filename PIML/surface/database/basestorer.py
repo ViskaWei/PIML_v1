@@ -7,7 +7,16 @@ from abc import ABC, abstractmethod
 
 class BaseStorer(ABC):
     """ Base class for all data loaders. """
+    @abstractmethod
+    def store(self, path, data):
+        pass
 
+class PickleStorer(BaseStorer):
+    def store(self, PATH, val):
+        with open(PATH, 'wb') as f:
+            pickle.dump(val, f, pickle.HIGHEST_PROTOCOL)
+
+class BaseDictStorer(ABC):
     @abstractmethod
     def store_arg(self, PATH, arg, val):
         pass
@@ -16,12 +25,12 @@ class BaseStorer(ABC):
     def store_DArgs(self, PATH, DArgs):
         pass
 
+class DictStorer(BaseDictStorer):
     @staticmethod
     def is_arg(f, arg):
         return arg in f.keys()
 
-
-class H5pyStorer(BaseStorer):
+class H5pyStorer(DictStorer):
     def store_arg(self, PATH, arg, val):
         with h5py.File(PATH, 'a') as f:
             f.create_dataset(arg, data=val, shape=val.shape)
@@ -31,7 +40,7 @@ class H5pyStorer(BaseStorer):
             for arg, val in DArgs.items():
                 f.create_dataset(arg, data=val, shape=val.shape)
         
-class ZarrStorer(BaseStorer):
+class ZarrStorer(DictStorer):
     def store_arg(self, PATH, arg, val):
         with zarr.open(PATH, 'a') as f:
             pass
@@ -40,10 +49,3 @@ class ZarrStorer(BaseStorer):
         with zarr.open(PATH, 'w') as f:
             pass
 
-class PickleStorer(BaseStorer):
-    def store_arg(self, PATH, val):
-        with open(PATH, 'wb') as f:
-            pickle.dump(val, f, pickle.HIGHEST_PROTOCOL)
-
-    def store_DArgs(self, PATH, DArgs):
-        raise NotImplementedError("PickleStorer does not support DArgs")

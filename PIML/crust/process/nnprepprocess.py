@@ -23,7 +23,6 @@ class StellarNNPrepProcess(NNPrepProcess):
         self.operation_list = [
             CoordxifyNNPrepOperation(DATA["rng"]),
             AddPfsObsNNPredOperation(PARAMS["step"]),
-
             UniformLabelSamplerNNPrepOperation(),
             HaltonLabelSamplerNNPrepOperation(),
             DataGeneratorNNPrepOperation(),

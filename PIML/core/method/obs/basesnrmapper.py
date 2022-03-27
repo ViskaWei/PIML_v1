@@ -2,7 +2,7 @@ import numpy as np
 import scipy as sp
 import logging
 from abc import ABC, abstractmethod
-from PIML.core.method.obs.baseobs import Obs
+from PIML.core.method.obs.baseobs import BaseObs
 
 class BaseSnrMapper(ABC):
     @abstractmethod
@@ -21,7 +21,8 @@ class NoiseLevelSnrMapper(BaseSnrMapper):
 
     def create_mapper(self, flux, sky, avg=10):
         assert flux.shape[-1] == sky.shape[0]
-        sigma = Obs.simulate_sigma(flux, sky)
+        var   = BaseObs.get_var(flux, sky)
+        sigma = np.sqrt(var)
         SN = self.average_map_over_noise_realization(avg, flux, sigma)
         logging.info(f"snr2nl-SN: {SN}")
 
@@ -30,11 +31,11 @@ class NoiseLevelSnrMapper(BaseSnrMapper):
         return f, f_inv
 
     def map_to_snr(self, flux, sigma):
-        noise = Obs.get_noise(sigma)
+        noise = BaseObs.get_noise(sigma)
         SN = []
         for noise_level in self.noise_level_grid:
             obsfluxs = flux + noise_level * noise
-            sn = Obs.get_snr(obsfluxs, sigma, noise_level)
+            sn = BaseObs.get_snr(obsfluxs, sigma, noise_level)
             SN.append(sn)
         return SN
 

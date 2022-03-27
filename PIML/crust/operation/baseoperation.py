@@ -96,9 +96,10 @@ class SamplingOperation(BaseOperation):
         sampler = builder.build(self.method)
         return sampler
 
-class ObsOperaion(BaseOperation):
-    def __init__(self, step=None) -> None:
+class ObsOperation(BaseOperation):
+    def __init__(self, step) -> None:
         self.step = step
     
-    def prepare(self, sky):
-        return Obs(sky, self.step) 
+    def perform(self, sky):
+        if (self.step is None) or (self.step<1): self.step = 1
+        return Obs(sky, step=self.step) 

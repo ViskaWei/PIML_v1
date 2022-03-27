@@ -22,7 +22,7 @@ class PathLoaderIF(BaseLoaderIF):
             self.loader = H5pyLoader()
         elif DATA_PATH.endswith(".zarr"):
             self.loader = ZarrLoader()
-        elif DATA_PATH.endswith(".npz"):
+        elif DATA_PATH.endswith(".npy"):
             self.loader = NpLoader()
         elif DATA_PATH.endswith(".pickle"):
             self.loader = PickleLoader()
@@ -95,7 +95,7 @@ class NNDataLoaderIF(BaseLoaderIF):
 
 class SkyLoaderIF(FileLoaderIF):
     """ class for loading Sky. """
-    def load(self):
+    def load(self, DATA_PATH: str=None):
         # PATH = "/home/swei20/PIML_v1/test/testdata/wavesky.npy"
-        wavesky = super().load()
+        wavesky = super().load(DATA_PATH=DATA_PATH)
         return StellarSky(wavesky)

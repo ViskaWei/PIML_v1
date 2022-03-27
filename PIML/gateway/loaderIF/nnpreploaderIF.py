@@ -3,7 +3,7 @@
 import os
 import numpy as np
 from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, FileLoaderIF
-from PIML.crust.data.nndata.basennprep import NNPrep, StellarNNPrep
+from PIML.crust.data.nndata.basennprep import NNPrep
 
 class NNPrepLoaderIF(BaseLoaderIF):
     def load(self) -> NNPrep:
@@ -16,7 +16,7 @@ class StellarNNPrepLoaderIF(NNPrepLoaderIF):
     def load(self):
         interp = self.load_file("interp.pickle")
         sky    = self.load_file("sky.npy")
-        return StellarNNPrep(interp, sky)
+        return NNPrep(interp, sky)
 
     def load_file(self, filename):
         loader = FileLoaderIF()

@@ -32,11 +32,11 @@ class ObjectStorerIF(BaseStorerIF):
     def store(self):
         pass
 
-class InterpStorerIF(BaseStorerIF):
-    def set_data_path(self, DATA_DIR: str, name="interp"):
+class PickleStorerIF(BaseStorerIF):
+    def set_data_path(self, DATA_DIR: str, name):
         self.DATA_DIR = DATA_DIR
         self.DATA_PATH = os.path.join(DATA_DIR, name+".pickle")
 
-    def store(self, interp):
+    def store(self, data):
         storer = PickleStorer()
-        storer.store_arg(self.DATA_PATH, interp)
+        storer.store_arg(self.DATA_PATH, data)

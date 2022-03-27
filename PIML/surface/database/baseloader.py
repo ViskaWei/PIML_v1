@@ -27,7 +27,8 @@ class PickleLoader(BaseLoader):
             return pickle.load(f)
 
 
-class DictLoader(ABC):
+class BaseDictLoader(ABC):
+    """ Base class for all data loaders. """
     @abstractmethod
     def load_arg(self, PATH, arg):
         pass
@@ -36,13 +37,14 @@ class DictLoader(ABC):
     def load_dict_args(self, PATH):
         pass
 
+class DictLoader(BaseDictLoader):
     @staticmethod
     def _is_arg(f, arg):
         return arg in f.keys()
 
     @staticmethod
     def _get_arg(f, arg):
-        if BaseLoader._is_arg(f, arg):
+        if DictLoader._is_arg(f, arg):
             return f[arg][:]
         else:
             raise KeyError(f"{arg} not in file")
@@ -62,25 +64,25 @@ class H5pyLoader(DictLoader):
 
     def is_arg(self, PATH, arg):
         with h5py.File(PATH, 'r') as f:
-            return BaseLoader._is_arg(f, arg)
+            return self._is_arg(f, arg)
 
     def load_arg(self, PATH, arg):
         with h5py.File(PATH, 'r') as f:
             logging.info(f"h5pyLoading {arg} from {PATH}")
-            return BaseLoader._get_arg(f, arg)
+            return self._get_arg(f, arg)
 
     def load_dict_args(self, PATH):
         with h5py.File(PATH, 'r') as f:
             logging.info(f"h5pyLoading {f.keys} from {PATH}")
-            return BaseLoader._get_args(f)
+            return self._get_args(f)
 
 class ZarrLoader(DictLoader):
     def load_arg(self, PATH, arg):  
         with zarr.open(PATH, 'r') as f:
-            return BaseLoader._get_arg(f, arg)
+            return self._get_arg(f, arg)
             
     def load_dict_args(self, PATH):
         with zarr.open(PATH, 'r') as f:
-            return BaseLoader._get_args(f)
+            return self._get_args(f)
 
 

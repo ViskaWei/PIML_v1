@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from PIML.crust.data.nndata.basennprep import StellarNNPrep
+from PIML.crust.data.nndata.basennprep import NNPrep
 from PIML.crust.process.nnprepprocess import NNPrepProcess, StellarNNPrepProcess
 
 from PIML.gateway.loaderIF.nnpreploaderIF import StellarNNPrepLoaderIF
@@ -14,8 +14,9 @@ class NNPrepProcessIF(ProcessIF):
 class StellarNNPrepProcessIF(NNPrepProcessIF):
     def __init__(self) -> None:
         super().__init__()
-        self.loader = StellarNNPrepLoaderIF()   
+        self.loader  = StellarNNPrepLoaderIF()   
         self.Process = StellarNNPrepProcess()
+        self.storer  = StellarNNPrepStorerIF()
 
     def set_data(self, DATA_PARAM):
         self.OP_DATA["rng"]  = DATA_PARAM["rng"]
@@ -28,7 +29,7 @@ class StellarNNPrepProcessIF(NNPrepProcessIF):
         pass
         # self.OP_MODEL = MODEL_TYPES
 
-    def interact_on_NNPrep(self, PARAMS, NNPrep: StellarNNPrep):
+    def interact_on_NNPrep(self, PARAMS, NNPrep: NNPrep):
         super().setup(PARAMS)
         super().interact_on_Object(NNPrep)
 

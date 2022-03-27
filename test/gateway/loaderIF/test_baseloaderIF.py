@@ -8,7 +8,7 @@ from unittest import TestCase
 
 DATA_PATH   = "test/testdata/testspecgriddata/bosz_5000_test.h5"
 SKY_PATH    = "test/testdata/testspecgriddata/wavesky.npy"
-INTERP_PATH = "test/testdata/testmethoddata/interp.pickel"
+INTERP_PATH = "test/testdata/testmethoddata/interp.pickle"
 
 class TestBaseLoader(TestCase):
 

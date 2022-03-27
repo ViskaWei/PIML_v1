@@ -89,14 +89,6 @@ class DataInitializer():
     def set_NNPrep_data(self, DATA_DIR=NN_PREP_DATA_DIR):
         loader = FileLoaderIF()
         self.RBFinterp = loader.load(DATA_DIR + "interp.pickle")
-
-        self.NN_PREP_PARAMS = {
-            "object": self.NNPrep_Object,
-            "data":   self.NNPrep_Data,
-            "op":   self.NNPrep_Params,
-            "model":  self.NNPrep_Model,
-        }
-
         self.NNPrep_Object = {
             "dir": DATA_DIR,
         }
@@ -107,6 +99,15 @@ class DataInitializer():
             "rng": np.array([4., 5., 3., 5., 3.]),
         }
         self.NNPrep_Model = {}
+
+        self.NN_PREP_PARAMS = {
+            "object": self.NNPrep_Object,
+            "data":   self.NNPrep_Data,
+            "op":   self.NNPrep_Params,
+            "model":  self.NNPrep_Model,
+        }
+
+
 
 
 class TestBase(TestCase):
@@ -173,7 +174,7 @@ class TestBase(TestCase):
         # AddPfsObsSpecOperation
         self.assertEqual(Spec.Obs.step, self.D.step)
         self.same_array(Spec.Obs.sky, self.D.sky)
-        self.same_array(Spec.Obs.cal_sigma(flux_mid), self.D.sigma_mid)
+        self.same_array(Spec.Obs.get_sigma(flux_mid), self.D.sigma_mid)
 
         # LogSpecOperation
         self.same_array(Spec.logflux[self.D.midx], np.log(self.D.flux_mid))
