@@ -2,7 +2,7 @@ from abc import abstractmethod
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.process.baseprocess import StellarSpecProcess
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
-from PIML.gateway.loaderIF.baseloaderIF import SpecLoaderIF, SkyLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import SpecLoaderIF, WaveSkyLoaderIF
 
 
 class BaseSpecProcessIF(ProcessIF):
@@ -19,7 +19,7 @@ class StellarSpecProcessIF(BaseSpecProcessIF):
 
     def set_data(self, DATA_PARAM):
         self.SKY_PATH = DATA_PARAM["SKY_PATH"]
-        self.Sky = SkyLoaderIF().load(self.SKY_PATH)
+        self.Sky = WaveSkyLoaderIF().load(self.SKY_PATH)
         self.OP_DATA = {"Sky": self.Sky}
 
     def set_param(self, OP_PARAM):

@@ -63,21 +63,6 @@ class CoordxifyOperation(BaseOperation):
         self.get_scalers()
         return self.scaler(coord)
 
-# class BuildLaberGeneratorOperation(BaseOperation):
-#     def __init__(self, sampler) -> None:
-#         self.label_scaler = label_scaler
-#         self.label_rescaler = label_rescaler
-
-#     def perform(self, label):
-#         return self.label_rescaler(self.label_scaler(label))
-
-# class BuildDataGeneratorOperation(BaseOperation):
-#     def __init__(self, ) -> None:
-#         self.data_generator = data_generator
-
-#     def perform(self, data):
-#         return self.data_generator(data)
-
 class ApplyInterpOperation(BaseOperation):
     def __init__(self, interpolator, rescaler=None) -> None:
         self.interpolator = interpolator
@@ -103,3 +88,13 @@ class ObsOperation(BaseOperation):
     def perform(self, sky):
         if (self.step is None) or (self.step<1): self.step = 1
         return Obs(sky, step=self.step) 
+
+class DataPrepOperation(BaseOperation):
+    def __init__(self, n) -> None:
+        self.n= n
+        
+    def perform(self, sampler, generator, noiser):
+        label = sampler(self.n)
+        data  = generator(label)
+        sigma = noiser(data)
+        return data, sigma, label

@@ -82,7 +82,7 @@ class AddPfsObsSpecGridOperation(AddPfsObsSpecOperation, BaseSpecGridOperation):
         self.perform_on_Spec(SpecGrid)
 
 
-# class MakeNNPrepSpecGridOperation(BaseSpecGridOperation):
+# class MakePrepNNSpecGridOperation(BaseSpecGridOperation):
 
 #     def perform_on_SpecGrid(self, SpecGrid: StellarSpecGrid) -> None:
 #         coordx_rng = SpecGrid.coordx_rng

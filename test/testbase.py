@@ -5,22 +5,22 @@ from PIML.crust.data.constants import Constants
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
-from PIML.gateway.loaderIF.baseloaderIF import FileLoaderIF, SkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
+from PIML.gateway.loaderIF.baseloaderIF import FileLoaderIF, WaveSkyLoaderIF, SpecGridLoaderIF, SpecLoaderIF 
 
 GRID_PATH="/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid"
 ROOT = "/home/swei20/PIML_v1/"
 
 SPEC_GRID_DATA_DIR = os.path.join(ROOT, "test/testdata/testspecgriddata/")
-NN_PREP_DATA_DIR = os.path.join(ROOT, "test/testdata/testnnprepdata/")
+NN_PREP_DATA_DIR = os.path.join(ROOT, "test/testdata/testprepnndata/")
 
 class DataInitializer():
     def __init__(self):
         self.DATA_PATH=os.path.join(GRID_PATH, "bosz_5000_RHB.h5")
         self.set_SpecGrid_data()
-        self.set_NNPrep_data()
+        self.set_PrepNN_data()
         self.PARAMS = {
             "SpecGrid": self.SPEC_GRID_PARAMS,
-            "NNPrep": self.NN_PREP_PARAMS,
+            "PrepNN": self.NN_PREP_PARAMS,
         }
 
     def set_SpecGrid_data(self, DATA_DIR=SPEC_GRID_DATA_DIR):
@@ -42,7 +42,7 @@ class DataInitializer():
         self.spec = SL.load()
 
         self.SKY_PATH = DATA_DIR +"wavesky.npy"
-        self.Sky  = SkyLoaderIF().load(self.SKY_PATH)
+        self.Sky  = WaveSkyLoaderIF().load(self.SKY_PATH)
         self.skyH = np.load(DATA_DIR + "skyH.npy")  #2204
         self.sky = np.load(DATA_DIR +"sky.npy")    #220
 
@@ -56,7 +56,7 @@ class DataInitializer():
 
         self.logflux_interp = np.load(DATA_DIR + "logflux_interp.npy")
 
-        self.OBJECT = {"DATA_PATH": self.DATA_PATH}
+        self.OBJECT = {"path": self.DATA_PATH}
 
         self.OP_DATA = {"SKY_PATH": self.SKY_PATH, "Sky": self.Sky}
 
@@ -86,25 +86,30 @@ class DataInitializer():
         
 
 
-    def set_NNPrep_data(self, DATA_DIR=NN_PREP_DATA_DIR):
+    def set_PrepNN_data(self, DATA_DIR=NN_PREP_DATA_DIR):
+        self.ntrain =10
+        self.ntest = 5
         loader = FileLoaderIF()
         self.RBFinterp = loader.load(DATA_DIR + "interp.pickle")
-        self.NNPrep_Object = {
-            "dir": DATA_DIR,
+        self.PrepNN_Object = {
+            "path"  : DATA_DIR,
         }
-        self.NNPrep_Params = {
-            "step": self.step,
+        self.PrepNN_Params = {
+            "step"  : self.step,
+            "seed"  : 922,
+            "ntrain": self.ntrain,
+            "ntest" : self.ntest,
         }
-        self.NNPrep_Data = {
-            "rng": np.array([4., 5., 3., 5., 3.]),
+        self.PrepNN_Data = {
+            "rng"   : np.array([4., 5., 3., 5., 3.]),
         }
-        self.NNPrep_Model = {}
+        self.PrepNN_Model = {}
 
         self.NN_PREP_PARAMS = {
-            "object": self.NNPrep_Object,
-            "data":   self.NNPrep_Data,
-            "op":   self.NNPrep_Params,
-            "model":  self.NNPrep_Model,
+            "object": self.PrepNN_Object,
+            "data"  : self.PrepNN_Data,
+            "op"    : self.PrepNN_Params,
+            "model" : self.PrepNN_Model,
         }
 
 

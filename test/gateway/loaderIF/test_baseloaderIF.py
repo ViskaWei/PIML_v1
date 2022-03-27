@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from PIML.gateway.loaderIF.baseloaderIF import FileLoaderIF,\
     SpecGridLoaderIF, SpecLoaderIF, GridLoaderIF, \
-    NNTestLoaderIF, SkyLoaderIF
+    NNTestLoaderIF, WaveSkyLoaderIF
 
 from unittest import TestCase
 
@@ -55,8 +55,8 @@ class TestBaseLoader(TestCase):
 
         self.assertEqual(grid.coord.shape, (120,5))
 
-    def test_SkyLoaderIF(self):
-        loaderIF = SkyLoaderIF()
+    def test_WaveSkyLoaderIF(self):
+        loaderIF = WaveSkyLoaderIF()
         Sky = loaderIF.load(SKY_PATH)
         sky_to_check = np.load(SKY_PATH)
         self.assertIsNone(np.testing.assert_array_equal(Sky.wave, sky_to_check[0]))

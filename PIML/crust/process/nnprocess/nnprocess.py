@@ -2,7 +2,7 @@
 
 
 from PIML.crust.process.baseprocess import BaseProcess
-from PIML.crust.operation.nn.nnoperation import BaseNNOperation, \
+from PIML.crust.operation.nnoperation.basennoperation import BaseNNOperation, \
     BuildNNOperation, CompileNNOperation, EvalNNOperation, \
     TrainNNOperation
 
