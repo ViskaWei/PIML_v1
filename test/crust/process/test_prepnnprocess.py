@@ -1,5 +1,5 @@
 from test.testbase import TestBase
-from PIML.crust.process.prepnnprocess import StellarPrepNNProcess
+from PIML.crust.process.nnprocess.prepnnprocess import StellarPrepNNProcess
 # class TestPrepNNProcess(TestCase):
 #     def test_prepnn_process(self):
 #         pass

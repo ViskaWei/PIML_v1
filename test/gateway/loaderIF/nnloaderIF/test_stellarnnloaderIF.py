@@ -8,7 +8,7 @@ class TestStellarNNLoaderIF(TestCase):
     def test_StellarNNLoaderIF(self):
         loader = StellarNNLoaderIF()
         PARAM = {
-            "path": os.environ["STELLARNN"],
+            "path": "test/testdata/teststellarnndata/",
             "train_name": "RedM_R1000_N5_train.h5",
             "test_name" : "RedM_R1000_N5_test.h5"
         }
@@ -24,10 +24,10 @@ class TestStellarNNLoaderIF(TestCase):
         self.assertEqual(NN.y_test.shape, (5, 5))
 
         self.assertTrue(NN.y_train.max() <= 1)
-        self.assertTrue(NN.y_test.max() <= 1)
+        self.assertTrue(NN.y_test .max() <= 1)
 
         self.assertTrue(NN.y_train.min() >= 0)
-        self.assertTrue(NN.y_test.min() >= 0)
+        self.assertTrue(NN.y_test .min() >= 0)
 
         self.assertTrue(NN.s_train.min() >= 0)
-        self.assertTrue(NN.s_test.min() >= 0)
+        self.assertTrue(NN.s_test .min() >= 0)

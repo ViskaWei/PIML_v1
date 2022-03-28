@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.baseprepnn import PrepNN
-from PIML.crust.process.prepnnprocess import StellarPrepNNProcess
+from PIML.crust.process.nnprocess.prepnnprocess import StellarPrepNNProcess
 
 from PIML.gateway.loaderIF.nnloaderIF.prepnnloaderIF import StellarPrepNNLoaderIF
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
