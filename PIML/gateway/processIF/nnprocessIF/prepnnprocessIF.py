@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from PIML.crust.data.nndata.baseprepnn import PrepNN
 from PIML.crust.process.prepnnprocess import StellarPrepNNProcess
 
-from PIML.gateway.loaderIF.prepnnloaderIF import StellarPrepNNLoaderIF
+from PIML.gateway.loaderIF.nnloaderIF.prepnnloaderIF import StellarPrepNNLoaderIF
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
 from PIML.gateway.storerIF.basestorerIF import DictStorerIF
 
@@ -44,4 +44,4 @@ class StellarPrepNNProcessIF(PrepNNProcessIF):
     def store_NN_preped(self, data, name, ext):
         store_name = self.OP_OUT["decor"] + name
         self.storer.set_dir(self.OP_OUT["path"], store_name, ext)
-        self.storer.store_DArgs(data)
+        self.storer.store_dict_args(data)

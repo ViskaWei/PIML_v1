@@ -6,7 +6,7 @@
         },
         "python.languageServer": "Default",
         // "python.venvPath": "/home/jfb/EVs",
-    //     "python.defaultInterpreterPath": "/datascope/slurm/miniconda3/envs/viska-tf28/bin/python",
+        "python.defaultInterpreterPath": "/datascope/slurm/miniconda3/envs/viska-tf28/bin/python",
         "python.envFile": "${workspaceFolder}/.env",
         "python.testing.pytestEnabled": false,
         "python.testing.nosetestsEnabled": false,

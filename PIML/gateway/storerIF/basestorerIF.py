@@ -39,12 +39,12 @@ class DictStorerIF(DirStoreIF):
     def store_arg(self, arg, val):
         self.storer.store_arg(self.DATA_PATH, arg, val)
 
-    def store_DArgs(self, DArgs, keys=None):
+    def store_dict_args(self, DArgs, keys=None):
         if keys is not None:
             DStore = {key: DArgs.__dict__[key] for key in keys}
         else:
             DStore = DArgs
-        self.storer.store_DArgs(self.DATA_PATH, DStore)
+        self.storer.store_dict_args(self.DATA_PATH, DStore)
 
 class ObjectStorerIF(DirStoreIF, BaseStorerIF):
     def store(self, obj, PATH=None):
@@ -61,4 +61,4 @@ class InterpStorerIF(ObjectStorerIF):
 #         def set_path(self, DATA_DIR: str, name):
 #             self.DATA_DIR = DATA_DIR
 #             self.DATA_PATH = os.path.join(DATA_DIR, name+".pickle")
-#         self.store_DArgs(PrepNN.train)
+#         self.store_dict_args(PrepNN.train)

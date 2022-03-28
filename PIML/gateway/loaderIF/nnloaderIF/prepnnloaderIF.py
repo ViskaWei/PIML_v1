@@ -1,16 +1,12 @@
-
-
 import os
-import numpy as np
-from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF, ObjectLoaderIF, SkyLoaderIF
+from PIML.gateway.loaderIF.baseloaderIF import BaseLoaderIF,\
+    ObjectLoaderIF, SkyLoaderIF
 from PIML.crust.data.nndata.baseprepnn import PrepNN
 
 class PrepNNLoaderIF(BaseLoaderIF):
     def load(self) -> PrepNN:
         pass
-
 class StellarPrepNNLoaderIF(PrepNNLoaderIF):
-
     def set_param(self, PARAM):
         self.dir = PARAM["path"]
         self.arm = PARAM["arm"]
@@ -28,12 +24,6 @@ class StellarPrepNNLoaderIF(PrepNNLoaderIF):
         interp = loader.load(self.interp_path)
         return interp
 
-    # def load_test_interp(self):
-    #     loader = ObjectLoaderIF()
-    #     path = "/datascope/subaru/user/swei20/data/pfsspec/prepnn/RedM_R1000_interp.pickle"
-    #     interp = loader.load(path)
-    #     return interp
-        
     def load_sky(self, filename="sky.h5"):
         loader = SkyLoaderIF()
         self.sky_path = os.path.join(self.dir, filename)

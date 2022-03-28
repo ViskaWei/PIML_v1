@@ -27,21 +27,16 @@ class TestBase(TestCase):
     #     specGrid = StellarSpecGrid(value_1D, value_2D, coordx, None)
 
     def get_PrepNN(self):
-        PrepNN(self.D.RBFinterp, self.D.sky, self.D.arm, self.D.res)
-        return PrepNN
+        return PrepNN(self.D.RBFinterp, self.D.sky, self.D.arm, self.D.res)
 
     def get_SpecGrid(self):
-        specGrid = StellarSpecGrid(self.D.wave, self.D.flux, self.D.para, self.D.pdx)   
-        return specGrid
+        return StellarSpecGrid(self.D.wave, self.D.flux, self.D.para, self.D.pdx)   
 
     def get_Spec(self):
-        Spec     = StellarSpec(self.D.wave, self.D.flux)
-        return Spec
+        return StellarSpec(self.D.wave, self.D.flux)
 
     def get_Grid(self):
-        Grid = StellarGrid(self.D.para, self.D.pdx)
-        return Grid
-
+        return StellarGrid(self.D.para, self.D.pdx)
 
     def same_array(self, a, b):
         return self.assertIsNone(np.testing.assert_array_equal(a, b))

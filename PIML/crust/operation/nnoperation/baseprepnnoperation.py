@@ -76,28 +76,6 @@ class DataPrepNNOperation(DataPrepOperation, BasePrepNNOperation):
         NNP.train["data"] , NNP.test["data"]  = data [:NNP.ntrain], data [NNP.ntrain:]
         NNP.train["sigma"], NNP.test["sigma"] = sigma[:NNP.ntrain], sigma[NNP.ntrain:]
 
-
-# class TestPrepNNOperation(DataPrepOperation, BasePrepNNOperation):
-#     def __init__(self, ntest) -> None:
-#         super().__init__(ntest)
-
-#     # def perform(self, sampler, interpolator, rescaler, noiser):
-#     #     label = sampler(self.n)
-#     #     coordx = rescaler(label)
-#     #     data  = interpolator(coordx)
-#     #     sigma = noiser(data)
-#     #     return data, sigma, label
-
-#     def perform_on_PrepNN(self, NNP: PrepNN):
-#         NNP.ntest = self.n
-#     #     label = NNP.halton_label_sampler(self.n)
-#     #     coordx = NNP.label_rescaler(label)
-#     #     data  = NNP.interpolator(coordx)
-#     #     sigma = NNP.noiser(data)
-#     #     NNP.test["data"], NNP.test["sigma"], NNP.test["label"] = data, sigma, label
-
-#         NNP.test["data"], NNP.test["sigma"], NNP.test["label"] = self.perform(NNP.halton_label_sampler, NNP.test_interpolator, NNP.label_rescaler, NNP.noiser)
-        
 class FinishPrepNNOperation(BasePrepNNOperation):
     def perform(self, name, n, suffix=""):
         return f"{name}_N{n}{suffix}"

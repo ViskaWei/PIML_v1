@@ -1,14 +1,12 @@
 import os
 from abc import ABC, abstractmethod
 
-from PIML.crust.data.nndata.basenn import NN
 from PIML.crust.data.specdata.baseboxparam import BoxParam
 from PIML.crust.data.specdata.basespec import StellarSpec
 from PIML.crust.data.specdata.basesky import StellarSky
 from PIML.crust.data.grid.basegrid import StellarGrid
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
 from PIML.surface.database.baseloader import H5pyLoader, NpLoader, PickleLoader, ZarrLoader
-from PIML.surface.database.nnloader import MINSTDataLoader
 
 class BaseLoaderIF(ABC):
     @abstractmethod
@@ -89,22 +87,6 @@ class NNTestLoaderIF(ParamLoaderIF, DictLoaderIF):
         label = self.load_arg("coord")
         return data, label
 
-class NNDataLoaderIF(BaseLoaderIF):
-    """ class for loading NN Data from keras.dataset . """
-    def set_loader(self, name):
-        if name =="MINST":
-            loader = MINSTDataLoader()
-        else:
-            raise ValueError("Unknown NN name")
-        return loader
-
-    def load(self, name: str):
-        '''
-        Output: x_train, y_train, x_test, y_test
-        '''
-        loader = self.set_loader(name)
-        x_train, y_train, x_test, y_test = loader.load()
-        return NN(x_train, y_train, x_test, y_test)
 
 class WaveSkyLoaderIF(ObjectLoaderIF):
     """ class for loading Sky. """

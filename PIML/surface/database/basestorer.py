@@ -29,7 +29,7 @@ class BaseDictStorer(ABC):
         pass
 
     @abstractmethod
-    def store_DArgs(self, PATH, DArgs):
+    def store_dict_args(self, PATH, DArgs):
         pass
 
 class DictStorer(BaseDictStorer):
@@ -42,7 +42,7 @@ class H5pyStorer(DictStorer):
         with h5py.File(PATH, 'a') as f:
             f.create_dataset(arg, data=val, shape=val.shape)
 
-    def store_DArgs(self, PATH, DArgs):
+    def store_dict_args(self, PATH, DArgs):
         with h5py.File(PATH, 'w') as f:    
             for arg, val in DArgs.items():
                 f.create_dataset(arg, data=val, shape=val.shape)
@@ -52,7 +52,7 @@ class ZarrStorer(DictStorer):
         with zarr.open(PATH, 'a') as f:
             pass
     
-    def store_DArgs(self, PATH, DArgs):
+    def store_dict_args(self, PATH, DArgs):
         with zarr.open(PATH, 'w') as f:
             pass
 

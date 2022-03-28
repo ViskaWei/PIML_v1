@@ -94,7 +94,7 @@ class DataInitializer():
         }
 
     def set_PrepNN_data(self, DATA_DIR=PREPNN_DATA_DIR):
-        self.ntrain = 10
+        self.ntrain = 5
         self.ntest  = 5
         self.res    = int(10000/self.step)
         self.name   = self.arm + f"_R{self.res}"
@@ -128,4 +128,13 @@ class DataInitializer():
             "op"    : self.PREPNN_PARAM,
             "model" : self.PREPNN_MODEL,
             "out"   : self.PREPNN_OUT,
+        }
+
+
+    def set_StellarNN_data(self, DATA_DIR=STELLARNN_DATA_DIR):
+        self.train_name = "RedM_R1000_N5_train.h5"
+        self.test_name  = "RedM_R1000_N5_test.h5"
+        self.STELLAR_NN_OBJECT = {
+            "train_name"  : self.train_name,
+            "test_name"   : self.test_name,
         }
