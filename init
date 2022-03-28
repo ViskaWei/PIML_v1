@@ -8,7 +8,12 @@ export PYTHONPATH=.:../pysynphot:../SciScript-Python/py3
 
 # Where's my PFS 
 export PFS_CEPH=/datascope/subaru/user/swei20/data/pfsspec/
-export ROOT=/home/swei20/PIML_v1/PIML/
+export ROOT=/home/swei20/PIML_v1/
+export GRID=/datascope/subaru/user/swei20/data/pfsspec/import/stellar/grid/
+export ROOT=/home/swei20/PIML_v1/
+export PREPNN=/datascope/subaru/user/swei20/data/pfsspec/prepnn/
+export SPECGRID=/datascope/subaru/user/swei20/data/pfsspec/specgrid/
+export STELLARNN=/datascope/subaru/user/swei20/data/pfsspec/stellarnn/
 # export DATA=/home/swei20/PhysicsInformedML/data
 
 # Work around issues with saving weights when running on multiple threads
@@ -21,8 +26,6 @@ export TF_CPP_MIN_LOG_LEVEL=2
 export NUMEXPR_MAX_THREADS=32
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib
-
-
 
 cd $ROOT
 

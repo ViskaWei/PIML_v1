@@ -1,5 +1,7 @@
 import numpy as np
 from abc import ABC, abstractmethod
+
+from tables import test
 from PIML.core.method.obs.baseobs import Obs
 from PIML.core.method.sampler.samplerbuilder import SamplerBuilder
 from PIML.crust.model.basemodel import BaseModel
@@ -89,13 +91,23 @@ class ObsOperation(BaseOperation):
         if (self.step is None) or (self.step<1): self.step = 1
         return Obs(sky, step=self.step) 
 
-class DataPrepOperation(BaseOperation):
-    def __init__(self, n, seed=None) -> None:
-        self.n= n
+class LabelPrepOperation(BaseOperation):
+    def __init__(self, ntrain, ntest, seed=None) -> None:
+        self.ntrain = ntrain
+        self.ntest = ntest
         self.seed = seed
 
-    def perform(self, sampler, generator, noiser):
-        label = sampler(self.n, seed=self.seed)
-        data  = generator(label)
+    def perform(self, train_sampler, test_sampler=None):
+        if test_sampler is None: test_sampler = train_sampler
+        train_label = train_sampler(self.ntrain, seed=self.seed)
+        test_label  = test_sampler(self.ntest, seed=self.seed)
+        return train_label, test_label
+        
+
+class DataPrepOperation(BaseOperation):
+
+    def perform(self, label, rescaler, interpolator, noiser):
+        coordx = rescaler(label)
+        data  = interpolator(coordx)
         sigma = noiser(data)
-        return data, sigma, label
+        return data, sigma

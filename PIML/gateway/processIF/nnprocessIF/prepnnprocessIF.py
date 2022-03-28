@@ -38,9 +38,10 @@ class StellarPrepNNProcessIF(PrepNNProcessIF):
         self.Object = PrepNN
 
     def finish(self, ext=".h5"):
-        self.storer.set_dir(self.OP_OUT["path"], self.Object.train_name, ext)
-        self.storer.store_DArgs(self.Object.train)
-        self.storer.set_dir(self.OP_OUT["path"], self.Object.test_name,  ext)
-        self.storer.store_DArgs(self.Object.test)
-
+        self.store_NN_preped(self.Object.train, self.Object.train_name, ext)
+        self.store_NN_preped(self.Object.test,  self.Object.test_name,  ext)
         
+    def store_NN_preped(self, data, name, ext):
+        store_name = self.OP_OUT["decor"] + name
+        self.storer.set_dir(self.OP_OUT["path"], store_name, ext)
+        self.storer.store_DArgs(data)

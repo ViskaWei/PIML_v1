@@ -3,7 +3,7 @@ from PIML.crust.data.nndata.baseprepnn import PrepNN
 from PIML.crust.operation.nnoperation.baseprepnnoperation import BasePrepNNOperation,\
     DataGeneratorPrepNNOperation, UniformLabelSamplerPrepNNOperation,\
     HaltonLabelSamplerPrepNNOperation, CoordxifyPrepNNOperation,\
-    AddPfsObsNNPredOperation, TrainPrepNNOperation, TestPrepNNOperation,\
+    AddPfsObsNNPredOperation, LabelPrepNNOperation, DataPrepNNOperation,\
     FinishPrepNNOperation
 
 from PIML.crust.process.baseprocess import BaseProcess
@@ -26,9 +26,9 @@ class StellarPrepNNProcess(PrepNNProcess):
             AddPfsObsNNPredOperation(PARAMS["step"]),
             UniformLabelSamplerPrepNNOperation(),
             HaltonLabelSamplerPrepNNOperation(),
-            DataGeneratorPrepNNOperation(),
-            TrainPrepNNOperation(PARAMS["ntrain"], PARAMS["seed"]),
-            TestPrepNNOperation(PARAMS["ntest"]),
+            # DataGeneratorPrepNNOperation(),
+            LabelPrepNNOperation(PARAMS["ntrain"],PARAMS["ntest"], PARAMS["seed"]),
+            DataPrepNNOperation(),
             FinishPrepNNOperation(),
 
         ]

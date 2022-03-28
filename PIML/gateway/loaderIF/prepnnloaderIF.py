@@ -28,6 +28,12 @@ class StellarPrepNNLoaderIF(PrepNNLoaderIF):
         interp = loader.load(self.interp_path)
         return interp
 
+    # def load_test_interp(self):
+    #     loader = ObjectLoaderIF()
+    #     path = "/datascope/subaru/user/swei20/data/pfsspec/prepnn/RedM_R1000_interp.pickle"
+    #     interp = loader.load(path)
+    #     return interp
+        
     def load_sky(self, filename="sky.h5"):
         loader = SkyLoaderIF()
         self.sky_path = os.path.join(self.dir, filename)

@@ -21,7 +21,7 @@ class TestSpecGridOperation(TestBase):
 
     def test_SplitSpecGridOperation(self):
         SpecGrid = self.get_SpecGrid()
-        OP = SplitSpecGridOperation(self.D.OP_PARAM["arm"])
+        OP = SplitSpecGridOperation(self.D.SPECGRID_PARAM["arm"])
         OP.perform_on_SpecGrid(SpecGrid)
 
         self.assertTrue(OP.rng[0], SpecGrid.wave)
