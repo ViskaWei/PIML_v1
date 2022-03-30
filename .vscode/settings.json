@@ -1,9 +1,24 @@
 {
         "files.watcherExclude": {
-          "**/.git/objects/**": true,
-          "**/slurm*": true,
-          "nb/**": true,
+            "**/.git/objects/**": true,
+            "**/.git/subtree-cache/**": true,
+            "**/slurm*": true,
+            "nb/**": true,
+            "/datascope/**": true
         },
+    
+        "files.exclude": {
+            "**/.git": true,
+            "**/.svn": true,
+            "**/.hg": true,
+            "**/CVS": true,
+            "**/.DS_Store": true,
+            "**/Thumbs.db": true,
+            "**/__pycache__": true,
+            "PIML_*": true,
+            "/datascope/**": true,
+            "*.out": true,
+        },
         "python.languageServer": "Default",
         // "python.venvPath": "/home/jfb/EVs",
         "python.defaultInterpreterPath": "/datascope/slurm/miniconda3/envs/viska-tf28/bin/python",

@@ -76,8 +76,8 @@ class DataInitializer():
         }
 
         self.SPECGRID_MODEL = {
-            "Resolution": "Alex",
-            "Interp"    : "RBF",
+            "ResTune" : {"type": "Alex", "param": {"step": 10, "res":10000}},
+            "Interp"  : {"type": "RBF"}
         }
 
         self.SPECGRID_OUT   = {

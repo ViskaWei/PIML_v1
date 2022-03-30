@@ -27,12 +27,12 @@ class StellarSpecProcess(BaseProcess):
     def __init__(self) -> None:
         self.operation_list: list[BaseSpecOperation] = None
 
-    def set_process(self, PARAMS, MODEL_TYPES, DATA):
+    def set_process(self, PARAMS, MODEL, DATA):
         self.operation_list = [
             SplitSpecOperation(PARAMS["arm"]),
             SimulateSkySpecOperation(DATA["Sky"]),
             MapSNRSpecOperation(),
-            TuneSpecOperation(MODEL_TYPES["Resolution"], PARAMS["step"]),
+            TuneSpecOperation(MODEL["ResTune"]),
             AddPfsObsSpecOperation(PARAMS["step"]),
             LogSpecOperation(),
         ]
@@ -47,7 +47,7 @@ class StellarGridProcess(BaseProcess):
     def __init__(self) -> None:
         self.operation_list: list[BaseGridOperation] = None
 
-    def set_process(self, PARAMS, MODEL_TYPES):
+    def set_process(self, PARAMS, MODEL):
         self.operation_list = [
             CoordxifyGridOperation(),
         ]
@@ -62,7 +62,7 @@ class StellarBoxProcess(BaseProcess):
         super().__init__()
         self.operation_list: list[BaseBoxOperation] = None
 
-    def set_process(self, PARAMS, MODEL_TYPES):
+    def set_process(self, PARAMS, MODEL, DATA):
         self.operation_list = [
             StellarBoxOperation(PARAMS["box_name"]),
         ]

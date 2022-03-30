@@ -21,7 +21,7 @@ class SpecGridProcess(BaseProcess):
 
 class StellarSpecGridProcess(SpecGridProcess):
     """ class for spectral process. """
-    def set_process(self, PARAMS, MODEL_TYPES, DATA):
+    def set_process(self, PARAMS, MODEL, DATA):
         self.operation_list = [
             # add self.box = {...}
             BoxSpecGridOperation(PARAMS["box_name"]),
@@ -38,7 +38,7 @@ class StellarSpecGridProcess(SpecGridProcess):
             # downsample to overcome redshift
             # add self.skyH, self.step
             # modify wave, flux, sky
-            TuneSpecGridOperation(MODEL_TYPES["Resolution"], PARAMS["step"]),
+            TuneSpecGridOperation(MODEL["ResTune"]),
             # simulator of noise
             # add self.Obs = {...}
             AddPfsObsSpecGridOperation(PARAMS["step"]),               
@@ -49,7 +49,7 @@ class StellarSpecGridProcess(SpecGridProcess):
             # add self.coordx, coordx_scaler, coordx_rescaler
             CoordxifySpecGridOperation(),
             # add self.interpolator
-            InterpSpecGridOperation(MODEL_TYPES["Interp"]),
+            InterpSpecGridOperation(MODEL["Interp"]),
         ]
 
     def start(self, SpecGrid: StellarSpecGrid):

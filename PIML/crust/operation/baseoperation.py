@@ -14,9 +14,9 @@ class BaseOperation(ABC):
         pass
 
 class BaseModelOperation(BaseOperation):
-    def __init__(self, model_type, model_param) -> None:
-        self.model = self.set_model(model_type)
-        self.model.set_model_param(model_param)
+    def __init__(self, MODEL) -> None:
+        self.model: BaseModel = self.set_model(MODEL["type"])
+        self.model.set_model_param(MODEL["param"])
 
     @abstractmethod
     def set_model(self, model_type) -> BaseModel:

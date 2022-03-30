@@ -36,6 +36,7 @@ class SimulateSkySpecOperation(BaseSpecOperation):
 
 class SplitSpecOperation(SplitOperation):
     def __init__(self, arm: str,) -> None:
+        self.arm = arm
         wave_rng = Constants.ARM_RNGS[arm]
         super().__init__(wave_rng)
 
@@ -43,6 +44,7 @@ class SplitSpecOperation(SplitOperation):
         return super().perform(data)
 
     def perform_on_Spec(self, Spec: StellarSpec) -> StellarSpec:
+        Spec.arm  = self.arm
         Spec.wave = super().perform(Spec.wave)
         Spec.flux = super().split(Spec.flux, self.split_idxs)
         if hasattr(Spec, "sky"):
@@ -64,9 +66,6 @@ class MapSNRSpecOperation(BaseSpecOperation):
 
 class TuneSpecOperation(BaseModelOperation, BaseSpecOperation):
     """ class for resolution tunable dataIF i.e flux, wave. """
-    def __init__(self, model_type, model_param) -> None:
-        super().__init__(model_type, model_param)
-
     def set_model(self, model_type) -> BaseSpecModel:
         if model_type == "Alex":
             model = AlexResolutionSpecModel()

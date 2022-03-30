@@ -1,5 +1,6 @@
 import os
-from PIML.crust.data.nndata.basenznn import NzNN
+from PIML.crust.data.nndata.basenn import NzNN
+
 from PIML.gateway.loaderIF.baseloaderIF import ParamLoaderIF, DictLoaderIF
 
 

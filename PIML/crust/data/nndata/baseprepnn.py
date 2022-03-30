@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
+from PIML.crust.data.specgriddata.basespecgrid import BaseSpecGrid, StellarSpecGrid
 
 
 class BasePrepNN(ABC):
@@ -16,6 +16,10 @@ class PrepNN(BasePrepNN):
         self.name  = f"{arm}_R{res}"
         self.sampler = {}
         self.prepare()
+
+    @classmethod
+    def fromSpecGrid(cls, specgrid: BaseSpecGrid):
+        return cls(specgrid.interpolator, specgrid.sky, specgrid.arm, specgrid.res)
 
         
     def prepare(self):

@@ -80,6 +80,13 @@ class TestBase(TestCase):
         self.same_array(Spec.logflux[self.D.midx], np.log(self.D.flux_mid))
 
     def check_StellarSpecGrid(self, SpecGrid: StellarSpecGrid):
+        dict_key_set=set(['coord', 'coord_idx', 'PhyShort', 'dfcoord',\
+            'wave', 'num_pixel', 'flux', 'num_spec', 'box', 'sky', \
+            'map_snr', 'map_snr_inv', 'step', 'skyH', 'Obs', 'logflux',\
+            'coordx', 'coordx_rng', 'coordx_scaler', 'coordx_rescaler', \
+            'interpolator', 'builder'])
+        self.assertTrue(set(SpecGrid.__dict__.keys()) == dict_key_set)
+        
         self.check_StellarSpec(SpecGrid)
         # InterpSpecGridOperation
         logflux_interp = SpecGrid.interpolator(self.D.coord_interp,  scale=True)
