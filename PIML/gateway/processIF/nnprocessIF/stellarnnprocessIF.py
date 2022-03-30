@@ -1,6 +1,6 @@
 
 from abc import ABC, abstractmethod
-from PIML.crust.process.nnprocess.stellarnnprocess import StellarNNProcess
+from PIML_learn.crust.process.stellarnnprocess import StellarNNProcess
 
 
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
