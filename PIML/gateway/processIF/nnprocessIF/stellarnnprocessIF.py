@@ -2,7 +2,6 @@
 from abc import ABC, abstractmethod
 from PIML_learn.crust.process.stellarnnprocess import StellarNNProcess
 
-
 from PIML.gateway.processIF.baseprocessIF import ProcessIF
 from PIML.gateway.loaderIF.nnloaderIF.stellarnnloaderIF import StellarNNLoaderIF
 # from PIML.gateway.storerIF. import 
