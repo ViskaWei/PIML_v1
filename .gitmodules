@@ -1,3 +1,3 @@
-[submodule "PIML-learn"]
-	path = PIML-learn
-	url = https://github.com/ViskaWei/PIML-learn.git
+[submodule "PIML_learn"]
+	path = PIML_learn
+	url = https://github.com/ViskaWei/PIML_learn.git
