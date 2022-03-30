@@ -1,18 +1,26 @@
-from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
+from abc import abstractmethod
+from PIML.crust.data.specgriddata.basespecgrid import BaseSpecGrid, StellarSpecGrid
 from PIML.crust.operation.specgridoperation import BaseSpecGridOperation, \
     BoxSpecGridOperation, SplitSpecGridOperation, TuneSpecGridOperation, \
     LogSpecGridOperation, CoordxifySpecGridOperation, InterpSpecGridOperation, \
     SimulateSkySpecGridOperation, MapSNRSpecGridOperation, AddPfsObsSpecGridOperation
-
 from PIML.crust.process.baseprocess import BaseProcess
 
 
-class StellarSpecGridProcess(BaseProcess):
-    """ class for spectral process. """
+class SpecGridProcess(BaseProcess):
     def __init__(self) -> None:
-        super().__init__()
         self.operation_list: list[BaseSpecGridOperation] = None
+    
+    def set_process(self):
+        pass
 
+    def start(self, SpecGrid: BaseSpecGrid):
+        for operation in self.operation_list:
+            operation.perform_on_SpecGrid(SpecGrid)
+
+
+class StellarSpecGridProcess(SpecGridProcess):
+    """ class for spectral process. """
     def set_process(self, PARAMS, MODEL_TYPES, DATA):
         self.operation_list = [
             # add self.box = {...}
@@ -43,9 +51,10 @@ class StellarSpecGridProcess(BaseProcess):
             # add self.interpolator
             InterpSpecGridOperation(MODEL_TYPES["Interp"]),
         ]
-        
 
     def start(self, SpecGrid: StellarSpecGrid):
-        for operation in self.operation_list:
-            operation.perform_on_SpecGrid(SpecGrid)
+        super().start(SpecGrid)
+        
+
+
 

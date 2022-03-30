@@ -1,13 +1,9 @@
 import numpy as np
-
 from abc import ABC, abstractmethod
-from PIML.core.method.obs.baseobs import Obs
-from PIML.core.method.sampler.gridsampler import StellarGridSampler
 from PIML.crust.data.nndata.baseprepnn import BasePrepNN, PrepNN
 from PIML.crust.operation.baseoperation import BaseOperation, DataPrepOperation,\
     SamplingOperation, CoordxifyOperation, ObsOperation,\
     LabelPrepOperation
-# from PIML.crust.operation.samplingoperation import CoordxSamplingOperation
 
 class BasePrepNNOperation(BaseOperation):
     """ Base class for Process of preparing NN data. """
@@ -27,9 +23,6 @@ class CoordxifyPrepNNOperation(CoordxifyOperation, BasePrepNNOperation):
         NNP.label_rescaler = self.rescaler
 
 class AddPfsObsNNPredOperation(ObsOperation, BasePrepNNOperation):
-    def __init__(self, step) -> None:
-        super().__init__(step)
-    
     def perform_on_PrepNN(self, NNP: PrepNN):
         Obs = self.perform(NNP.sky)
         NNP.noiser = lambda x: Obs.get_log_sigma(x, log=1)
@@ -40,23 +33,23 @@ class UniformLabelSamplerPrepNNOperation(SamplingOperation, BasePrepNNOperation)
         super().__init__("uniform")
 
     def perform_on_PrepNN(self, NNP: PrepNN): 
-        NNP.uniform_label_sampler = self.perform(NNP.coordx_dim)
+        NNP.sampler["uniform"] = self.perform(NNP.coordx_dim)
         
 class HaltonLabelSamplerPrepNNOperation(SamplingOperation, BasePrepNNOperation):
     def __init__(self):
         super().__init__("halton")
 
     def perform_on_PrepNN(self, NNP: PrepNN): 
-        NNP.halton_label_sampler = self.perform(NNP.coordx_dim)
+        NNP.sampler["halton"] = self.perform(NNP.coordx_dim)
 
-class DataGeneratorPrepNNOperation(BasePrepNNOperation):
-    def perform(self, interpolator, rescaler):
-        def generator(label):
-            return interpolator(rescaler(label))
-        return generator
+# class DataGeneratorPrepNNOperation(BasePrepNNOperation):
+#     def perform(self, interpolator, rescaler):
+#         def generator(label):
+#             return interpolator(rescaler(label))
+#         return generator
 
-    def perform_on_PrepNN(self, NNP: PrepNN): 
-        NNP.generator = self.perform(NNP.interpolator, NNP.label_rescaler)
+#     def perform_on_PrepNN(self, NNP: PrepNN): 
+#         NNP.generator = self.perform(NNP.interpolator, NNP.label_rescaler)
 
 class LabelPrepNNOperation(LabelPrepOperation, BasePrepNNOperation):
     def __init__(self, ntrain, ntest, seed=None) -> None:
@@ -66,10 +59,9 @@ class LabelPrepNNOperation(LabelPrepOperation, BasePrepNNOperation):
         NNP.ntrain = self.ntrain
         NNP.ntest = self.ntest
         NNP.seed = self.seed
-        NNP.train["label"], NNP.test["label"] = self.perform(NNP.uniform_label_sampler, NNP.halton_label_sampler)
+        NNP.train["label"], NNP.test["label"] = self.perform(NNP.sampler["uniform"], NNP.sampler["halton"])
 
 class DataPrepNNOperation(DataPrepOperation, BasePrepNNOperation):
-
     def perform_on_PrepNN(self, NNP: PrepNN): 
         label = np.vstack((NNP.train["label"], NNP.test["label"]))
         data, sigma = self.perform(label, NNP.label_rescaler, NNP.interpolator, NNP.noiser)

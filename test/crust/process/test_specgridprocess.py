@@ -2,7 +2,7 @@ import numpy as np
 from test.testbase import TestBase
 
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
-from PIML.crust.process.stellarspecgridprocess import StellarSpecGridProcess
+from PIML.crust.process.specgridprocess import StellarSpecGridProcess
 
 
 class TestStellarSpecGridProcess(TestBase):

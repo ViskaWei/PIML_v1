@@ -103,7 +103,6 @@ class LabelPrepOperation(BaseOperation):
         test_label  = test_sampler(self.ntest, seed=self.seed)
         return train_label, test_label
         
-
 class DataPrepOperation(BaseOperation):
 
     def perform(self, label, rescaler, interpolator, noiser):

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from PIML.crust.data.specgriddata.basespecgrid import StellarSpecGrid
-from PIML.crust.process.stellarspecgridprocess import StellarSpecGridProcess
+from PIML.crust.process.specgridprocess import StellarSpecGridProcess
 
 from PIML.gateway.loaderIF.baseloaderIF import SpecGridLoaderIF
 from PIML.gateway.processIF.baseprocessIF import BaseProcessIF
