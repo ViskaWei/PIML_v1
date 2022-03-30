@@ -6,8 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
-# Dataset
-data/
+
 
 # VSCode
 .vscode/
@@ -114,12 +113,7 @@ datasets/
 
 .idea/
 
-*Keras-Project-Template
-*junk
-*logs
-*trained_model
 *.out
-*models
 *.pb
 __pycache__
 .pyc
